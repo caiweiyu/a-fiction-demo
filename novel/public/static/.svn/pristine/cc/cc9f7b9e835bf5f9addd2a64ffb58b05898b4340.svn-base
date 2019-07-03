@@ -1,0 +1,189 @@
+/*头部*/
+.main {
+    margin-top: 11vw;
+}
+
+.searchBox {
+    width: 100%;
+    height: 10.78125vw;
+    background: #ffa02f;
+    padding: 1.625vw 2.96875vw;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3;
+}
+
+.toIndex {
+    float: left;
+    height: 100%;
+    line-height: 7.4375vw;
+    font-size: 3.5vw;
+}
+
+.toIndex>a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+}
+
+.toIndex>a>img {
+    height: 50%;
+}
+
+.searchBtn {
+    float: right;
+    width: 5.1875vw;
+    height: 5.1875vw;
+    background: url(/static/images/Page/bookSearch.png) no-repeat center center;
+    background-size: 100% 100%;
+    margin-top: 1.325vw;
+    margin-right: 1.78125vw;
+}
+
+.searchBtn>a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.searchTitle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 3.5vw;
+}
+
+/*导航栏分类样式*/
+.navigatorCont {
+    padding: 2vw;
+    width: 100%;
+    background: #fff;
+}
+
+.classifyCont,
+.book_status {
+    font-size: 3.521875vw;
+    font-weight: bold;
+    color: #1f1f1f;
+    padding: 1vw;
+    min-height: 10vw;
+}
+
+.classifyCont_title {
+    width: 17vw;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.classifyCont_content {
+    width: 75vw;
+    display: inline-block;
+}
+
+.classifyCont_content>div {
+    display: inline-block;
+    padding: 0px 2vw;
+    margin: 0 2vw;
+    margin-bottom: 2vw;
+    border-radius: 1vw;
+}
+
+.classifyCont_content>.cur {
+    background: #ffa02f;
+    color: #fff;
+}
+
+.btn_reader {
+    position: absolute;
+    right: 5.9375vw;
+    width: 19.40625vw;
+    border: .5vw solid #c1e2fd;
+    border-radius: 1vw;
+    height: 5.3125vw;
+    line-height: 5.3125vw;
+    text-align: center;
+    display: block;
+    color: #45a8fa;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+.overLook {
+    font-size: 3.3984375vw;
+    color: #8c8c8c;
+    position: absolute;
+    bottom: -12vw;
+    width: 100% !important;
+    text-align: center;
+    height: 12vw;
+    line-height: 9vw;
+    border-top: .35vw dashed #d9d9d9;
+    background: #f6f5f5;
+}
+
+
+.imgSrc_t {
+    background: url(/static/images/Page/book/book01.png);
+    background-size: 100% 100%;
+    height: 31vw;
+    width: 26.09375vw;
+    box-shadow: 3px 2px #ddd;
+}
+
+.btn_reader>span {
+    font-size: 3.18125vw;
+}
+
+.pandect_zone {
+    width: 100%;
+}
+
+.close_zone {
+    min-height: 51.87500000000001vw;
+}
+
+.close_zone>p {
+    font-size: 4.0265625vw;
+    color: #5db2fa;
+    font-weight: bold;
+    margin-left: 4vw;
+    line-height: 12vw;
+}
+
+.close_zone_p {
+    color: #171717 !important;
+}
+
+.close_zone>div {
+    display: flex;
+    justify-content: space-around;
+}
+
+.close_zone>div>div>p {
+    text-align: center;
+    font-size: 3.1671875000000003vw;
+    color: #646464;
+    font-weight: bold;
+    margin-top: 1vw;
+}
+
+.continueReading {
+    background: #fff;
+    margin-top: 1vh;
+}
+
+.screen_null {
+    text-align: center;
+    height: 100vw;
+    line-height: 100vw;
+}
+
+.blockHeader {
+    border-bottom: 1px solid #ffa02f;
+
+}

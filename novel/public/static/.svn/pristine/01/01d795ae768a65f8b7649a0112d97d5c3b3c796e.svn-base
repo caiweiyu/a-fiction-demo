@@ -1,0 +1,236 @@
+@media screen and (max-width: 1024px) {
+    .userInfoBox {
+        width: 100%;
+        height: 19.0625vw;
+        padding: 3.59375vw 2.1875vw;
+        background: #fff;
+    }
+
+    .userInfo {
+        float: left;
+        width: 62.5vw;
+        height: 100%;
+    }
+
+    .userPortrait {
+        float: left;
+        width: 12.03125vw;
+        height: 12.03125vw;
+        border-radius: 50%;
+    }
+
+    .userInfoMid {
+        float: left;
+        width: 50.46875vw;
+        height: 100%;
+        padding-left: 1.40625vw;
+    }
+
+    .userInfoMid > div {
+        width: 100%;
+        height: 50%;
+        line-height: 6.015625vw;
+    }
+
+    .username {
+        color: #000;
+    }
+    .username>em{
+        font-size: 3.725vw;
+        font-family: '楷体';
+    }
+    .RandomBD{
+        height:19.0625vw;
+        position: relative;
+    }
+    .RandomBD>div{
+        width:100%;           
+    }
+    .RandomBD>div img{
+        width:100%;
+        height:100%;
+    }
+    .closeThat{
+        width:32px !important;
+        height:32px;
+    }
+    .closeThat{
+        position: absolute;
+        top:0;
+        right:0;
+    }
+
+    .userId {
+        color: #4dacfb;
+    }
+
+    .signGetCoin {
+        float: right;
+        width: 23.4375vw;
+        height: 100%;
+    }
+
+    .signBtn {
+        width: 23.4375vw;
+        height: 7.34375vw;
+        border-radius: 7.34375vw;
+        line-height: 7.34375vw;
+        color: #fff;
+        background: #4dacfb;
+        display: block;
+        text-align: center;
+        margin-top: 2.34375vw;
+    }
+
+    .vipLv {
+        position: relative;
+        min-width: 7.34375vw;
+        height: 5.15625vw;
+        top: 50%;
+        transform: translateY(-50%);
+        display: inline-block;
+        border-radius: 0.625vw;
+        color: #fff;
+        background: #cccccc;
+        text-align: center;
+    }
+
+    .userCoin {
+        margin-top: 0.9375vw;
+        background: #fff;
+        width: 100%;
+        height: 13.75vw;
+        padding: 2.1875vw 0;
+    }
+
+    .userCoin > div {
+        float: left;
+        width: 50%;
+        height: 100%;
+        text-align: center;
+        font-size: 3.6234375vw;
+    }
+
+    .bookStop, .userCoin {
+        color: #8c8c8c;
+    }
+
+    .coinNum, .bookNum {
+        color: #000;
+    }
+
+    .userCoin span {
+        display: block;
+        width: 100%;
+        height: 50%;
+    }
+
+    .taskBox {
+        width: 100%;
+        height: 25.15625vw;
+        margin-top: 5vw;
+    }
+
+    .taskList {
+        width: 100%;
+        height: 14.375vw;
+        background: #fff;
+    }
+
+    .taskListLeft {
+        width: 78.125vw;
+        height: 100%;
+        margin-left: 3.75vw;
+        float: left;
+    }
+
+    .taskListLeft > span {
+        width: 100%;
+        height: 50%;
+        float: left;
+        font-size: 3.5171875vw;
+    }
+
+    .taskListTitle {
+        color: #000;
+        line-height: 9.1875vw;
+    }
+
+    .taskListCont {
+        color: #808080;
+        line-height: 5.1875vw;
+    }
+
+    .taskListRight {
+        width: 17.1875vw;
+        height: 100%;
+        float: right;
+        padding: 2.8125vw 2.1875vw;
+    }
+
+    .isFinsh {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        border: 1px solid #8b8b8b;
+        border-radius: 0.625vw;
+        color: #8b8b8b;
+        line-height: 8.75vw;
+        text-align: center;
+        display: block;
+    }
+
+    .allTask {
+        width: 100%;
+        height: 10vw;
+        line-height: 10vw;
+        text-align: center;
+        color: #8b8b8b;
+        margin-top: 0.625vw;
+        background: #fff;
+    }
+
+    .blockBox {
+        width: 100%;
+        margin-top: 1.96875vw;
+    }
+
+    .block {
+        background: #fff;
+        width: 100%;
+        height: 9.53125vw;
+        margin-bottom: 0.625vw;
+    }
+
+    .block > a {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    .blockImg {
+        width: 4.375vw;
+        height: 4.375vw;
+        float: left;
+        margin-top: 2.5vw;
+        margin-left: 3.4375vw;
+    }
+
+    .blockTitle {
+        margin-left: 1.71875vw;
+        float: left;
+        height: 100%;
+        width: 25vw;
+        line-height: 9.53125vw;
+        color: #000;
+    }
+
+    .blockArrow {
+        width: 1.8625vw;
+        height: 2.8125vw;
+        float: right;
+        margin-top: 3.28125vw;
+        margin-right: 5vw;
+    }
+
+}

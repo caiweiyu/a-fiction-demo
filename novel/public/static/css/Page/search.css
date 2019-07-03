@@ -1,0 +1,248 @@
+/*头部*/
+.searchBox {
+    position: fixed;
+    width: 100%;
+    height: 10.78125vw;
+    background: #333;
+    padding: 1.625vw 2.96875vw;
+    overflow: initial;
+    z-index: 3;
+}
+body{
+   padding-bottom: 14.53125vw;
+}
+.toIndex {
+    float: left;
+    /* height: 100%;
+    line-height: 7.4375vw; */
+    font-size: 3.5vw;
+    margin: 1vw 5vw 1vw 0vw;
+    background: url(/static/images/Page/toIndex.png) no-repeat center center;
+    background-size: 100% 100%;
+    height:19px;
+    width:19px;
+}
+.current-cur{
+    text-align: center;
+    line-height: 100vw;
+    z-index:100;
+}
+.toIndex>a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+}
+
+.toIndex>a>img {
+    height: 50%;
+}
+
+.searchBtn {
+    float: right;
+    height: 100%;
+    color: #fff;
+    line-height: 7.6vw;
+    font-size: 4.2vw;
+}
+
+.searchLabel {
+    display:flex;
+    float: left;
+    width: 70vw;
+    height: 100%;
+    background: #4d4c4c;
+    border-radius: 7.53125vw;
+    overflow: hidden;
+    padding: 1vw 0 1vw 3vw;
+}
+
+.searchImg {
+    background: url(/static/images/Page/bookSearch.png) no-repeat center center;
+    background-size: 100% 100%;
+    width: 19px;
+    height:19px;
+    margin-top:.5vw;        
+}
+
+.searchLabel i {
+    width: 1px;
+    height: 76%;
+    margin: 3px 6px;
+    background: #b5b5b5;
+    display: inline-block;
+}
+
+.searchLabel input {
+    height: 100%;
+    border: 0;
+    width: 57vw;
+}
+
+.recommendSearchBox {
+    position: absolute;
+    top:10.78125vw;
+    /* bottom: -43vw; */
+    left: 0;
+    width: 100%;
+    height:60vw;
+    background: #fff;
+    font-family: cursive;
+    font-size: 3.5vw;
+    z-index: 3;
+}
+
+.recommendSearchHeader {
+    color: #a0a0a0;
+    width: 100%;
+    height: 10vw;
+    line-height: 10vw;
+    padding-left: 3vw;
+}
+
+.recommendSearchHeader>i {
+    width: 1px;
+    height: 35%;
+    background: #a0a0a0;
+    float: left;
+    margin-top: 3vw;
+    margin-right: 1vw;
+}
+
+.recommendSearchContent {
+    width: 100%;
+    padding: 0vw 4vw 4vw 4vw;
+    min-height: 25vw;
+}
+
+.recommendSearchContent>span {
+    background: #e6e7e7;
+    color: #6f6e6e;
+    height: 6vw;
+    line-height: 6vw;
+    float: left;
+    padding: 0 2vw;
+    border-radius: 6vw;
+    margin: 1vw 2vw;
+    font-size: 3vw;
+}
+
+.recommendSearchContent>.cur {
+    background: #ffdcb0;
+    color: #ffa02f;
+}
+
+.changeRecommendSearchContent {
+    color: #a0a0a0;
+    width: 100vw;
+    height: 8vw;
+    line-height: 8vw;
+    text-align: center;
+    border-top: 1px solid #eee;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom:0;
+}
+
+.changeRecommendSearchContent em {
+    /* border: 1px solid; */
+    border-radius: 1vw;
+    padding: 0 .5vw;
+    display: inline-block;
+    height:6vw;
+    line-height: 6vw;
+    box-sizing: border-box;
+}
+
+.main {
+    padding: 10.78125vw 0 10.78125vw 0;
+    position: absolute;
+    width: 100%;
+}
+
+.searchContentBox {
+    padding: 2vw;
+    background: #fff;
+}
+
+.PortraitContent {
+    border-bottom: 1px solid #eee;
+}
+
+.PortraitContent>a {
+    width: 100%;
+    display: block;
+    height: 100%;
+}
+
+.PortraitContentListTitle {
+    width: 64vw;
+}
+
+.PortraitContentListTitle>div:first-child {
+    font-weight: bold;
+    font-size: 3.8656249999999996vw;
+    width: 45vw;
+    text-overflow: ellipsis;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: hidden;
+    white-space: pre;
+}
+
+.PortraitContentListTitle>div:nth-child(3) {
+    overflow: hidden;
+    margin: 0 0 2vw 0;
+    width: 58vw;
+    height: 14vw;
+    text-overflow: ellipsis;
+    overflow: auto;
+    font-size: 2.925vw;
+    color: #8c8c8c;
+    white-space: pre;
+    font-weight: bold;
+    border: .3vw solid transparent;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    resize: none;
+    overflow: hidden;
+}
+
+.PortraitContentListImg {
+    width: 24vw;
+}
+
+.PortraitContentListFooter {
+    width: 100%;
+    height: 5vw;
+}
+
+.PortraitContentListAuthor {
+    max-width: 20vw;
+    font-size: 3vw;
+    font-weight: bold;
+    color: #262626;
+}
+
+.PortraitFooterBtn {
+    margin-top: 0;
+}
+.changeWord{
+    text-align: center;
+    display:flex;
+    justify-content: center;
+    margin-top:1vw;
+}
+.upData {
+    background: url(/static/images/Page/update.png) no-repeat center center;
+    background-size: 100% 100%;
+    /* height: 45%; */
+    height:19px;
+    width:19px;
+    display: inline-block;
+    margin-bottom: .6vw;
+    margin-top:.6vw;
+}

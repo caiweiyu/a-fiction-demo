@@ -1,0 +1,110 @@
+//init
+$(function () {
+    //初始化推荐搜索
+    changeSearchWord();
+
+    //所有事件
+    event();
+});
+
+//搜索事件
+function search(val) {
+    //根据搜索内容请求数据
+    httpApi({
+        type: 'get',
+        data: val,
+        url: "",
+        fun: function (res) {
+            if (res.code === 0) {
+                bookListRender(res.data)
+            } else {
+                alert(res.msg);
+            }
+        }
+    })
+}
+
+//换一批推荐搜索词
+function changeSearchWord() {
+    httpApi({
+        type: 'get',
+        data: {
+            
+        },
+        url: search_word_filter,
+        fun: function (res) {
+            if (res.code === 0) {
+                searchWordRender(res.data);
+            } else {
+                alert(res.msg);
+            }
+        }
+    })
+}
+
+//搜索词渲染
+function searchWordRender(list) {
+    $.each(list, function (index, item) {
+        $dom = $(`<span>${item.name}</span>`);
+        $dom.appendTo($(".recommendSearchContent"));
+    })
+}
+
+//搜索内容渲染
+function bookListRender(list) {
+    $.each(list, function (index, item) {
+        $dom = $(`
+                <div class='PortraitContent'>
+            <a href='/book/item.id'>
+                <img class='PortraitContentListImg' src='item.cover_url'/>
+                <div class='PortraitContentListTitle'>
+                    <div>无敌无敌无敌的我很厉害</div>
+                    <div>很多东西很多东西很多东西很多东西很多东西很多东西很多东西很多东西很多东西很多东西很多东西很多东西</div>
+                    <div class="PortraitContentListFooter">
+                        <div class="PortraitContentListAuthor">作者啊啊</div>
+                        <div class='PortraitFooterBtn'>
+                            <span>异能</span>
+                            <span>完结</span>
+                            <span>141万字</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>`);
+        $dom.appendTo($(".searchContentBox"));
+    })
+}
+
+//所有事件
+function event() {
+    var $html = $("html");
+    //点击推荐搜索
+    $html.on("tap", ".recommendSearchContent>span", function () {
+        $(this).addClass('cur').siblings('span').removeClass('cur');
+        $val = $(this).html();
+        $(".searchLabel").find("input").val($val);
+        search();
+    });
+
+    //点击搜索
+    $html.on("tap", ".searchBtn", function () {
+        $val = $(".searchLabel").find("input").val();
+        search($val);
+    });
+
+    //换一批
+    $html.on("tap", ".changeRecommendSearchContent", function () {
+        changeSearchWord();
+    });
+
+
+    //显示推荐搜索
+    $html.on("input", ".searchLabel input", function () {
+        var $val = $(this).val();
+        if ($val === "") {
+            $(".recommendSearchBox").show();
+        } else {
+            $(".recommendSearchBox").hide();
+        }
+    });
+}

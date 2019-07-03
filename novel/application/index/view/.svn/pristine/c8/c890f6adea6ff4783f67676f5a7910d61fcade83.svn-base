@@ -1,0 +1,51 @@
+{extend name="index@Layout/index" /}
+
+{block name="title"}书内容{/block}
+
+{block name="pageStyle"}
+<link rel="stylesheet" href="/static/css/Page/bookContent.css"/>
+<script>
+    var book_id = getUrlParam('book_id');
+    var getChapterListApi = `/api/book/chapters/${book_id}`;
+    var $html = $("html");
+    var lock = true;
+    var last_id;
+    var next_id;
+    var buy_type;
+    var paymentUrl = "{:url('payment')}";
+</script>
+<script src="/static/js/page/bookContent.js"></script>
+{/block}
+
+{block name="main"}
+<div class="main">
+    <div class="catalogBox">
+        <div class="catalog">
+            <h3 class="bookName"></h3>
+            <div class="chapterInfo">
+                <span class="isEnd"></span>
+                <img class="chapterBtn" src="/static/images/Page/chapterBtn.png"/>
+            </div>
+            <div class="chapterBox">
+            </div>
+        </div>
+        <div class="closeCatalog"></div>
+    </div>
+    <div class="bookContent">
+        <h1 class="chapterName"></h1>
+        <pre class="chapterContent"></pre>
+        <div class="buyBox">
+
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="footer"}
+<div class="footerSidebar">
+    <span class="openCatalogBox">章节</span>
+    <span class="lastChapter">上一章</span>
+    <span class="nextChapter">下一章</span>
+    <span class="back">返回书籍页</span>
+</div>
+{/block}

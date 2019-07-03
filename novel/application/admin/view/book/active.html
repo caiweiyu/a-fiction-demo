@@ -1,0 +1,521 @@
+{extend name="Layout/index" /}
+
+{block name="title"}运营列表{/block}
+
+{block name="main"}
+<style>
+    .layui-form-item {
+        margin: 0;
+        height: 30px;
+    }
+    .layui-table-tool {
+        padding: 5px 0;
+    }
+    .layui-table-view .layui-table-body .layui-table[lay-size=lg] .layui-table-cell {
+        height: 132px;
+        line-height: 132px;
+    }
+    .layui-table-view .layui-table-body .layui-table[lay-size=lg] .layui-table-cell p {
+        line-height: 44px;
+    }
+    .layui-form-pane .layui-form-label{
+        border: 0;
+        background-color: transparent;
+        height: inherit;
+    }
+    .layui-table-view .layui-table[lay-size=lg] th .layui-table-cell {
+        height: inherit;
+        line-height: inherit;
+    }
+    .layui-table-tool-temp {
+        padding-right: inherit;
+    }
+</style>
+<div class="admin-main">
+    <fieldset class="layui-elem-field">
+        <legend>运营列表</legend>
+        <div class="layui-field-box layui-form">
+            <table id="book" lay-filter="book_table"></table>
+        </div>
+    </fieldset>
+</div>
+{/block}
+
+{block name="footer"}
+<!--顶部工具栏-->
+<script type="text/html" id="top_toolbar">
+    <div class="layui-fluid">
+        <div class="layui-row">
+            <div class="layui-col-md6">
+                <form class="layui-form layui-form-pane" lay-filter="top_toolbar">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">状态：</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="book_status" value="0" title="全部" checked="" lay-filter="filter">
+                            <input type="radio" name="book_status" value="30" title="连载" lay-filter="filter">
+                            <input type="radio" name="book_status" value="50" title="完结" lay-filter="filter">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">上架：</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="audit_status" value="0" title="全部" checked="" lay-filter="filter">
+                            <input type="radio" name="audit_status" value="19" title="已上架（显示）" lay-filter="filter">
+                            <input type="radio" name="audit_status" value="-1" title="已下架（屏蔽）" lay-filter="filter">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">属性：</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="attribute" value="" title="全部" checked="" lay-filter="filter">
+                            <input type="radio" name="attribute" value="is_free" title="免费" lay-filter="filter">
+                            <input type="radio" name="attribute" value="is_new" title="新书" lay-filter="filter">
+                            <input type="radio" name="attribute" value="is_hot" title="热门" lay-filter="filter">
+                            <input type="radio" name="attribute" value="is_vip" title="VIP" lay-filter="filter">
+                            <input type="radio" name="attribute" value="is_yy" title="爽文" lay-filter="filter">
+                            <input type="radio" name="attribute" value="is_bestseller" title="畅销" lay-filter="filter">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">字数：</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="words" value="0" title="全部" checked="" lay-filter="filter">
+                            <input type="radio" name="words" value="20" title="20万字以下" lay-filter="filter">
+                            <input type="radio" name="words" value="30" title="20-30万字" lay-filter="filter">
+                            <input type="radio" name="words" value="50" title="30-50万字" lay-filter="filter">
+                            <input type="radio" name="words" value="100" title="50-100万字" lay-filter="filter">
+                            <input type="radio" name="words" value="200" title="100万字-200万字" lay-filter="filter">
+                            <input type="radio" name="words" value="300" title="200万字以上" lay-filter="filter">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">排序：</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="order" value="0" title="默认" checked="" lay-filter="filter">
+                            <input type="radio" name="order" value="new" title="最新上架" lay-filter="filter">
+                            <input type="radio" name="order" value="update" title="最近更新" lay-filter="filter">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-col-md6" style="text-align: right;">
+                <form class="layui-form" lay-filter="right_toolbar">
+                    {if Auth()->user()->can('book/cacheChapters')}
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="cacheChapters">更新章节缓存</button>
+                    {/if}
+                    {if Auth()->user()->can('book/statisticWord')}
+                    <button class="layui-btn layui-btn-danger" lay-submit lay-filter="statisticWord">重计字数</button>
+                    {/if}
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!--单元格右侧操作-->
+<script type="text/html" id="unit_toolbar">
+    <a class="layui-btn layui-btn-primary" lay-event="chapters">章节管理</a>
+    <!--<a class="layui-btn layui-btn-sm" lay-event="edit">编辑</a>-->
+
+    {{# if (d.area === 0) { }}
+    <a class="layui-btn layui-btn-normal" lay-event="addToActiveArea">添加到运营列表</a>
+    {{# } else { }}
+    <a class="layui-btn layui-btn-danger" lay-event="delFromActiveArea">移除出运营列表</a>
+    {{# } }}
+
+    {{# if (d.audit_status === 19) { }}
+    <a class="layui-btn layui-btn-danger" lay-event="pullOff">下架</a>
+    {{# } else if (d.audit_status === -1) { }}
+    <a class="layui-btn layui-btn-normal" lay-event="putOn">上架</a>
+    {{# } else { }}
+    <a class="layui-btn layui-btn-primary">未知audit_status[{{ d.audit_status }}]</a>
+    {{# } }}
+
+    {if Auth()->user()->can('book/cacheChapters')}
+    <a class="layui-btn layui-btn-warm" lay-event="cache">手动缓存章节</a>
+    {/if}
+</script>
+
+<script>
+    layui.use(['table', 'form'], function(){
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+
+        table.render({
+            elem: '#book'
+            ,skin: 'line' //行边框风格
+            ,size: 'lg'
+            ,cols: [[ //表头
+                {type: 'numbers', title: '序号', width: '5%'}
+                ,{field: 'id', title: 'ID', hide: true}
+                ,{field: 'cover', title: '封面', templet: function (data){
+                        return '<img src="/book/cover/' + data.channel + '/' + data.id + '.jpg" lay-event="show_cover" onerror="javascript:this.src = \'/static/images/no_cover.jpg\';">';
+                    }, width: '8%'}
+                ,{field: 'info', title: '类型/名称', width: '25%', templet: function (data){
+                        var html = '<p>' +
+                                '<a href="javascript:;" lay-event="read">' +
+                                '[' + data.category_name + '] ' + data.name + ' - ' + data.status +
+                                '</a>' +
+                            '</p>';
+                        html += '<p>作　　者：' + data.author_name + '</p>';
+                        html += '<p>更新时间：' + data.book_update_time + '</p>';
+                        return html;
+                    }}
+                ,{field: 'free_type', title: '所属频道', width: '10%'}
+                ,{field: 'channel', title: '来源', templet: function (data){
+                        switch (data.channel) {
+                            case 'xsw':
+                                return '选书网';
+                            default:
+                                return data.channel;
+                        }
+                    }, width: '10%'}
+                ,{field: 'unit_price', title: '千字价格（人民币分）', width: '10%'}
+                ,{field: 'operate', title: '操作', toolbar: '#unit_toolbar', fixed: 'right'}
+            ]]
+            ,url: "{:url('book.getActiveAreaBooks')}" //数据接口
+            ,parseData: function (res){
+                return {
+                    "code": res.code === 1 ? 0 : -1, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.data.total, //解析数据长度
+                    "data": res.data.data //解析数据列表
+                };
+            }
+            ,request: {
+                pageName: 'pageIndex',
+                limitName: 'pageSize'
+            }
+            ,toolbar: '#top_toolbar'
+            ,defaultToolbar: []
+            // ,height: 'full-100'
+            ,page: true //开启分页
+            ,limit: 20
+            ,limits: [10, 20, 30, 50]
+        });
+
+        table.on('tool(book_table)', function(obj){
+            var $this = $(this);
+            var event = obj.event;
+            var row = obj.data;
+
+            switch (event) {
+                case 'show_cover':
+                    // 单元格封面放大
+                    layer.open({
+                        type: 2,
+                        title: row.name,
+                        content: $this.attr('src'),
+                        area: ['180px', '285px'],
+                        shadeClose: true,
+                        id: 'book_cover'
+                    });
+                    break;
+                case 'read':
+                    // 图书信息查看
+                    layer.open({
+                        type: 2,
+                        title: row.name,
+                        content: 'read/id/' + row.id,
+                        area: ['1000px', '500px'],
+                        shadeClose: true,
+                        id: 'book_content',
+                        maxmin: true
+                    });
+                    break;
+                case 'chapters':
+                    // 图书章节列表
+                    layer.open({
+                        type: 2,
+                        title: row.name,
+                        content: 'chapters/id/' + row.id,
+                        area: ['100%', '100%'],
+                        shadeClose: true,
+                        id: 'book_content'
+                    });
+                    break;
+                case 'cache':
+                    // 单元格右侧缓存章节
+                    layer.confirm('确定缓存【' + row.name + '】的章节列表？', {
+                        btn: ['确定', '按错了']
+                    }, function (index, res){
+                        $.ajax({
+                            url: "{:url('chapter.cache')}",
+                            data: "book_id=" + row.id,
+                            type: "post",
+                            dataType: 'json',
+                            beforeSend: function (){
+                                layer.load(1);
+                            },
+                            complete: function (){
+                                layer.closeAll('loading');
+                            },
+                            success: function (res){
+                                if (res.code === 1){
+                                    layer.msg(res.msg, {icon: 1, time: 2000});
+                                } else {
+                                    layer.msg(res.msg, {icon: 2});
+                                }
+                            },
+                            error: function (xhr){
+                                layer.msg("请求缓存失败", {icon: 2});
+                                console.log(xhr);
+                            }
+                        })
+                    });
+                    break;
+                case 'addToActiveArea':
+                    // 添加图书到运营列表
+                    layer.confirm('确定将【' + row.name + '】添加到运营列表？', {
+                        btn: ['确定', '按错了']
+                    }, function (index, res){
+                        $.ajax({
+                            url: "{:url('book.addToActiveArea')}",
+                            data: "book_id=" + row.id,
+                            type: "post",
+                            dataType: 'json',
+                            beforeSend: function (){
+                                layer.load(1);
+                            },
+                            complete: function (){
+                                layer.closeAll('loading');
+                            },
+                            success: function (res){
+                                if (res.code === 1){
+                                    // 更新参数
+                                    obj.update({
+                                        area: 1
+                                    });
+
+                                    // 修改按钮为移除
+                                    $this.attr('lay-event', 'delFromActiveArea')
+                                        .text('移除出运营列表')
+                                        .removeClass('layui-btn-normal')
+                                        .addClass('layui-btn-danger');
+
+                                    layer.msg(res.msg, {icon: 1, time: 2000});
+                                } else {
+                                    layer.msg(res.msg, {icon: 2});
+                                }
+                            },
+                            error: function (xhr){
+                                layer.msg("请求失败", {icon: 2});
+                                console.log(xhr);
+                            }
+                        })
+                    });
+                    break;
+                case 'delFromActiveArea':
+                    // 添加图书到运营列表
+                    layer.confirm('确定要从运营列表移除【' + row.name + '】？', {
+                        btn: ['确定', '按错了']
+                    }, function (index, res){
+                        $.ajax({
+                            url: "{:url('book.delFromActiveArea')}",
+                            data: "book_id=" + row.id,
+                            type: "post",
+                            dataType: 'json',
+                            beforeSend: function (){
+                                layer.load(1);
+                            },
+                            complete: function (){
+                                layer.closeAll('loading');
+                            },
+                            success: function (res){
+                                if (res.code === 1){
+                                    // 更新参数
+                                    obj.update({
+                                        area: 0
+                                    });
+
+                                    // 修改按钮为添加
+                                    $this.attr('lay-event', 'addToActiveArea')
+                                        .text('添加到运营列表')
+                                        .removeClass('layui-btn-danger')
+                                        .addClass('layui-btn-normal');
+
+                                    layer.msg(res.msg, {icon: 1, time: 2000});
+                                } else {
+                                    layer.msg(res.msg, {icon: 2});
+                                }
+                            },
+                            error: function (xhr){
+                                layer.msg("请求失败", {icon: 2});
+                                console.log(xhr);
+                            }
+                        })
+                    });
+                    break;
+                case 'pullOff':
+                    // 下架图书
+                    layer.confirm('确定要下架【' + row.name + '】？', {
+                        btn: ['确定', '按错了']
+                    }, function (index, res){
+                        $.ajax({
+                            url: "{:url('book.pullOff')}",
+                            data: "book_id=" + row.id,
+                            type: "post",
+                            dataType: 'json',
+                            beforeSend: function (){
+                                layer.load(1);
+                            },
+                            complete: function (){
+                                layer.closeAll('loading');
+                            },
+                            success: function (res){
+                                if (res.code === 1){
+                                    // 更新参数
+                                    obj.update({
+                                        audit_status: -1
+                                    });
+
+                                    // 修改按钮为添加
+                                    $this.attr('lay-event', 'putOn')
+                                        .text('上架')
+                                        .removeClass('layui-btn-danger')
+                                        .addClass('layui-btn-normal');
+
+                                    layer.msg(res.msg, {icon: 1, time: 2000});
+                                } else {
+                                    layer.msg(res.msg, {icon: 2});
+                                }
+                            },
+                            error: function (xhr){
+                                layer.msg("请求失败", {icon: 2});
+                                console.log(xhr);
+                            }
+                        })
+                    });
+                    break;
+                case 'putOn':
+                    // 上架图书
+                    layer.confirm('确定要上架【' + row.name + '】？', {
+                        btn: ['确定', '按错了']
+                    }, function (index, res){
+                        $.ajax({
+                            url: "{:url('book.putOn')}",
+                            data: "book_id=" + row.id,
+                            type: "post",
+                            dataType: 'json',
+                            beforeSend: function (){
+                                layer.load(1);
+                            },
+                            complete: function (){
+                                layer.closeAll('loading');
+                            },
+                            success: function (res){
+                                if (res.code === 1){
+                                    // 更新参数
+                                    obj.update({
+                                        audit_status: 19
+                                    });
+
+                                    // 修改按钮为添加
+                                    $this.attr('lay-event', 'pullOff')
+                                        .text('下架')
+                                        .removeClass('layui-btn-normal')
+                                        .addClass('layui-btn-danger');
+
+                                    layer.msg(res.msg, {icon: 1, time: 2000});
+                                } else {
+                                    layer.msg(res.msg, {icon: 2});
+                                }
+                            },
+                            error: function (xhr){
+                                layer.msg("请求失败", {icon: 2});
+                                console.log(xhr);
+                            }
+                        })
+                    });
+                    break;
+            }
+        });
+
+        form.on('radio(filter)', function (data){
+            var form_arr = $('form[lay-filter="top_toolbar"]').serializeArray();
+
+            var form_json = {};
+            $.each(form_arr, function (k, v){
+                form_json[v.name] = v.value;
+            });
+
+            table.reload('book', {
+                where: form_json
+            });
+            form.val('top_toolbar', {
+                book_status: form_json.book_status,
+                audit_status: form_json.audit_status,
+                attribute: form_json.attribute,
+                words: form_json.words,
+                order: form_json.order
+            });
+            return false;
+        });
+
+        form.on('submit(cacheChapters)', function (){
+            // 缓存全部章节列表
+            layer.confirm('确定缓存运营列表中图书的章节列表？', {
+                btn: ['确定', '按错了']
+            }, function (index, res){
+                $.ajax({
+                    url: "{:url('chapter.cache')}",
+                    data: "book_id=active",
+                    type: "post",
+                    dataType: 'json',
+                    beforeSend: function (){
+                        layer.load(1);
+                    },
+                    complete: function (){
+                        layer.closeAll('loading');
+                    },
+                    success: function (res){
+                        if (res.code === 1){
+                            layer.msg(res.msg, {icon: 1, time: 5000});
+                        } else {
+                            layer.msg(res.msg, {icon: 2});
+                        }
+                    },
+                    error: function (xhr){
+                        layer.msg("请求缓存失败", {icon: 2});
+                        console.log(xhr);
+                    }
+                })
+            });
+            return false;
+        });
+
+        form.on('submit(statisticWord)', function (){
+            // 统计图书字数
+            layer.confirm('确定更新运营列表中图书的字数？', {
+                btn: ['确定', '按错了']
+            }, function (index, res){
+                $.ajax({
+                    url: "{:url('book.statisticWord')}",
+                    type: "post",
+                    dataType: 'json',
+                    beforeSend: function (){
+                        layer.load(1);
+                    },
+                    complete: function (){
+                        layer.closeAll('loading');
+                    },
+                    success: function (res){
+                        if (res.code === 1){
+                            layer.msg(res.msg, {icon: 1, time: 5000});
+                        } else {
+                            layer.msg(res.msg, {icon: 2});
+                        }
+                    },
+                    error: function (xhr){
+                        layer.msg("请求更新字数失败", {icon: 5});
+                        console.log(xhr);
+                    }
+                })
+            });
+            return false;
+        });
+    });
+</script>
+{include file="Widget/result" /}
+{/block}

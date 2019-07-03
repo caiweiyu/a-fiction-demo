@@ -1,0 +1,41 @@
+{extend name="index@Layout/index" /}
+
+{block name="title"}消费记录{/block}
+
+{block name="pageStyle"}
+<link rel="stylesheet" href="/static/css/Page/expenditure.css"/>
+<script>
+
+</script>
+<script src="/static/js/page/expenditure.js"></script>
+{/block}
+
+{block name="main"}
+<div class="main">
+    <div class="expenditureNav">
+        <span data-type="all" class="cur">全部</span>
+        <span data-type="week">本周</span>
+        <span data-type="today">今天</span>
+    </div>
+    <div class="expenditureBox">
+    </div>
+</div>
+{/block}
+
+{block name="footer"}
+<div class="footer">
+    <a data-page="bookShop" href="{:url('bookshelf')}">
+        <div class="img"></div>
+        书架
+    </a>
+    <a data-page="index" href="{:url('app.home')}">
+        <div class="img"></div>
+        首页
+    </a>
+    <a data-page="mine" class="cur" href="{:url('user.home')}">
+        <div class="img"></div>
+        我的
+    </a>
+</div>
+{/block}
+

@@ -1,0 +1,239 @@
+.myBook {
+    width: 100%;
+    height: auto;
+    background: #fff;
+}
+
+.myBookList {
+    width: 100%;
+    height: 38.75vw;
+    padding: 2.34375vw;
+    position: relative;
+    overflow: hidden;
+}
+.myBookList>a{
+    display:flex;
+    justify-content: flex-start;
+}
+.myBookImg {
+    width: 28.74vw;
+    height: 34.21875vw;
+    box-shadow: 0px 2px #ddd;
+}
+.myBookImgtest{
+    background: url(/static/images/Page/book/book01.png);
+    background-size: 100% 100%;
+    height: 31vw;
+    width: 26.09375vw;
+    box-shadow: 0px 2px #ddd;
+}
+
+.myBookContent {
+    width: 50.78125vw;
+    height: 34.21875vw;
+    float: left;
+    padding: 2.34375vw;
+}
+
+.myBookName {
+    width: 100%;
+    font-size: 3.8656249999999996vw;
+    color: #000;
+    font-weight: bold;
+}
+.myBookReadingTo{
+    font-weight: bold;
+}
+.myBookReadingTo,.myBookNewBook,.myBookNumNow {
+    width: 100%;
+    font-size: 3.3218750000000003vw;
+    color: #7f7e7e;
+    margin-top:.6vw;
+}
+.itemRead{
+    position: absolute;
+    right: 7.03125vw;
+    top: 40%;
+}
+.itemRead>div{
+    width: 17.96875vw;
+    height: 5.78125vw;
+    line-height: 5.7vw;
+    text-align: center;
+    color: #4dacfb;
+    border: .35vw solid #4dacfb;
+    border-radius: .5vw;
+}
+.deleteMybookItem{
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    font-size: 3.18125vw;
+    border-radius: 0.35125vw;
+    background: #4dacfb;
+    color:#fff;
+    border: .35vw solid #4dacfb;
+    width: 8.96875vw;
+    right: 7.03125vw;
+    top: 20%;
+}
+.recomMend{
+    position: absolute;
+    right: -4vw;
+    top: -1vw;
+    width: 10.943689110435825vw;
+    height: 5.5vw;
+    background: #58aefc;
+    color: #fff;
+    font-size: 1vw;
+    transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+}
+.recomMend>span{
+    position: absolute;
+    right: 2.5vw;
+    top: 2vw;
+}
+.myBookDelete {
+    width: 10.15625vw;
+    height: 7.65625vw;
+    position: absolute;
+    top: 5vw;
+    right: 5vw;
+    line-height: 7.65625vw;
+    border: 1px solid #ffa335;
+    color: #ffa335;
+    text-align: center;
+    font-size: 3.18125vw;
+    border-radius: 0.78125vw;
+}
+
+/*热门模块*/
+.Block {
+    width: 100%;
+    min-height: 48.90625vw;
+    background: #fff;
+    margin-top: 1.875vw;
+    overflow: hidden;
+
+}
+
+.blockHeader {
+    width: 100%;
+    height: 7.1875vw;
+    padding: 0 5.625vw;
+}
+
+.blockName {
+    height: 100%;
+    float: left;
+    font-size: 4.26875vw;
+    line-height: 7.1875vw;
+    color: #000;
+    font-weight: bold;
+}
+
+.readingMore {
+    height: 100%;
+    float: right;
+    line-height: 7.1875vw;
+    font-size: 2.8984375vw;
+    color: #a2a2a1;
+}
+
+.blockCont {
+    width: 100%;
+    min-height: 40.46875vw;
+    padding: 1.5625vw 2.421875vw 0 2.421875vw;
+}
+
+.horizontalBlockList {
+    width: 25.3125vw;
+    min-height: 40.46875vw;
+    margin: 0 3.203125vw;
+    float: left;
+}
+
+.horizontalBlockList > a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.horizontalBlockList > a > .horizontalBlockListImg {
+    width: 100%;
+    height: 31.71875vw;
+}
+
+.horizontalBlockList > a > .horizontalBlockListName {
+    width: 100%;
+    height: 6.09375vw;
+    line-height: 6.09375vw;
+    font-size: 3.16875vw;
+    text-align: center;
+    color: #646464;
+}
+
+.verticalList {
+    width: 90.9375vw;
+    height: 13.125vw;
+    margin: 0 auto;
+    border-bottom: 1px solid #dcdcdb;
+    line-height: 13.125vw;
+}
+
+.verticalList > span {
+    float: left;
+    height: 100%;
+}
+
+.bookName {
+    font-size: 4.0265625vw;
+    color: #333333;
+    margin-left: 7.03125vw;
+}
+
+.bookAuthor {
+    font-size: 3.096875vw;
+    color: #7b7b7b;
+    margin-left: 10vw;
+}
+/*书架样式*/
+.bookRack{
+    width:100%;
+    min-height:9.375vw;
+    line-height:9.375vw;
+    display:flex;
+    justify-content: center;
+    background: #fff;
+}
+.bookRack>div{
+    width:50%;
+    text-align:center;
+    font-size: 4.0265625vw;
+    font-weight: bold;
+}
+.bookRackCur{
+    color:#45a8fa;
+}
+.bookRackCur>span{
+    width: 50%;
+    display: inline-block;
+    border-bottom: .45vw solid #45a8fa;
+}
+.manageBox{
+    min-height:6.25vw;
+    background: #f6f5f5;
+}
+.manageBox>span{
+    padding:.5vw;
+    background: #45a8fa;
+    color:#fff;
+    font-size: 3.3328124999999997vw;
+    float: right;
+    margin-right:6.25vw;
+}

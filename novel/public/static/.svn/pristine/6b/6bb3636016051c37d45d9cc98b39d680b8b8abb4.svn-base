@@ -1,0 +1,240 @@
+/*头部*/
+.main {
+    margin-top: 10vw;
+}
+
+.searchBox {
+    width: 100%;
+    height: 10.78125vw;
+    background: #ffa02f;
+    padding: 1.625vw 2.96875vw;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3;
+}
+
+.toIndex {
+    float: left;
+    height: 100%;
+    line-height: 7.4375vw;
+    font-size: 3.5vw;
+}
+
+.toIndex > a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+}
+
+.toIndex > a > img {
+    height: 50%;
+}
+
+.searchBtn {
+    float: right;
+    width: 5.1875vw;
+    height: 5.1875vw;
+    background: url(/static/images/Page/bookSearch.png) no-repeat center center;
+    background-size: 100% 100%;
+    margin-top: 1.325vw;
+    margin-right: 1.78125vw;
+}
+
+.searchBtn > a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.searchTitle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 3.5vw;
+}
+
+/*导航栏分类样式*/
+.channel_man2 {
+    width: 100%;
+    /* min-height: 9.1796875vw;
+    line-height: 9.1796875vw; */
+    display: flex;
+    justify-content: center;
+    visibility: hidden;
+}
+
+.channel_man2 span, .classifyCont_1 span, .classifyCont_2 span, .classifyCont_3 span {
+    font-size: 3.521875vw;
+    font-weight: bold;
+    color: #1f1f1f;
+    padding:1vw;
+}
+
+.channel_man2 > div {
+    width: 12vw;
+    text-align: center;
+}
+
+.cur_one {
+    border-bottom: .5vw solid #ffa02f;
+    color: #ffa02f;
+}
+
+.channel_man2 > div {
+    margin-left: 4vw;
+}
+
+.navigatorCont {
+    width: 100%;
+    background: #fff;
+}
+
+.classifyCont_1, .classifyCont_2, .classifyCont_3 {
+    display: flex;
+    justify-content: start;
+    flex-direction: row;
+    overflow: hidden;
+    box-sizing: border-box;
+    width: 100%;
+    max-height: 25.937500000000004vw;
+    margin-top: 4.6875vw;
+    margin-left: 4.6875vw;
+}
+
+.classifyCont_1 .cur_1, .classifyCont_2 .cur_2, .classifyCont_3 .cur_3 {
+    width: 70%;
+    display: flex;
+    justify-content: start;
+    flex-wrap: wrap;
+    flex-direction: row;
+    box-sizing: border-box;
+}
+
+.cur_1 > div, .cur_2 > div, .cur_3 > div {
+    height: 5.15625vw;
+    margin: .5vw 3.5vw;
+    box-sizing: border-box;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+.cur_line1, .cur_line2, .cur_line3 {
+    background: #ffa02f;
+    border-radius: 1vw;
+}
+
+.cur_line1 > span, .cur_line2 > span, .cur_line3 > span {
+    color: #fff;
+}
+
+.getTitleImg {
+    min-height: 39.0625vw;
+    margin-top: 4.6875vw;
+    position: relative;
+    display: flex;
+    justify-content: start;
+    flex-direction: row;
+}
+
+.getTitleImg_right {
+    height: 35.15625vw;
+    width: 65.625vw;
+    margin-left: 5vw;
+}
+
+.btn_reader {
+    position: absolute;
+    right: 5.9375vw;
+    width: 19.40625vw;
+    border: .5vw solid #c1e2fd;
+    border-radius: 1vw;
+    height: 5.3125vw;
+    line-height: 5.3125vw;
+    text-align: center;
+    display: block;
+    color: #45a8fa;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+.Block{
+    margin-top:12vw;
+}
+.getTitleImg_right > div {
+    width: 59.625vw;
+    height: 20.625vw;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    overflow: hidden;
+    font-size: 2.925vw;
+    color: #8c8c8c;
+    font-weight: bold;
+}
+
+.getTitleImg_right > p:first-child {
+    font-size: 3.8656249999999996vw;
+}
+
+.getTitleImg_right > p:nth-child(2) {
+    font-size: 2.8984375vw;
+}
+
+.imgSrc {
+    background: url(/static/images/Page/book/book01.png);
+    background-size: 100% 100%;
+    height: 31vw;
+    width: 26.09375vw;
+    box-shadow: 2px 10px 10px 0 #e0e0e0;
+    margin-bottom: -9vw;
+    margin-left: 4vw;
+}
+
+.imgSrc_t {
+    background: url(/static/images/Page/book/book01.png);
+    background-size: 100% 100%;
+    height: 31vw;
+    width: 26.09375vw;
+    box-shadow: 3px 2px #ddd;
+}
+
+.btn_reader > span {
+    font-size: 3.18125vw;
+}
+
+.pandect_zone {
+    width: 100%;
+}
+
+.close_zone {
+    min-height: 51.87500000000001vw;
+}
+
+.close_zone > p {
+    font-size: 4.0265625vw;
+    color: #5db2fa;
+    font-weight: bold;
+    margin-left: 4vw;
+    line-height: 12vw;
+}
+
+.close_zone_p {
+    color: #171717 !important;
+}
+
+.close_zone > div {
+    display: flex;
+    justify-content: space-around;
+}
+
+.close_zone > div > div > p {
+    text-align: center;
+    font-size: 3.1671875000000003vw;
+    color: #646464;
+    font-weight: bold;
+    margin-top: 1vw;
+}

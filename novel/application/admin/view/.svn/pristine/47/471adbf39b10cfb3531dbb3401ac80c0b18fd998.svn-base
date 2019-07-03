@@ -1,0 +1,426 @@
+{extend name="Layout/index" /}
+
+{block name="title"}模块编辑{/block}
+
+{block name="main"}
+
+<div style="margin: 15px;">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>模块编辑</legend>
+    </fieldset>
+
+    <form class="layui-form" action="{:url('AppModule/update')}" method="POST">
+        <input type="hidden" name="id" value="{$data.id}" readonly>
+        <div class="layui-form-item">
+            <label class="layui-form-label">模块名</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" lay-verify="name" autocomplete="off" class="layui-input"
+                       placeholder="模块名" value="{$data.name}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">模块介绍</label>
+            <div class="layui-input-block">
+                <textarea name="description" cols="30" rows="10" class="layui-textarea" placeholder="内容描述/使用描述">{$data.description}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">数据类型</label>
+            <div class="layui-input-inline">
+                <select name="select_data_type" lay-verify="data_type" lay-filter="data_type" class="layui-select"
+                        title="数据类型">
+                    <option value="">请选择</option>
+                    {foreach $data_type as $value => $name}
+                    <option value="{$value}" {if ($value== $data.data_type) } selected{/if}>{$name}</option>
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <style>
+                td[data-field="cover_url"] div {
+                    height: 133px !important;
+                }
+
+                .data-block > .layui-form {
+                    float: left;
+                }
+
+                .data-block > .layui-form:nth-of-type(1) {
+                    margin-right: 50px;
+                }
+            </style>
+            <input type="hidden" name="data_value" value="{$data.data_value}">
+            <input type="hidden" name="data_type" value="{$data.data_type}">
+            <label class="layui-form-label">数据内容</label>
+            <div class="layui-input-block data-block" data-type="dataContentBox">
+            </div>
+            <div class="admin-table-page">
+                <div id="paged" class="page">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="update">更改</button>
+                <a href="{:url('AppModule/index')}" class="layui-btn layui-btn-primary">返回</a>
+            </div>
+        </div>
+    </form>
+</div>
+{/block}
+
+{block name="footer"}
+
+<script>
+    layui.config({
+        base: '/static/js/'
+    });
+
+    layui.use(['form', 'layedit', 'laydate', 'paging', 'table', 'upload'], function () {
+        var $ = layui.jquery;
+        var form = layui.form;
+        var table = layui.table;
+        var upload = layui.upload;
+        var $dataContentBox = $("[data-type='dataContentBox']");
+        var addBookList = {};
+        var blockDataList = {};
+        var data_type = $("[name='data_type']").val();
+        var data_value = $("[name='data_value']").val();
+        var selectType = $("[name='data_type']").val();
+        //TODO 根据data_type渲染data_value
+        //初始化
+        changeDataType(data_type);
+
+        //json转数组
+        function jsonToArray(json) {
+            var arr = [];
+            $.each(json, function (index, value) {
+                arr.push(value);
+            });
+            return arr;
+        }
+
+        //自定义验证规则
+        form.verify({
+            name: function (value) {
+                if (value.length < 1) {
+                    return '角色名不能为空';
+                }
+            }
+        });
+
+        //select时间监听
+        form.on('select(data_type)', function (data) {
+            changeDataType(data.value);
+        });
+
+        //切换数据类型
+        function changeDataType(type) {
+            selectType = type;
+            $("input[name='data_type']").val(type);
+            $dataContentBox.html("");
+            console.log(type);
+            switch (type) {
+                case "book":
+                    let dataValue;
+                    try {
+                        dataValue = JSON.parse(data_value);
+                        if (typeof dataValue !== "object") {
+                            dataValue = [];
+                        }
+                    } catch (e) {
+                        //
+                    }
+                    const bookData = data_type === "book" ? dataValue : [];
+                    // console.log(dataValue);
+                    // console.log(bookData);
+                    bookBlock(bookData);
+                    break;
+                case "image":
+                    let imgLinkVal;
+                    try {
+                        imgLinkVal = JSON.parse(data_value);
+                        if (typeof imgLinkVal !== "object") {
+                            imgLinkVal = [];
+                        }
+                    } catch (e) {
+                        //
+                    }
+                    const picData = data_type === "image" ? imgLinkVal : [];
+                    pictureLink(picData);
+                    break;
+            }
+        }
+
+        //图书
+        function bookBlock(books) {
+            const allBox = $("<table id='allBook' lay-filter='test'></table>");
+            const addBox = $("<table id='addBook' lay-filter='test'></table>");
+            allBox.appendTo($dataContentBox);
+            addBox.appendTo($dataContentBox);
+            // console.log("addBookList,", addBookList);
+            for (var k in books) {
+                book = books[k];
+                addBookList[book.id] = book;
+            }
+            //数据初始内容
+            table.render({
+                elem: '#allBook',
+                skin: 'line', //行边框风格
+                size: 'lg',
+                width: 670,
+                height: 585,
+                method: 'get',
+                toolbar: '#top_toolbar',
+                url: "{:url('book.getList')}", //数据接口
+                page: true,  //开启分页
+                limit: 20,
+                limits: [10, 20, 30, 50],
+                parseData: function (res) {
+                    return {
+                        "code": res.code === 1 ? 0 : 1, //解析接口状态
+                        "msg": res.msg, //解析提示文本
+                        "count": res.data.total, //解析数据长度
+                        "data": res.data.data //解析数据列表
+                    }
+                },
+                request: {
+                    pageName: 'pageIndex',
+                    limitName: 'pageSize'
+                },
+                cols: [[ //表头
+                    {field: 'name', title: '小说名称', width: 150, fixed: 'left'},
+                    {field: 'cover_url', title: '小说封面', width: 130, templet: "#data_img", fixed: 'left'},
+                    {field: 'author_name', title: '小说作者', width: 100, fixed: 'left'},
+                    {field: 'category_name', title: '相关标签', width: 100, fixed: 'left'},
+                    {field: 'status', title: '小说状态', width: 100, fixed: 'left'},
+                    {field: 'add', title: '操作', width: 70, toolbar: "#addBtn"}
+                ]]
+            });
+
+            //添加后图书列表
+            table.render({
+                id: 'addBook',
+                elem: '#addBook',
+                skin: 'line',
+                size: 'lg',
+                width: 670,
+                height: 585,
+                data: jsonToArray(addBookList),
+                limit: 100,
+                cols: [[ //表头
+                    {field: 'name', title: '小说名称', width: 150, fixed: 'left'},
+                    {field: 'cover_url', title: '小说封面', width: 130, templet: "#data_img", fixed: 'left'},
+                    {field: 'author_name', title: '小说作者', width: 100, fixed: 'left'},
+                    {field: 'category_name', title: '相关标签', width: 100, fixed: 'left'},
+                    {field: 'status', title: '小说状态', width: 100, fixed: 'left'},
+                    {field: 'remove', title: '操作', width: 70, toolbar: "#removeBtn"}
+                ]]
+            });
+
+            table.on('tool(test)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                var data = obj.data; //获得当前行数据
+                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                var tr = obj.tr; //获得当前行 tr 的DOM对象
+                var bookId = data.id;
+
+                if (layEvent === 'add') { //插入
+                    if (jsonToArray(addBookList).length >= 50) {
+                        alert('书本添加数量不能超过50本');
+                        return;
+                    }
+                    // 添加
+                    addBookList[bookId] = {
+                        'id': data.id,
+                        'name': data.name,
+                        'cover_url': data.cover_url,
+                        'author_name': data.author_name,
+                        'category_name': data.category_name,
+                        'status': data.status,
+                    };
+                    // 重构data
+                    table.reload('addBook', {
+                        data: jsonToArray(addBookList),
+                    });
+                } else if (layEvent === 'remove') { //删除
+                    delete addBookList[bookId];
+                    table.reload('addBook', {
+                        data: jsonToArray(addBookList),
+                    });
+                }
+            });
+        }
+
+        //图片链接
+        function pictureLink(picLinkData) {
+            $dataContentBox.html("");
+            //初始数据
+            const $addBlockBtn = $("" +
+                "<button class='layui-btn layui-btn-sm' lay-filter='addBlock' lay-submit >" +
+                "  <i class='layui-icon'>&#xe608;</i> 添加数据块" +
+                "</button>");
+            $addBlockBtn.appendTo($dataContentBox);
+
+            if (picLinkData !== []) {
+                $.each(picLinkData, function (index, value) {
+                    console.log(value);
+                    removeBtn = "<button type='button' style='margin-left:10px;' class='layui-btn layui-btn-danger' id='test1' lay-submit lay-filter='removeBlock'>删除块</button>";
+                    blockRender(removeBtn, value);
+                })
+            } else {
+                blockRender("");
+            }
+
+            form.on('submit(addBlock)', function (data) {
+                removeBtn = "<button type='button' style='margin-left:10px;' class='layui-btn layui-btn-danger' id='test1' lay-submit lay-filter='removeBlock'>删除块</button>";
+                blockRender(removeBtn);
+                return false;
+            });
+
+            form.on('submit(removeBlock)', function (data) {
+                //删除块
+                $(this).parents(".block").remove();
+                delete blockDataList[$(this).parents(".block").data('id')];
+                return false;
+            });
+
+
+            //生成随机BlockId
+            function getBlockId() {
+                return parseInt(Math.random() * 100000);
+            }
+
+            function blockRender(removeBtn, data) {
+                const blockId = getBlockId();
+                const $dataBox = $("" +
+                    "<div class='block' style='margin-top:10px;' data-id='" + blockId + "' >" +
+                    "    <div class='layui-inline'>" +
+                    "        <label class='layui-form-label'>文本</label>" +
+                    "        <div class='layui-input-inline' style='width: 200px;'>" +
+                    "            <input type='text' id='text_" + blockId + "' autocomplete='off' class='layui-input' value='" + (data ? data.text : "") + "'>" +
+                    "        </div>" +
+                    "        <label class='layui-form-label'>链接</label>" +
+                    "        <div class='layui-input-inline' style='width: 200px;'>" +
+                    "            <input type='text' id='link_" + blockId + "' autocomplete='off' class='layui-input' value='" + (data ? data.link : "") + "'>" +
+                    "        </div>" +
+                    "        <label class='layui-form-label'>图片链接</label>" +
+                    "        <div class='layui-input-inline' style='width: 200px;'>" +
+                    "            <input type='text' id='image_" + blockId + "' autocomplete='off' class='layui-input' value='" + (data ? data.image : "") + "' >" +
+                    "        </div>" +
+                    "        <div class='layui-input-inline' style='width: 200px;'>" +
+                    "           <img style='height: 100px;' id='show_img_" + blockId + "' src='" + (data ? data.image : "") + "' /> " +
+                    "        </div>" +
+                    "        <button type='button' class='layui-btn' data-id='" + blockId + "' id='uploadPic" + blockId + "' >" +
+                    "            <i class='layui-icon'>&#xe67c;</i>上传图片" +
+                    "        </button>" +
+                    removeBtn +
+                    "    </div>" +
+                    "</div>");
+
+                $dataBox.appendTo($dataContentBox);
+
+                //上传图片
+                var uploadInst = upload.render({
+                    elem: `#uploadPic${blockId}` //绑定元素
+                    , url: "{:url('upload/image')}"//上传接口
+                    , field: 'image'
+                    , done: function (res, index) {
+                        if (res.code === 1) {
+                            const id = $(this.item).data("id");
+                            $("#image_" + id).val(res.data);
+                            $("#show_img_" + id).attr('src', res.data)
+                        }
+                    }
+                    , error: function () {
+                        //请求异常回调
+                    }
+                });
+
+            }
+
+        }
+
+        //提交
+        form.on('submit(update)', function (data) {
+            $("input[name='data_value']").val(JSON.stringify(imgLink));
+
+            // data_value = jsonToArray(addBookList);
+            // return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+        // 提交更改
+        form.on('submit(update)', function (data) {
+            switch (selectType) {
+                case 'book':
+                    const book = [];
+                    for (item in addBookList) {
+                        book.push(addBookList[item]);
+                    }
+                    $("input[name='data_value']").val(JSON.stringify(book));
+                    console.log($("input[name='data_value']").val());
+                    break;
+                case'image':
+                    var imgData = [];
+                    $.each($(".block"), function (index, value) {
+                        const blockId = $(value).data("id");
+                        const link = $("#link_" + blockId).val();
+                        const text = $("#text_" + blockId).val();
+                        const image = $("#image_" + blockId).val();
+                        imgData.push({
+                            link: link,
+                            text: text,
+                            image: image
+                        })
+                    });
+                    $("input[name='data_value']").val(JSON.stringify(imgData));
+                    break;
+            }
+            // data_value = jsonToArray(addBookList);
+            // return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+        //查询
+        form.on('submit(search)', function (data) {
+            var form_data = data.field;
+            table.reload('allBook', {
+                where: form_data
+            });
+            form.val('top_toolbar', {
+                word: form_data.word
+            });
+            return false;
+        });
+    });
+
+</script>
+<!--内容模板-->
+
+<!--顶部工具栏-->
+<script type="text/html" id="top_toolbar">
+    <form class="layui-form layui-form-pane" lay-filter="top_toolbar">
+        <div class="layui-inline">
+            <label class="layui-form-label" style="width: 100px;">书名/作者</label>
+            <div class="layui-input-block">
+                <input type="text" name="word" placeholder="请输入书名、作者" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <button class="layui-btn" lay-submit lay-filter="search">查询</button>
+        </div>
+    </form>
+</script>
+<!--添加按钮-->
+<script type="text/html" id="addBtn">
+    <a class="layui-btn layui-btn-xs" lay-event="add">添加</a>
+</script>
+<!--删除按钮-->
+<script type="text/html" id="removeBtn">
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="remove">取消</a>
+</script>
+<!--表格内图片-->
+<script type="text/html" id="data_img">
+    <img src="{{d.cover_url}}">
+</script>
+{include file="Widget/result" /}
+{/block}

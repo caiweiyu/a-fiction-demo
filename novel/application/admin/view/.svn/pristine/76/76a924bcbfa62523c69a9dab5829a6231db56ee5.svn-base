@@ -1,0 +1,193 @@
+{extend name="Layout/index" /}
+
+{block name="title"}用户列表{/block}
+
+{block name="main"}
+<style>
+    .layui-form-item {
+        margin: 0;
+        height: 30px;
+    }
+    .layui-table-tool {
+        padding: 5px 0;
+    }
+    .layui-table-view .layui-table-body .layui-table[lay-size=lg] .layui-table-cell {
+        height: 132px;
+        line-height: 132px;
+    }
+    .layui-table-view .layui-table-body .layui-table[lay-size=lg] .layui-table-cell p {
+        line-height: 44px;
+    }
+    .layui-form-pane .layui-form-label{
+        border: 0;
+        background-color: transparent;
+        height: inherit;
+    }
+    .layui-table-view .layui-table[lay-size=lg] th .layui-table-cell {
+        height: inherit;
+        line-height: inherit;
+    }
+    .layui-table-tool-temp {
+        padding-right: inherit;
+    }
+</style>
+<div class="admin-main">
+    <fieldset class="layui-elem-field">
+        <legend>用户列表</legend>
+        <div class="layui-field-box layui-form">
+            <table id="user" lay-filter="user_table"></table>
+        </div>
+    </fieldset>
+</div>
+{/block}
+
+{block name="footer"}
+<!--顶部工具栏-->
+<script type="text/html" id="top_toolbar">
+    <div class="layui-fluid">
+        <div class="layui-row">
+            <div class="layui-col-md6">
+                <form class="layui-form layui-form-pane" lay-filter="search_form">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">搜索：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="word" placeholder="用户id/username/昵称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn" lay-submit lay-filter="search">查询</button>
+                    </div>
+                </form>
+                <form class="layui-form layui-form-pane" lay-filter="filter">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">来源：</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="source_type" value="0" title="全部" checked="" lay-filter="filter">
+                            <input type="radio" name="source_type" value="1" title="PC" lay-filter="filter">
+                            <input type="radio" name="source_type" value="2" title="Wap" lay-filter="filter">
+                            <input type="radio" name="source_type" value="3" title="微信小程序" lay-filter="filter">
+                            <input type="radio" name="source_type" value="4" title="微信公众号" lay-filter="filter">
+                            <input type="radio" name="source_type" value="5" title="Android" lay-filter="filter">
+                            <input type="radio" name="source_type" value="6" title="iOS" lay-filter="filter">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">性别：</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="sex" value="" title="全部" checked="" lay-filter="filter">
+                            <input type="radio" name="sex" value="0" title="未设置" lay-filter="filter">
+                            <input type="radio" name="sex" value="1" title="男" lay-filter="filter">
+                            <input type="radio" name="sex" value="2" title="女" lay-filter="filter">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!--单元格右侧操作-->
+<script type="text/html" id="unit_toolbar">
+
+</script>
+
+<script>
+    layui.use(['table', 'form'], function(){
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+
+        table.render({
+            elem: '#user'
+            ,cols: [[ //表头
+                {field: 'id', title: 'ID', width: '8%', hide: true}
+                ,{type: 'username', title: '昵称（username）', templet: function (data){
+                        return '<img src="' + data.cover + '" title="' + data.username + '" width="30px"> '
+                            + data.nickname
+                            + ' ( ' + data.username + ' )';
+                    }}
+                ,{field: 'phone', title: '手机', width: '10%', align: 'center'}
+                ,{field: 'sex', title: '性别', width: '5%', align: 'center'}
+                ,{field: 'source_type', title: '来源', width: '10%', align: 'center'}
+                ,{field: 'vip', title: '是否会员', width: '5%', align: 'center'}
+                ,{field: 'purchased_points', title: '余额', width: '8%', align: 'right'}
+                ,{field: 'last_login_time', title: '最后登录时间', width: '10%', align: 'center'}
+                ,{field: 'register_time', title: '注册时间', width: '10%', align: 'center'}
+            ]]
+            ,url: "{:url('user.getList')}" //数据接口
+            ,parseData: function (res){
+                return {
+                    "code": res.code === 1 ? 0 : -1, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.data.total, //解析数据长度
+                    "data": res.data.data //解析数据列表
+                };
+            }
+            ,request: {
+                pageName: 'pageIndex',
+                limitName: 'pageSize'
+            }
+            ,toolbar: '#top_toolbar'
+            ,defaultToolbar: []
+            // ,height: 'full-100'
+            ,page: true //开启分页
+            ,limit: 20
+            ,limits: [10, 20, 30, 50]
+        });
+
+        table.on('tool(user_table)', function(obj){
+            var $this = $(this);
+            var event = obj.event;
+            var row = obj.data;
+
+            switch (event) {
+                case 'read':
+                    // 图书信息查看
+                    layer.open({
+                        type: 2,
+                        title: row.username,
+                        content: 'user/id/' + row.id,
+                        area: ['1000px', '500px'],
+                        shadeClose: true,
+                        id: 'user_content',
+                        maxmin: true
+                    });
+                    break;
+            }
+        });
+
+        form.on('submit(search)', function (data){
+            var form_json = data.field;
+            form_json['source_type'] = 0;
+            form_json['sex'] = '';
+
+            table.reload('user', {
+                where: form_json
+            });
+            form.val('search_form', {
+                word: form_json.word
+            });
+            return false;
+        });
+
+        form.on('radio(filter)', function (data){
+            var form_arr = $('form[lay-filter="filter"]').serializeArray();
+
+            var form_json = {'word': 0};
+            $.each(form_arr, function (k, v){
+                form_json[v.name] = v.value;
+            });
+
+            table.reload('user', {
+                where: form_json
+            });
+            form.val('filter', {
+                source_type: form_json.source_type,
+                sex: form_json.sex
+            });
+            return false;
+        });
+    });
+</script>
+{include file="Widget/result" /}
+{/block}

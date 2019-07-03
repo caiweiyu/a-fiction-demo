@@ -1,0 +1,70 @@
+//init
+$(function () {
+    blockListRender();
+    // 获取用户信息
+    getUserInfo();
+    //用户去掉广告
+    userRemoveBD();
+
+});
+
+// 块渲染
+function blockListRender() {
+    blockList.forEach(function (item) {
+        var block = $("  <div class='block' data-type='" + item.type + "'>" +
+            "  <a href='" + item.url + "'>" +
+            "    <img class='blockImg' src='" + item.icon + "'/>" +
+            "    <span class='blockTitle'>" + item.title + "</span>" +
+            "    <img class='blockArrow' src='/static/images/Page/arrow.png'/>" +
+            "  </a>" +
+            " </div>");
+        block.appendTo($(".blockBox"));
+    });
+}
+
+// //获取用户信息
+function getUserInfo() {
+    $.ajax({
+        type: "get",
+        url: getUserInfoApi,
+        dataType: "json",
+        success: function (res) {
+            if (res.code === 1) {
+                var data = res.data;
+                userInfoRender(data);
+            } else {
+                textToast(res.msg);
+            }
+        },
+        error: function (e) {
+            textToast("获取用户信息失败，错误代码：01");
+        }
+    });
+}
+
+
+//用户信息渲染
+function userInfoRender(data) {
+    $(".username").find(">em").html(data.nickname);
+    $(".userId").find(">em").html(data.username);
+    $(".userPortrait").attr("src", data.cover);
+    $(".coinNum").html(data.balance);
+    $(".bookNum").html(data.bookshelf_num);
+    $(".vipLv").attr("data-lv", data.vip).find("em").html(`${data.vip}`);
+
+}
+
+//保存用户操作去掉广告行为
+function userRemoveBD(){
+
+    $('html').on('tap','.closeThat',function(){
+        var removeThat1 = $('.RandomBD').remove();
+        sessionStorage.setItem('removeThat', removeThat1);    
+    });
+    var __userdone__ = sessionStorage.getItem('removeThat');
+
+    if(__userdone__){
+        $('.RandomBD').remove();
+    }
+}
+        

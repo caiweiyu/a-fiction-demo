@@ -1,0 +1,131 @@
+{extend name="Layout/index" /}
+
+{block name="title"}搜索关键词管理{/block}
+
+{block name="main"}
+<div class="admin-main">
+    <blockquote class="layui-elem-quote">
+        <a href="{:url('SearchWord/create')}" class="layui-btn layui-btn-small">
+            <i class="layui-icon">&#xe608;</i> 添加关键词
+        </a>
+    </blockquote>
+    <fieldset class="layui-elem-field">
+        <legend>搜索关键词列表</legend>
+        <div class="layui-field-box layui-form">
+            <table id="words" lay-filter="words_table"></table>
+        </div>
+    </fieldset>
+</div>
+{/block}
+
+{block name="footer"}
+<!--顶部工具栏-->
+<script type="text/html" id="top_toolbar">
+    <div class="layui-fluid">
+        <div class="layui-row">
+            <div class="layui-col-md6">
+                <form class="layui-form layui-form-pane" lay-filter="search_form">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">搜索：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="word" placeholder="关键词" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn" lay-submit lay-filter="search">查询</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!--单元格右侧操作-->
+<script type="text/html" id="unit_toolbar">
+    <a class="layui-btn layui-btn-sm" lay-event="setTop">
+        <i class="layui-icon layui-icon-top"></i> 置顶
+    </a>
+    {if Auth()->user()->can('SearchWord/delete')}
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete">删除</a>
+    {/if}
+</script>
+<script>
+    layui.use(['table', 'form'], function() {
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+
+        table.render({
+            url: "{:url('SearchWord.getList')}" //地址
+            ,elem: '#words' //内容容器
+            ,size: 'lg'
+            ,cols: [[ //表头
+                {type: 'numbers', title: '序号', width: '5%'}
+                ,{field: 'word', title: '关键词'}
+                ,{field: 'sort', title: '排序', width: '10%'}
+                ,{field: 'created_at', title: '创建时间', width: '10%'}
+                ,{field: 'updated_at', title: '更新时间', width: '10%'}
+                ,{field: 'operate', title: '操作', toolbar: '#unit_toolbar', fixed: 'right'}
+            ]]
+            ,parseData: function (res){
+                return {
+                    "code": res.code === 1 ? 0 : -1, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.data.length, //解析数据长度
+                    "data": res.data //解析数据列表
+                };
+            }
+            ,toolbar: '#top_toolbar'
+            ,defaultToolbar: []
+        });
+
+        table.on('tool(words_table)', function(obj){
+            var $this = $(this);
+            var event = obj.event;
+            var row = obj.data;
+
+            switch (event) {
+                case 'setTop':
+                    $.ajax({
+                        url: "{:url('SearchWord.setTop')}",
+                        data: "id=" + row.id,
+                        type: "post",
+                        dataType: 'json',
+                        beforeSend: function (){
+                            layer.load(1);
+                        },
+                        complete: function (){
+                            layer.closeAll('loading');
+                        },
+                        success: function (res){
+                            if (res.code === 1){
+                                layer.msg(res.msg, {icon: 1, time: 5000});
+                                table.reload('words');
+                            } else {
+                                layer.msg(res.msg, {icon: 2});
+                            }
+                        },
+                        error: function (xhr){
+                            layer.msg("请求失败", {icon: 2});
+                            console.log(xhr);
+                        }
+                    });
+                    break;
+            }
+        });
+
+        form.on('submit(search)', function (data){
+            var form_json = data.field;
+
+            table.reload('words', {
+                where: form_json
+            });
+            form.val('search_form', {
+                word: form_json.word
+            });
+            return false;
+        });
+    });
+</script>
+{include file="Widget/result" /}
+{/block}

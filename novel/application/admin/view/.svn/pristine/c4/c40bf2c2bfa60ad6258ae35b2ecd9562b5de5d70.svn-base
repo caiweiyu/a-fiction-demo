@@ -1,0 +1,66 @@
+{extend name="Layout/index" /}
+
+{block name="main"}
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>系统信息</legend>
+</fieldset>
+
+<div style="padding: 20px; background-color: #F2F2F2;">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">App版块1（首页）</div>
+                <div class="layui-card-body">
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            模块xx
+                        </div>
+                    </div>
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            模块oo
+                        </div>
+                    </div>
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            模块xo
+                        </div>
+                    </div>
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            模块ox
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">App版块2（xxx）</div>
+                <div class="layui-card-body">
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            模块aa
+                        </div>
+                    </div>
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            模块bb
+                        </div>
+                    </div>
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            模块xo
+                        </div>
+                    </div>
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            模块cc
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

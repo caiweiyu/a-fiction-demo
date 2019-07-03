@@ -1,0 +1,110 @@
+{extend name="Layout/index" /}
+
+{block name="title"}图书管理{/block}
+
+{block name="main"}
+<div class="admin-main">
+    <fieldset class="layui-elem-field">
+        <legend>图书列表</legend>
+        <div class="layui-field-box layui-form">
+            <table id="book" lay-filter="book_table"></table>
+        </div>
+    </fieldset>
+</div>
+{/block}
+
+{block name="footer"}
+<script type="text/html" id="toolbar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="sync">同步章节</a>
+</script>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+        var $ = layui.jquery;
+
+        table.render({
+            elem: '#book'
+            ,cols: [[ //表头
+                {field: 'name', title: '名称'}
+                ,{field: 'id', title: '阅文CBID'}
+                ,{field: 'author_name', title: '作者'}
+                ,{field: 'status', title: '状态'}
+                ,{field: 'all_type', title: '类别', templet: function (data){
+                        return data.free_type + '-' + data.category_name + '-' + data.sub_category_name;
+                    }}
+                ,{field: 'book_create_time', title: '创建时间'}
+                ,{field: 'book_update_time', title: '最新章节更新时间'}
+                ,{field: 'operate', title: '操作', toolbar: '#toolbar', fixed: 'right'}
+            ]]
+            ,url: "{:url('book.getList')}" //数据接口
+            ,parseData: function (res){
+                return {
+                    "code": res.code === 1 ? 0 : -1, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.data.total, //解析数据长度
+                    "data": res.data.data //解析数据列表
+                };
+            }
+            ,request: {
+                pageName: 'pageIndex',
+                limitName: 'pageSize'
+            }
+            ,defaultToolbar: ['filter']
+            ,page: true //开启分页
+            ,limit: 20
+            ,limits: [10, 20, 30, 50]
+        });
+
+        table.on('tool(book_table)', function(obj){
+            var book = obj.data;
+            var event = obj.event;
+
+            if (event === 'edit') {
+                // 编辑
+                layer.open({
+                    type: 2,
+                    title: book.name,
+                    content: 'read/id/' + book.id,
+                    area: ['1000px', '500px'],
+                    closeBtn: true,
+                    shadeClose: true,
+                    id: 'book_content',
+                    maxmin: true
+                });
+
+            } else if (event === 'sync') {
+                // 同步章节
+                layer.confirm('确定同步章节？', {
+                    btn: ['确定', '按错了']
+                }, function (index, res){
+                    $.ajax({
+                        url: "{:url('chapter.sync')}",
+                        data: "id=" + book.id,
+                        type: "get",
+                        dataType: 'json',
+                        beforeSend: function (){
+                            layer.load(1);
+                        },
+                        complete: function (){
+                            layer.closeAll('loading');
+                        },
+                        success: function (res){
+                            if (res.code === 1){
+                                layer.msg(res.msg, {icon: 1, time: 2000});
+                            } else {
+                                layer.msg(res.msg, {icon: 2});
+                            }
+                        },
+                        error: function (xhr){
+                            layer.msg("请求同步失败", {icon: 2});
+                            console.log(xhr);
+                        }
+                    })
+                });
+            }
+        });
+    });
+</script>
+{include file="Widget/result" /}
+{/block}

@@ -1,0 +1,50 @@
+{extend name="index@Layout/index" /}
+
+{block name="title"}搜索{/block}
+
+{block name="pageStyle"}
+<link rel="stylesheet" href="/static/css/Page/search.css" />
+<script>
+    var search_word_filter = "{:url('api/search_word')}";
+    var search_word_content = "{:url('api/search')}";
+</script>
+<script src="/static/js/page/search.js"></script>
+
+{/block}
+
+{block name="header"}
+<div class="searchBox">
+    <div class="">
+        <a href="/">
+            <div class="toIndex"></div>
+        </a>
+    </div>
+    <div class="searchLabel">
+        <div class="searchImg"></div>
+        <i></i>
+        <input type="text" placeholder="搜索在线书库" />
+    </div>
+    <div class="searchBtn">搜索</div>
+    <div class="recommendSearchBox">
+        <div class="recommendSearchHeader"><i></i>大家都在搜</div>
+        <div class="recommendSearchContent">
+        </div>
+        <div class="changeRecommendSearchContent">
+            <div class="changeWord">
+                <em>换一批</em>
+                <div class="upData"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name="main"}
+<div class="main">
+    <div class="searchContentBox">
+        <div class='PortraitContent'>
+        </div>
+    </div>
+</div>
+{/block}

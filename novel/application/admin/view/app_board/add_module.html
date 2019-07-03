@@ -1,0 +1,72 @@
+{extend name="Layout/index" /}
+
+{block name="title"}[{$board.name}]添加模块{/block}
+
+{block name="main"}
+<div style="margin: 15px;">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>【{$board.name}（{$board.alias}）】中添加模块</legend>
+    </fieldset>
+
+    <form class="layui-form " action="{:url('AppBoard/saveModule')}" method="POST">
+        <div class="layui-form-item">
+            <label class="layui-form-label">选择模块</label>
+            <div class="layui-input-block">
+                <select name="module_id" lay-verify="module_id" lay-search="">
+                    <option value="">请选择模块</option>
+                    {foreach $modules as $item}
+                        <option value="{$item.id}">{$item.name} ( {$item.description} ) </option>
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">显示样式</label>
+            <div class="layui-input-inline">
+                <select name="show_type" lay-verify="show_type" lay-search="">
+                    <option value="">请选择显示样式</option>
+                    {foreach $show_types as $value => $item}
+                    <option value="{$value}">{$item.name}</option>
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-inline">
+                <input type="text" name="sort" class="layui-input" value="0">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <input type="hidden" name="board_id" value="{$board.id}">
+                <button class="layui-btn" lay-submit="">添加</button>
+                <a href="{:url('AppBoard/modules', ['board_id' => $board.id])}" class="layui-btn layui-btn-primary">返回</a>
+            </div>
+        </div>
+    </form>
+</div>
+{/block}
+
+{block name="footer"}
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function() {
+        var form = layui.form;
+
+        //自定义验证规则
+        form.verify({
+            module_id: function(value) {
+                if(value.length < 1) {
+                    return '请选择模块';
+                }
+            },
+            show_type: function(value) {
+                if(value.length < 1) {
+                    return '请选择显示类型，前端以此决定怎么渲染数据';
+                }
+            }
+        });
+    });
+</script>
+{include file="Widget/result" /}
+{/block}

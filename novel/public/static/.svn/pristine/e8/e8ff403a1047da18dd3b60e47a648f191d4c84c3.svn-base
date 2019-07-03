@@ -1,0 +1,182 @@
+.main {
+    /*background-image: linear-gradient(to bottom, #47a9fa, #ffffff);*/
+    /*background: #fff9eb;*/
+    background: #fff;
+}
+
+.catalogBox {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: -100vw;
+    display: none;
+    z-index: 3;
+
+}
+
+.closeCatalog {
+    background: rgba(0, 0, 0, .7);
+    width: 10.15625vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.catalog {
+    width: 89.84375vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #fff;
+    padding: 6.40624vw 4.6875vw;
+    -moz-box-shadow: 2px 2px 5px #444;
+    -webkit-box-shadow: 2px 2px 5px #444;
+    box-shadow: 2px 2px 5px #444;
+}
+
+.bookName {
+    font-size: 4.83125vw;
+    color: #2e96ef;
+}
+
+.chapterInfo {
+    width: 100%;
+    height: 11.25vw;
+    line-height: 11.25vw;
+    border-bottom: 1px solid #d0dfe8;
+    font-size: 2.6578125vw;
+    color: #869096;
+}
+
+.isEnd {
+    float: left;
+    height: 100%;
+    width: auto;
+}
+
+.chapterBtn {
+    float: right;
+    width: 4.375vw;
+    height: 4.375vw;
+    margin-top: 2.53125vw;
+}
+
+.chapterBox {
+    width: 100%;
+    max-height: 135vw;
+    overflow: auto;
+}
+
+.chapterList {
+    width: 100%;
+    height: 11.25vw;
+    line-height: 11.25vw;
+    border-bottom: 1px solid #d0dfe8;
+    font-size: 4.0265625vw;
+    padding-left: 2vw;
+}
+
+.chapterList[data-vip_flag='-1'] {
+    color: #000;
+}
+
+.lock {
+    display: none;
+}
+
+.chapterList[data-vip_flag='1'] {
+    color: #a7a7a8;
+}
+
+.chapterList[data-vip_flag='1'] .lock {
+    width: 4.375vw;
+    height: 4.375vw;
+    float: right;
+    margin-top: 3.59374vw;
+    display: block;
+}
+
+.bookContent {
+    width: 100%;
+    min-height: 100vh;
+}
+
+.chapterBigListHeader {
+    background: #d0dfe8;
+    color: #fff;
+    padding-left: 2vw;
+}
+
+.chapterName {
+    font-size: 9vw;
+    font-weight: bold;
+}
+
+.bookContent {
+    padding: 5vw;
+    line-height: 4vh;
+    margin: 0;
+}
+
+.chapterContent {
+    font-size: 4.5vw;
+}
+
+.footerSidebar {
+    position: fixed;
+    width: 100%;
+    height: 16vw;
+    left: 0;
+    bottom: 0;
+    background: #fff;
+    box-shadow: 0 -2px 10px #aaa;
+    display: none;
+}
+
+.footerSidebar > span {
+    float: left;
+    width: 25%;
+    height: 100%;
+    line-height: 16vw;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.balance {
+    font-size: 2.8984375vw;
+}
+
+.balance > em {
+    color: #45a8fa;
+    font-size: 2.8984375vw;
+}
+
+.buyThisChapter, .buyAllChapter {
+    width: 61.875vw;
+    height: 7.65625vw;
+    line-height: 7.65625vw;
+    margin: 3.59374vw auto 0;
+    border: 1px solid #8c8c8c;
+    border-radius: 0.625vw;
+    padding-left: 2.1875vw;
+    font-size: 2.8984375vw;
+}
+
+.buyThisChapter.cur, .buyAllChapter.cur {
+    background: #c7e5fd;
+    color: #45a8fa;
+}
+
+.subscribeBtn {
+    width: 45.46875vw;
+    height: 10.3125vw;
+    line-height: 10.3125vw;
+    margin: 0 auto;
+    border: 1px solid #9b9b9b;
+    border-radius: 0.46875vw;
+    text-align: center;
+    font-size: 3.865624vw;
+}

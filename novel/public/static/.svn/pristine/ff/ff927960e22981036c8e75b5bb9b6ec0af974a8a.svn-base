@@ -1,0 +1,309 @@
+//定义变量
+var bookName = "";
+
+//init
+$(function () {
+    //获取书本信息
+    getBookData();
+    //获取章节列表
+    getChapterList();
+    //所有
+    event();
+    //检测滚轮到底部
+    // scroll event
+    $(window).scroll(function () {
+        // scroll at bottom
+        if ($(window).scrollTop() + $(window).height() === $(document).height()) {
+            // load data
+            $(".footerSidebar").show();
+        }
+
+        if ($(window).scrollTop() + $(window).height() < $(document).height()) {
+            // load data
+            $(".footerSidebar").hide();
+        }
+    });
+});
+
+//记录路由
+function rememberHistory(chapter_id) {
+    history.pushState({book_id, chapter_id}, "", `?book_id=${book_id}&chapter_id=${chapter_id}`);
+
+}
+
+//获取书本信息
+function getBookData() {
+    $.ajax({
+        type: 'get',
+        jsonType: 'json',
+        url: `/api/book/${book_id}`,
+        success: function (res) {
+            if (res.code === 1) {
+                var data = res.data;
+                bookName = data.name;
+                bookDataRender(data);
+            } else {
+                alert(res.msg);
+            }
+        },
+        error: function (e) {
+            textToast('获取书本信息,请求失败，错误码:01');
+        }
+    })
+}
+
+//书本信息渲染
+function bookDataRender(data) {
+    $(".bookName").html(data.name);
+    $(".isEnd").html(data.status);
+}
+
+//获取章节列表
+function getChapterList() {
+    setLoading();
+    $.ajax({
+        type: 'get',
+        jsonType: 'json',
+        url: getChapterListApi,
+        success: function (res) {
+            removeLoading();
+            if (res.code === 1) {
+                var data = res.data;
+                chapterListRender(data);
+            } else {
+                alert(res.msg);
+            }
+        },
+        error: function (e) {
+            removeLoading();
+            textToast('获取章节列表,请求失败，错误码:01');
+        }
+    })
+}
+
+function chapterListRender(list) {
+    if (list.length === 0) {
+        textToast('该书本还没录入所有章节，请返回首页观看其他书籍');
+        return;
+    }
+    var chapter_id = getUrlParam('chapter_id');
+    if (sessionStorage.getItem('historical')) {
+        var historical = JSON.parse(sessionStorage.getItem('historical'));
+        if (!historical[book_id]) {
+            chapter_id = list[0].chapters[0].id;
+        } else {
+            chapter_id = historical[book_id];
+        }
+    } else {
+        chapter_id = list[0].chapters[0].id;
+    }
+    getChapterContent(chapter_id);
+    $.each(list, function (index, item) {
+        var $dom = $("" +
+            "<div class='chapterBigList' data-id='" + item.id + "'>" +
+            "    <div class='chapterBigListHeader'>" + (item.name === "" ? '正文' : item.name) + "</div>" +
+            "</div>");
+        $dom.appendTo($(".chapterBox"));
+        $.each(item.chapters, function (index2, item2) {
+            var $chaptersDom = $("" +
+                "<div class='chapterList'  data-free_status='" + item2.free_status + "' data-id='" + item2.id + "' data-price='" + item2.price + "' data-vip_flag='" + item2.vip_flag + "'>" +
+                item2.name +
+                "    <img class='lock' src='/static/images/Page/lock.png'/>" +
+                "</div>");
+            $chaptersDom.appendTo($(`.chapterBigList[data-id='${item.id}']`));
+        })
+    })
+}
+
+
+//显示章节盒子
+function showChapter() {
+    $(".catalogBox").show(function () {
+        $(".catalogBox").animate({"left": "0"}, 300);
+    })
+}
+
+//隐藏章节盒子
+function hideChapter() {
+    $(".catalogBox").animate({"left": "-100vw"}, 300, function () {
+        $(".catalogBox").hide();
+    });
+}
+
+//获取章节内容
+function getChapterContent(chapter_id) {
+    setLoading();
+    $.ajax({
+        type: 'get',
+        dataType: "json",
+        url: `/api/book/chapter/${chapter_id}`,
+        success: function (res) {
+            removeLoading();
+            lock = true;
+            if (res.code === 1) {
+                var data = res.data;
+                //储存本地数据库
+                //先看看有没有数据
+                var historical = JSON.parse(sessionStorage.getItem('historical'));
+                var lately = {
+                    bookName: bookName,
+                    chapterName: data.name,
+                    bookUrl: `/book/content.html?book_id=${book_id}`
+                };
+                if (historical) {
+                    historical[book_id] = chapter_id;
+                    historical = JSON.stringify(historical);
+                } else {
+                    historical = `{"${book_id}":"${chapter_id}"}`;
+                }
+                sessionStorage.setItem('historical', historical);
+                sessionStorage.setItem('lately', JSON.stringify(lately));
+                chapterContentRender(data);
+            } else {
+                textToast(res.msg);
+            }
+        },
+        error: function (e) {
+            removeLoading();
+            textToast("获取章节内容,请求失败，错误代码：01");
+        }
+    })
+}
+
+//章节内容渲染
+function chapterContentRender(data) {
+    if (data.next) {
+        next_id = data.next.id;
+    }
+    if (data.last) {
+        last_id = data.last.id;
+    }
+    if (!data.is_taken) {
+        subscribeBtnRender({
+            price: data.price,
+            chapter_id: data.id
+        });
+    }
+    $('html , body').scrollTop(0);
+    $(".chapterName").html(data.name);
+    $(".chapterContent").html(data.content);
+    hideChapter();
+}
+
+//付费章节内订阅按钮
+function subscribeBtnRender(params) {
+    $(".subscribeBtn").remove();
+    var $subscribe = $("<div class='subscribeBtn' data-chapter_id='" + params.chapter_id + "' data-price='" + params.price + "'>+订阅</div>");
+    $subscribe.appendTo($(".bookContent"));
+}
+
+//插入购买盒子
+function setBuyBox(data) {
+    getUserBalance(function (res) {
+        var $toastContent =
+            "<div class='balance'>" +
+            "   我的余额：<em>" + res + "</em>书币" +
+            "</div>" +
+            "<div class='buyThisChapter chapterType' data-type='one'>" +
+            "   购买本章：<em>" + data.price + "</em>书币" +
+            "</div>";
+        // "<div class='buyAllChapter chapterType' data-type='all'>" +
+        // "   全部章节购买：<em>123413</em>书币" +
+        // "</div>";
+
+        var params = {
+            msg: $toastContent,
+            type: 'fun',
+            time: '',
+            btn1name: '去充值',
+            btn2name: '确认购买',
+            fun1: function () {
+                location.href = paymentUrl;
+            },
+            fun2: function () {
+                subscribe(data.chapter_id);
+            }
+        };
+        toast(params);
+    });
+}
+
+//订阅
+function subscribe(chapter_id) {
+    $.ajax({
+        type: 'post',
+        dataType: 'json',
+        url: '/api/book/chapter/take',
+        data: {chapter_id, app_type: system},
+        success: function (res) {
+            if (res.code === 1) {
+                textToast("订阅成功");
+                getChapterContent(chapter_id);
+            } else {
+                textToast(res.msg);
+
+            }
+        },
+        error: function (e) {
+            textToast('请求失败，错误代码：01');
+        }
+    });
+}
+
+//事件
+function event() {
+    //打开工具栏
+    $html.on('tap', '.bookContent', function () {
+        $(".footerSidebar").toggle();
+    });
+
+    //隐藏目录
+    $html.on('tap', ".closeCatalog", function () {
+        hideChapter();
+    });
+
+    //打开目录
+    $html.on("tap", ".openCatalogBox", function () {
+        showChapter();
+    });
+
+    // 返回书籍页
+    $html.on('tap', ".back", function () {
+        location.href = `/book/${book_id}`;
+    });
+
+    // 上一章
+    $html.on('tap', ".lastChapter", function () {
+        getChapterContent(last_id);
+    });
+
+    // 下一章
+    $html.on('tap', ".nextChapter", function () {
+        getChapterContent(next_id);
+    });
+
+    //获取该章节的内容
+    $html.on("tap", '.chapterList', function () {
+        if (!lock) return;
+        lock = false;
+        var chapter_id = $(this).data("id");
+        getChapterContent(chapter_id);
+    });
+
+    //充值类型
+    $html.on('tap', '.chapterType', function () {
+        $(this).addClass('cur').siblings().removeClass('cur');
+        buy_type = $(this).data('type');
+    });
+
+    //内容订阅按钮
+    $html.on('tap', '.subscribeBtn', function () {
+        var params = {
+            chapter_id: $(this).data('chapter_id'),
+            price: $(this).data('price')
+        };
+        setBuyBox(params)
+    })
+}
+
+

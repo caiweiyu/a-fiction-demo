@@ -1,0 +1,108 @@
+{extend name="index@Layout/index" /}
+
+{block name="title"}{/block}
+
+{block name="pageStyle"}
+<link rel="stylesheet" href="/static/css/Page/board.css" />
+<script>
+    var index_url = "{:url('app.home')}";
+    var get_book_type_url = "{:url('api/book_type')}"
+    var get_book_data_url_classification_man = "{:url('api/app/classification_man')}";
+    var get_book_data_url_classification_woman = "{:url('api/app/classification_woman')}";
+    var get_book_data_url_rank_man = "{:url('api/app/rank_man')}";
+    var get_book_data_url_rank_woman = "{:url('api/app/rank_woman')}";
+    var get_book_data_url_end_man = "{:url('api/app/end_man')}";
+    var get_book_data_url_end_woman = "{:url('api/app/end_woman')}";
+    var get_book_data_url_new_man = "{:url('api/app/new_man')}";
+    var get_book_data_url_new_woman = "{:url('api/app/new_woman')}";
+    var get_search_adree = '/search';
+    var get_category_book_api = "{:url('api/book_filter')}";
+</script>
+<script src="/static/js/page/board.js"></script>
+<script src="/static/js/jquery_md5.js"></script>
+{/block}
+
+{block name="header"}
+<div class="searchBox">
+    <div class="toIndex">
+        <a href="{:url('app.home')}">
+            <img src="/static/images/Page/toIndex.png">
+            首页
+        </a>
+    </div>
+    <div class="searchTitle">书本详情</div>
+    <div class="rightMore">
+        <span class="searchBtn"><a href='/search'></a></span>
+        <span class="lookMoreMeun"></span>
+    </div>
+</div>
+<!--菜单下拉展开-->
+<div class="setting_bottom_box">
+    <div class="settingMenuBox" style="display: none;">
+        <a href="javascript:void(0)" data-img='index_'>
+            <div class="index_imgmark"></div>
+            <span>首页</span>
+        </a>
+        <a href="javascript:void(0)" data-img='fl_'>
+            <div class="fl_imgmark"></div>
+            <span>分类</span>
+        </a>
+        <a href="javascript:void(0)" data-img='ph_'>
+            <div class="ph_imgmark"></div>
+            <span>排行</span>
+        </a>
+        <a href="javascript:void(0)" data-img='search_'>
+            <div class="search_imgmark"></div>
+            <span>搜索</span>
+        </a>
+        <a href="javascript:void(0)" data-img='allbook_'>
+            <div class="allbook_imgmark"></div>
+            <span>全本</span>
+        </a>
+        <a href="javascript:void(0)" data-img='newbook_'>
+            <div class="newbook_imgmark"></div>
+            <span>新书</span>
+        </a>
+        <a href="javascript:void(0)" data-img='me_'>
+            <div class="me_imgmark"></div>
+            <span>我的</span>
+        </a>
+    </div>
+    <div class="myshefbook_box" style="display: none;">
+        <div class="toMySelfBook">
+            我的书架
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="main"}
+<div class="main">
+    <div class="navigatorCont">
+    </div>
+
+    <div class="continueReading">
+    </div>
+
+    <div class="bookBlockBox">
+    </div>
+
+</div>
+{/block}
+
+{block name="footer"}
+<div class="footer">
+    <a data-page="bookShop" href="{:url('bookshelf')}">
+        <div class="img"></div>
+        书架
+    </a>
+    <a data-page="index" href="{:url('app.home')}">
+        <div class="img"></div>
+        首页
+    </a>
+    <a data-page="mine" href="{:url('user.home')}">
+        <div class="img"></div>
+        我的
+    </a>
+</div>
+{/block}

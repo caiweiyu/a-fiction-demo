@@ -1,0 +1,154 @@
+
+.balanceBox {
+    width: 100%;
+    height: 8.75vw;
+    line-height: 7.5vw;
+    padding: 0 2.5vw;
+    padding-top: 1.25vw;
+
+    background: #fff;
+}
+
+.balanceText {
+    float: left;
+    height: 100%;
+    font-size: 2.8984375vw;
+    color: #000;
+}
+
+.balance {
+    height: 100%;
+    float: right;
+    font-size: 2.415625vw;
+    color: #5c5b5b;
+}
+
+.balance > em {
+    font-size: 3.221875vw;
+    color: #5bb2fb;
+}
+
+.rechargeBox {
+    width: 100%;
+    height: 57.625vw;
+    background: #fff;
+}
+
+.rechargePosition {
+    width: 100%;
+    min-height: 42.8125vw;
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 3.6875vw;
+}
+
+.rechargePosition > .position {
+    width: 27.03125vw;
+    height: 16.5625vw;
+    background: #ecf3f9;
+    border-radius: 0.46875vw;
+    border: 1px solid #c2c3c4;
+    flex: 0 0 auto;
+    text-align: center;
+    margin: 0 3.151042vw;
+}
+
+.position > span {
+    display: block;
+}
+
+.position.cur {
+    background: #c5e4fd;
+}
+
+.cur > .positionMoney, .cur > .positionName {
+    color: #008bfe;
+}
+
+.positionMoney {
+    font-size: 5.6374vw;
+    color: #000;
+    margin-top: 4vw;
+    line-height: 5vw;
+}
+
+.positionMoney > em {
+    font-weight: bold;
+}
+
+.positionName {
+    font-size: 2.415625vw;
+    color: #c2c3c4;
+}
+
+.anyAmount {
+    width: 100%;
+    height: 13.75vw;
+}
+
+.anyAmount > input.cur {
+    background: #c5e4fd;
+}
+
+.anyAmount > input {
+    width: 93.59375vw;
+    height: 9.6875vw;
+    margin: 0 auto;
+    margin-top: 0.9375vw;
+    box-sizing: border-box;
+    border: 1px solid #a9bece;
+    border-radius: 0.78125vw;
+    background: #ecf3f9;
+    display: block;
+    padding-left: 2vw;
+}
+
+.paymentMethodBox {
+    width: 100%;
+    height: 20.15625vw;
+    padding: 0 3.125vw;
+    background: #fff;
+    margin-top: 0.78125vw;
+}
+
+.paymentMethod {
+    width: 100%;
+    height: 50%;
+}
+
+.paymentMethod:nth-child(1) {
+    border: 1px solid #fbfbfb;
+}
+
+.methodSystem {
+    height: 100%;
+    float: left;
+    width: auto;
+    line-height: 10.078125vw;
+    margin-left: 1.875vw;
+}
+
+.methodIcon {
+    float: left;
+    width: 6.71875vw;
+    height: 6.71875vw;
+    margin-top: 1.71875vw;
+}
+
+.methodChecked {
+    float: right;
+    width: 3.90625vw;
+    height: 3.90625vw;
+    margin-top: 3.28125vw;
+}
+
+.paymentBtn {
+    width: 93.28125vw;
+    height: 9.6875vw;
+    line-height: 9.6875vw;
+    margin: 4.53125vw auto;
+    border-radius: 0.78125vw;
+    background: #45a8fa;
+    color: #fff;
+    text-align: center;
+}

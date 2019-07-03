@@ -1,0 +1,44 @@
+//init
+$(function () {
+    //根据url路径，然后根据路径判断目前的页面
+    setInitInfo();
+});
+
+function setInitInfo() {
+    var pageType = window.document.location.pathname;
+    console.log(pageType);
+    var getBookType;
+    switch (pageType) {
+        case "/app/rank":
+            changeTitle("排行");
+            getBookType = "排行";
+
+            break;
+        case "/app/classification":
+            changeTitle("分类");
+            getBookType = "分类";
+
+            break;
+        case "/app/new":
+            changeTitle("新书");
+            getBookType = "新书";
+
+            break;
+        case "/app/end":
+            changeTitle("全本");
+            getBookType = "全本";
+
+            break;
+    }
+    $(".searchTitle").html(getBookType);
+    getBookData(getBookType);
+}
+//切换tap添加颜色
+function tapAddColor(elem,origin){
+}
+
+//改变title
+function changeTitle(msg) {
+    document.title = msg;
+}
+

@@ -1,0 +1,76 @@
+{extend name="Layout/index" /}
+
+{block name="title"}添加模块{/block}
+
+{block name="main"}
+<div style="margin: 15px;">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>添加模块</legend>
+    </fieldset>
+
+    <form class="layui-form " action="{:url('AppModule/save')}" method="POST">
+        <div class="layui-form-item">
+            <label class="layui-form-label">模块名</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" lay-verify="name" autocomplete="off" class="layui-input" placeholder="模块名">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">模块介绍</label>
+            <div class="layui-input-block">
+                <textarea name="description" cols="30" rows="10" class="layui-textarea" placeholder="内容描述/使用描述"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">数据类型</label>
+            <div class="layui-input-inline">
+                <select name="data_type" lay-verify="data_type" class="layui-select" title="数据类型">
+                    {foreach $data_type as $value => $name}
+                        <option value="{$value}">{$name}</option>
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">数据内容</label>
+            <div class="layui-input-block" id="data_value_box">
+                <textarea cols="30" rows="10" class="layui-textarea" title="数据内容" name="data_value" lay-verify="data_value"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="">新增</button>
+                <a href="{:url('AppModule/index')}" class="layui-btn layui-btn-primary">返回</a>
+            </div>
+        </div>
+    </form>
+</div>
+{/block}
+
+{block name="footer"}
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function() {
+        var form = layui.form;
+
+        //自定义验证规则
+        form.verify({
+            name: function(value) {
+                if(value.length < 1) {
+                    return '模块名不能为空';
+                }
+            },
+            data_type: function(value) {
+                if(value.length < 1) {
+                    return '请选择数据类型';
+                }
+            },
+            data_value: function(value) {
+                if(value.length < 1) {
+                    return '数据内容不能为空';
+                }
+            }
+        });
+    });
+</script>
+{include file="Widget/result" /}
+{/block}

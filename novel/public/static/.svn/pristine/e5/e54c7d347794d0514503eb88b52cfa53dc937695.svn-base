@@ -1,0 +1,135 @@
+input[type="text"], input[type="button"], input[type="submit"], input[type="reset"], select, textarea, button {
+    -webkit-appearance: none;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 100px white inset;
+}
+
+.main {
+    background-image: linear-gradient(to bottom, #47a9fa, #ffffff);
+}
+
+.bookImgBox {
+    width: 100%;
+    height: 53.90625vw;
+    padding: 1.25vw 0;
+}
+
+.bookImgBox > .bookImg {
+    display: block;
+    height: 100%;
+    width: auto;
+    margin: 0 auto;
+}
+
+.bookBtnBox {
+    width: 100%;
+    height: 9.53125vw;
+    padding: 2.1875vw 0;
+}
+
+.bookBtn {
+    height: 100%;
+    width: 47.34375vw;
+    margin: 0 auto;
+}
+
+.bookBtn > a {
+    float: left;
+    width: 20.46875vw;
+    height: 5.15625vw;
+    line-height: 5.15625vw;
+    text-align: center;
+    color: #fff;
+    font-size: 3.18125vw;
+    border-radius: 0.4970703125vw;
+    margin: 0 1.5625vw;
+}
+
+.readingBook {
+    background: #ffa02f;
+}
+
+.joinInBookshelf {
+    background: #46a9fa;
+}
+
+.bookTips {
+    width: 100%;
+    height: 4.6875vw;
+    padding: 0.3125vw 0;
+    text-align: center;
+}
+
+.bookTips > span {
+    display: inline-block;
+    height: 4.0625vw;
+    line-height: 4.0625vw;
+    width: auto;
+    padding: 0 1.9375vw;
+    background: #a7c0d5;
+    color: #748797;
+    border-radius: 4.0625vw;
+    margin: 0 0.625vw;
+    font-size: 2.473437vw;
+}
+
+.bookName {
+    width: 100%;
+    height: 10.9375vw;
+    line-height: 10.9375vw;
+    color: #000;
+    font-size: 5.7734375vw;
+    text-align: center;
+}
+
+.bookAuthor {
+    width: 100%;
+    height: 6.25vw;
+    line-height: 6.25vw;
+    color: #404040;
+    font-size: 3.290625vw;
+    text-align: center;
+}
+
+.bookUpdate {
+    display: block;
+    position: relative;
+    width: 94.6875vw;
+    margin: 0 auto;
+    height: 7.96874vw;
+    border: 0.3125vw solid #8b9397;
+    font-size: 2.81874vw;
+    border-radius: 1.25vw;
+    background: #d0f3ff;
+    padding-left: 1.25vw;
+    box-sizing: border-box;
+    line-height: 7.96874vw;
+}
+
+.intro {
+    width: 94.84375vw;
+    height: auto;
+    margin: 0 auto;
+}
+
+.intro > p {
+    width: 100%;
+    height: 7.8125vw;
+    line-height: 7.8125vw;
+    text-align: center;
+    font-size: 4.5953125vw;
+}
+
+.introContent {
+    width: 100%;
+    min-height: 16.40625vw;
+    background: #fff;
+    border-radius: 1.5625vw;
+    border: 1px solid #d7d7d7;
+    color: #7a7a7a;
+    line-height: 4.53125vw;
+    font-size: 2.0125vw;
+    padding: 1.5625vw 1.5625vw 5.9375vw 1.5625vw;
+}

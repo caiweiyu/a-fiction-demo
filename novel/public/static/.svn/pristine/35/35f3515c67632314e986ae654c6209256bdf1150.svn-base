@@ -1,0 +1,290 @@
+/*头部*/
+.main {
+    margin-top: 11vw;
+}
+
+.searchBox {
+    width: 100%;
+    height: 10.78125vw;
+    background: #333333;
+    padding: 1.625vw 2.96875vw;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3;
+}
+.setting_bottom_box{
+    position: absolute;
+    width: 100vw;
+    background: #fff;
+    z-index:100;
+}
+.settingMenuBox{
+    position: relative;
+    top:0;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 1024px;
+    width: 100vw;
+    background: #fff;
+    box-sizing: border-box;
+    display:flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding-bottom:5vw;
+}
+.settingMenuBox>a{
+    height: 100%;
+    width: 25vw;
+    display: inline-block;
+    margin-top: 5vw;
+}
+.settingMenuBox>a>div{
+    width:6.8vw;
+    height:6.8vw;
+    margin:0 auto;
+}
+.settingMenuBox>a>span{
+    display: block;
+    margin:2vw auto 0;
+    text-align: center;
+    color:#000;
+}
+.myshefbook_box{
+    text-align: center;
+    border-top: .3vw solid #999;
+    margin: 0 auto;
+    width: 80vw;
+}
+.toMySelfBook{
+    display: inline-block;
+    border-radius: 5vw;
+    border: .3vw solid #000;
+    width: 40.15625vw;
+    height: 10vw;
+    line-height: 10vw;
+    margin-top: 4vw;
+    background: #000;
+    color: #fff;
+}
+.fl_imgmark{
+    background: url(/static/images/Page/fl_.png) no-repeat center center;
+    background-size: 100% 100%;
+    border-radius: 50%;
+}
+.ph_imgmark{
+    background: url(/static/images/Page/ph_.png) no-repeat center center;
+    background-size: 100% 100%;
+    border-radius: 50%;
+}
+.search_imgmark{
+    background: url(/static/images/Page/search_.png) no-repeat center center;
+    background-size: 100% 100%;
+    border-radius: 50%;
+}
+.allbook_imgmark{
+    background: url(/static/images/Page/allbook_.png) no-repeat center center;
+    background-size: 100% 100%;
+    border-radius: 50%;
+}
+.newbook_imgmark{
+    background: url(/static/images/Page/newbook_.png) no-repeat center center;
+    background-size: 100% 100%;
+    border-radius: 50%;
+}
+.index_imgmark{
+    background: url(/static/images/Page/index_.png) no-repeat center center;
+    background-size: 100% 100%;
+    border-radius: 50%;
+}
+.me_imgmark{
+    background: url(/static/images/Page/me_.png) no-repeat center center;
+    background-size: 100% 100%;
+    border-radius: 50%;
+}
+.toIndex {
+    float: left;
+    height: 100%;
+    line-height: 7.4375vw;
+    font-size: 3.5vw;
+}
+
+.toIndex>a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+}
+
+.toIndex>a>img {
+    height: 50%;
+}
+
+.rightMore{
+    float: right;
+    display: flex;
+    justify-content: start;
+    width: 13vw;
+}
+.searchBtn {
+    width: 5.1875vw;
+    height: 5.1875vw;
+    background: url(/static/images/Page/bookSearch.png) no-repeat center center;
+    background-size: 100% 100%;
+    margin-top: 1.325vw;
+    margin-right: 1.78125vw;
+}
+.lookMoreMeun{
+    display:inline-block;
+    width: 5.1875vw;
+    height: 5.1875vw;
+    background: url(/static/images/Page/anyMore.png) no-repeat center center;
+    background-size: 100% 100%;
+    margin-top: 1.225vw;
+    margin-right: 1vw;
+    z-index:1000;
+}
+.searchBtn>a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.searchTitle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 3.5vw;
+}
+
+/*导航栏分类样式*/
+.navigatorCont {
+    padding: 2vw;
+    width: 100%;
+    background: #fff;
+}
+
+.classifyCont,
+.book_status {
+    font-size: 3.521875vw;
+    font-weight: bold;
+    color: #1f1f1f;
+    padding: 1vw;
+    min-height: 10vw;
+}
+
+.classifyCont_title {
+    width: 17vw;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.classifyCont_content {
+    width: 75vw;
+    display: inline-block;
+}
+
+.classifyCont_content>div {
+    display: inline-block;
+    padding: 0px 2vw;
+    margin: 0 2vw;
+    margin-bottom: 2vw;
+    border-radius: 1vw;
+}
+
+.classifyCont_content>.cur {
+    background: #333333;
+    color: #fff;
+}
+
+.btn_reader {
+    position: absolute;
+    right: 5.9375vw;
+    width: 19.40625vw;
+    border: .5vw solid #c1e2fd;
+    border-radius: 1vw;
+    height: 5.3125vw;
+    line-height: 5.3125vw;
+    text-align: center;
+    display: block;
+    color: #45a8fa;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+.overLook {
+    font-size: 3.3984375vw;
+    color: #8c8c8c;
+    position: absolute;
+    bottom: -12vw;
+    width: 100% !important;
+    text-align: center;
+    height: 12vw;
+    line-height: 9vw;
+    border-top: .35vw dashed #d9d9d9;
+    background: #f6f5f5;
+}
+
+
+.imgSrc_t {
+    background: url(/static/images/Page/book/book01.png);
+    background-size: 100% 100%;
+    height: 31vw;
+    width: 26.09375vw;
+    box-shadow: 3px 2px #ddd;
+}
+
+.btn_reader>span {
+    font-size: 3.18125vw;
+}
+
+.pandect_zone {
+    width: 100%;
+}
+
+.close_zone {
+    min-height: 51.87500000000001vw;
+}
+
+.close_zone>p {
+    font-size: 4.0265625vw;
+    color: #5db2fa;
+    font-weight: bold;
+    margin-left: 4vw;
+    line-height: 12vw;
+}
+
+.close_zone_p {
+    color: #171717 !important;
+}
+
+.close_zone>div {
+    display: flex;
+    justify-content: space-around;
+}
+
+.close_zone>div>div>p {
+    text-align: center;
+    font-size: 3.1671875000000003vw;
+    color: #646464;
+    font-weight: bold;
+    margin-top: 1vw;
+}
+
+.continueReading {
+    background: #fff;
+    margin-top: 1vh;
+}
+
+.screen_null {
+    text-align: center;
+    height: 100vw;
+    line-height: 100vw;
+}
+
+.blockHeader {
+    /*border-bottom: 1px solid #ffa02f;*/
+}

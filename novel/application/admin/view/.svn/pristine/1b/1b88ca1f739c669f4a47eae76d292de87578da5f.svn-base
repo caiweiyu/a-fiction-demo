@@ -1,0 +1,32 @@
+{extend name="Layout/index" /}
+
+{block name="title"}《{$book.name}》图书信息{/block}
+
+{block name="main"}
+<div style="margin: 15px;">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>《{$book.name}》</legend>
+    </fieldset>
+
+    <form class="layui-form">
+        <input type="hidden" name="id" value="{$book.id}" readonly>
+        <div class="layui-form-item">
+            <label class="layui-form-label">书名</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" lay-verify="name" autocomplete="off" class="layui-input" placeholder="书名" value="{$book.name}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">介绍</label>
+            <div class="layui-input-block">
+                <textarea name="intro" cols="30" rows="10" class="layui-textarea" placeholder="内容描述/使用描述">{$book.intro}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <a href="{:url('Book/index')}" class="layui-btn layui-btn-primary">返回图书管理</a>
+            </div>
+        </div>
+    </form>
+</div>
+{/block}

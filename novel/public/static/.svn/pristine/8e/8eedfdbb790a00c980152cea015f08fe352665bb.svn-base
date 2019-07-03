@@ -1,0 +1,40 @@
+/**
+ * 所有Api
+ *
+ **/
+
+//微信公众号支付
+//公众号支付参数获取
+function getPaymentData(params) {
+    $.ajax({
+        type: 'get',
+        url: getPaymentDataApi,
+        dataType: 'json',
+        data: params,
+        success: function (res) {
+            if (res.code === 1) {
+                onBridgeReady(res.data);
+            } else {
+                textToast(res.msg);
+            }
+        },
+        error: function (e) {
+            alert("错误");
+        }
+    });
+
+// 公众号支付
+    function onBridgeReady(data) {
+        try {
+            WeixinJSBridge.invoke('getBrandWCPayRequest', data, function (res) {
+                if (res.err_msg === "get_brand_wcpay_request:ok") {
+                    textToast("恭喜你已成功支付");
+                    // 使用以上方式判断前端返回,微信团队郑重提示：
+                    //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                }
+            });
+        } catch (e) {
+            alert(e);
+        }
+    }
+}

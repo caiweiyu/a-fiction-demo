@@ -1,0 +1,160 @@
+//init
+$(function () {
+    //渲染初始内容
+    getBookshelfData();
+    //事件
+    event();
+});
+//定义变量
+var num_init = {};
+var data_all;
+var bookName = {};
+//请求我的书架内容。
+function getBookshelfData() {
+    $.ajax({
+        type: 'GET',
+        dataType: 'json',
+        url: bookshelf_api_url,
+        success: function (res) {
+            // console.log(JSON.stringify(res.data));
+            if (res.code === 1) {
+                var data = res.data;
+                bookshelf_data = data;
+                data_all = data.bookshelf;
+                myBookshelfRender(data.bookshelf);
+                //渲染热门小说
+                blockRender(data.bookshelf_block);
+            } else {
+                textToast(res.msg);
+
+            }
+        },
+        error: function (e) {
+            textToast('请求书架内容失败，错误代码：01');
+        }
+    })
+}
+
+//书架删除
+function deleteBookshelf(params) {
+    $.ajax({
+        type: 'DELETE',
+        dataType: 'json',
+        url: bookshelf_api_url,
+        data: params,
+        success: function (res) {
+            if (res.code === 1) {
+                textToast('删除成功');
+                $(".myBookList[data-id='" + params.id + "']").remove();
+            } else {
+                textToast(res.msg);
+            }
+        },
+        error: function (e) {
+            textToast('从书架删除失败，错误代码：01');
+        }
+    })
+}
+
+//我的书架渲染
+function myBookshelfRender(list) {
+    console.log(list)
+    $(".myBook").html("");
+    $('.manageBox').show();
+    $.each(list, function (index, item) {
+        var index = index + 1;
+        var recomMend = item.is_top ? "<div class='recomMend'></div>" : "";
+        if (item.book !== null) {
+            if (item.is_top == true) {
+                var $dom = $("" +
+                    "<div class='myBookList' data-id='" + item.id + "'>" +
+                    "   <a href='/book/" + item.book.id + "'>" +
+                    "       <img onerror='imgError(" + `"${item.name}"` + ",this)' class='myBookImg' src='" + item.book.cover_url + "'/>" +
+                    "       <div class='myBookContent'>" +
+                    "           <p class='myBookName'>" + item.book.name + "</p>" +
+                    "           <p class='myBookNewBook'>" + ' 最新章节： ' + "</p>" +
+                    "           <p class='myBookNumNow'>" + item.book.new_chapter_id + '...' + "</p>" +
+                    "       </div>" +
+                    "   </a>" +
+                    recomMend +
+                    "   <a href='/book/" + item.book.id + "' class='itemRead'>" +
+                    "       <div>点击阅读</div>" +
+                    "   </a>" +
+                    "   <div class='myBookDelete' data-id='" + item.id + "' style='display:none;'>删除</div>" +
+                    "</div>");
+                $dom.appendTo($(".myBook"));
+            }
+        }
+    });
+}
+//最近阅读渲染
+function RecentlyRead() {
+    $(".myBook").html("");
+    $('.manageBox').hide();
+    var historical = getSessionStorage('historical');
+    if (historical != null && historical) {
+        for (var index in historical) {
+            var $dom = $("" +
+                "<div class='myBookList' data-id='" + historical[index].book_url + "'>" +
+                "   <a href='" + historical[index].book_url + "'>" +
+                "       <img onerror='imgError(" + `"${item.name}"` + ",this)' class='myBookImg' src='" + historical[index].book_pic_url + "'/>" +
+                "       <div class='myBookContent'>" +
+                "           <p class='myBookName'>" + historical[index].book_name + "</p>" +
+                "           <p class='myBookNewBook'>" + ' 最新章节： ' + "</p>" +
+                "           <p class='myBookNumNow'>" + historical[index].chapter_id + '...' + "</p>" +
+                "       </div>" +
+                "   </a>" +
+                "   <a href='" + historical[index].book_url + "' class='itemRead'>" +
+                "       <div>点击阅读</div>" +
+                "   </a>" +
+                "</div>");
+            $dom.appendTo($('.myBook'));
+        }
+    }
+}
+
+
+//事件
+function event() {
+    //显示删除按钮
+    $html.on('tap', '.manageBox', function (item) {
+        $('.myBookDelete').animate({}, function () {
+            //可添加小动画
+        }).fadeToggle();
+    })
+    //删除书本
+    $html.on('tap', '.myBookDelete', function () {
+        var id = $(this).data('id');
+        var params = {
+            id,
+        };
+        deleteBookshelf(params);
+    });
+    //我的书架
+    $html.on('tap', '.bookRackCur1', function () {
+        //渲染我的书架
+        $(this).addClass('bookRackCur').parent('div').siblings('div').children('span').removeClass('bookRackCur');
+        myBookshelfRender(data_all);
+    })
+    //最近阅读
+    $html.on('tap', '.Recently_Read', function () {
+        $(this).addClass('bookRackCur').parent('div').siblings('div').children('span').removeClass('bookRackCur');
+        RecentlyRead();
+    })
+
+    //板块显示更多
+    $("html").on("tap", ".readingMore", function () {
+        var book_type = $(this).data("book_type");
+        var show_type = $(this).data("show_type");
+
+        $.each(bookBlockList, function (index, item) {
+            if (item.show_type === show_type && item.name === book_type) {
+                num_init[book_type] += 3;
+                if (num_init[book_type] > item.data.length) {
+                    num_init[book_type] = item.data.length + 1
+                }
+                bookListRender(item.data, book_type, show_type)
+            }
+        });
+    });
+}

@@ -1,0 +1,30 @@
+//init
+$(function () {
+    getVipData();
+});
+
+function getVipData() {
+    $.ajax({
+        type: 'get',
+        dataType: 'json',
+        url: getVipDataApi,
+        success: function (res) {
+            if (res.code === 1) {
+                vipDataRender(res.data);
+            } else {
+                textToast(res.msg);
+            }
+        },
+        error: function (e) {
+            textToast("请求vip数据失败,错误代码：01");
+        }
+
+    })
+}
+
+function vipDataRender(data) {
+    $(".ownedBookCoin").find("em").html(data.balance);
+    // $(".ownedFeelCoin").find("em").html();
+    // $(".allConsume").find("em").html();
+    // $(".readingVoucher").find("em").html();
+}

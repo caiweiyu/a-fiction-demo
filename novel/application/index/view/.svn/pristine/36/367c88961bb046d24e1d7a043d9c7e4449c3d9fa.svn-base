@@ -1,0 +1,123 @@
+{extend name="index@Layout/index" /}
+
+{block name="title"}
+{/block}
+
+{block name="pageStyle"}
+<link rel="stylesheet" href="/static/css/Page/bookContent.css"/>
+<script>
+    var book_id = getUrlParam('book_id');
+    var get_chapter_list_api = `/api/book/chapters/${book_id}`;
+    var bookId = '{$book_id}';
+    var pushIn_bookshelf_api = '{:url("/api/bookshelf")}';
+    var $html = $("html");
+    var lock = true;
+    var last_id;
+    var next_id;
+    var buy_type;
+    var payment_url = "{:url('payment')}";
+</script>
+<script src="/static/js/page/bookContent.js"></script>
+{/block}
+{block name="header"}
+<!--章节名-->
+<div class="header_top fixed_top">
+    <div class="chapter_title"></div>
+    <div class="right_position_img">
+        <div class="chapter_img joinInBookshelf"></div>
+        <div class="menu_img"></div>
+        <!--下拉菜单-->   
+        <div class="menu_content" style="display:none">
+            <i class="top_triangle"></i>
+            <div class="to_home">
+                <span></span>
+                首页
+            </div>
+            <div class="to_book_details">
+                <span></span>
+                书籍详情页
+            </div>
+            <div class="to_my_bookshelf">
+                <span></span>
+                我的书架
+            </div>
+            <div class="setting_Font">
+                <span></span>
+                设置
+            </div>
+        </div>
+        <!--设置字体跟背景模式-->
+        <div class="setting_box">
+            <div>
+                <p>字体大小</p>
+                <div class="setting_font_box">
+                    <span class="setting_font_small">小</span>
+                    <span class="setting_font_middle">中</span>
+                    <span class="setting_font_large">大</span>
+                </div>
+            </div>
+            <div>
+                <p>背景颜色</p>
+                <div class="setting_font_box1">
+                    <span class="setting_bg_day">白天</span>
+                    <span class="setting_bg_night">夜晚</span>
+                    <span class="setting_bg_green">护眼</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+</div>
+<!-- <div class="chapter_bookrack joinInBookshelf">
+    加入书架
+</div> -->
+{/block}
+{block name="main"}
+<div class="main">
+    <div class="catalogBox">
+        <div class="catalog">
+            <div class="chapterInfo">
+                <span class="isEnd"></span>
+                <div class="chapterBtn"></div>
+            </div>
+            <div class="chapterBox">
+            </div>
+        </div>
+        <div class="closeCatalog"></div>
+    </div>
+    <div class="bookContent">
+        <h5 class="chapter_name"></h5>
+        <div class="chapterContent"></div>
+        <div class="reserved_bd">
+            <!--随机广告链接-->
+            <p><a>【红尘】我出生在胭脂巷，母亲是十里八街...</a></p>
+            <p><a>【萌宝】给小萌娃献了次血，他爸爸就缠着...</a></p>
+            <p><a>【占卜】谁才是与你携手一生的人？准！</a></p>
+        </div>
+        <div class="buyBox">
+
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="footer"}
+<div class="footerSidebar">
+    <div class="lastChapter" type="button">
+        <span>
+            <span></span>
+            上章</span>
+    </div>
+    <div class="openCatalogBox">
+        <span>目录</span>
+    </div>
+    <div class="nextChapter" type="button">
+        <span>        
+            阅读&nbsp;下一章
+            <span></span>
+        </span>
+    </div>
+    <!-- <span class="back">返回书籍页</span> -->
+</div>
+{/block}

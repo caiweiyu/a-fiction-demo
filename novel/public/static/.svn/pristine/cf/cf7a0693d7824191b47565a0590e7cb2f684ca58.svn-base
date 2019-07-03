@@ -1,0 +1,112 @@
+html,
+body {
+    position: relative;
+    max-width: 1024px;
+    width: 100vw;
+    margin: 0 auto;
+    min-height: 100vh;
+    font-size: 12px;
+}
+
+input {
+    border: 0;
+    outline: none;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+em {
+    font-style: normal;
+}
+
+div {
+    position: relative;
+    box-sizing: border-box;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 1024px;
+    width: 100vw;
+    margin: 0 auto;
+    background: #fff;
+    border-top: 1px solid #c8c8c8;
+    box-sizing: border-box;
+}
+
+.main {
+    background: #f6f5f5;
+    min-height: 100vh;
+    /*padding-bottom: 15vw;*/
+}
+
+.readingMore {
+    display: none;
+}
+
+@media screen and (max-width: 1024px) {
+
+    html,
+    body {
+        font-size: 3.325vw;
+        /* padding-bottom: 14.53125vw; */
+    }
+
+    .footer {
+        height: 14.53125vw;
+    }
+
+    .footer>a {
+        float: left;
+        height: 100%;
+        width: 15.3125vw;
+        margin: 0 9.010416666666666vw;
+        text-align: center;
+        color: #646464;
+        padding-top: 2.5vw;
+    }
+
+    .footer>a>.img,
+    .header>a>.img {
+        display: block;
+        margin: 0 auto;
+        width: 6.8vw;
+        height: 6.5vw;
+    }
+
+    .footer>a[data-page=mine]>.img {
+        background: url("/static/images/Page/mine.png");
+        background-size: 100% 100%;
+    }
+
+    .footer>.cur[data-page=mine]>.img {
+        background: url("/static/images/Page/mine_cur.png");
+        background-size: 100% 100%;
+    }
+
+    .footer>a[data-page=index]>.img {
+        background: url("/static/images/Page/index.png");
+        background-size: 100% 100%;
+    }
+
+    .footer>.cur[data-page=index]>.img {
+        background: url("/static/images/Page/index_cur.png");
+        background-size: 100% 100%;
+    }
+
+    .footer>a[data-page=bookShop]>.img {
+        background: url("/static/images/Page/bookShop.png");
+        background-size: 100% 100%;
+    }
+
+    .footer>.cur[data-page=bookShop]>.img {
+        background: url("/static/images/Page/bookShop_cur.png");
+        background-size: 100% 100%;
+    }
+
+    .footer>.cur {
+        color: #ffa02f;
+    }
+}

@@ -1,0 +1,160 @@
+.toastBox {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .7);
+    z-index: 10;
+}
+
+.toast {
+    position: absolute;
+    width: 77.5vw;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.toastHeader {
+    width: 100%;
+    height: 9.375vw;
+    background: #45a8fa;
+    border-top-right-radius: 0.46875vw;
+    border-top-left-radius: 0.46875vw;
+}
+
+.closeToastBox {
+    position: absolute;
+    background: url(/static/images/Page/closeToast.png);
+    background-size: 100% 100%;
+    width: 3.75vw;
+    height: 3.75vw;
+    top: 2.96875vw;
+    right: 2.5vw;
+}
+
+.toastContent {
+    width: 99%;
+    margin: 0 auto;
+    border-top: 1px solid #ebebeb;
+    background: #fff;
+    border-bottom-right-radius: 0.46875vw;
+    border-bottom-left-radius: 0.46875vw;
+    overflow: hidden;
+}
+
+.toastText {
+    width: 100%;
+    height: auto;
+    min-height: 10.9375vw;
+    padding: 3.125vw;
+    font-size: 2.8984375vw;
+}
+
+.toastText .blue {
+    color: #3ea7fe;
+}
+
+.toastText em {
+    font-size: 2.415625vw;
+}
+
+.btnBox {
+    width: 100%;
+    height: 7.8125vw;
+}
+
+.btnBox > span {
+    width: 50%;
+    height: 100%;
+    float: left;
+    text-align: center;
+    line-height: 7.8125vw;
+}
+
+.btn1 {
+    background: #d6dce1;
+    color: #4d4c4c;
+}
+
+.btn2 {
+    background: #45a8fa;
+    color: #fff;
+}
+
+.loadingBox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, .5);
+    z-index: 6;
+}
+
+.loadingBox > img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/*头部*/
+.searchBox {
+    width: 100%;
+    height: 10.78125vw;
+    background: #fff;
+    padding: 1.625vw 2.96875vw;
+    overflow: hidden;
+}
+
+.searchLabel {
+    float: left;
+    width: 59.6875vw;
+    height: 7.4375vw;
+    background: #e9f5ff;
+    border-radius: 1.625vw;
+}
+
+.searchLabel > input {
+    width: 50.59375vw;
+    height: 100%;
+    color: #85888b;
+    border: none;
+    background: none;
+    padding-left: 1.5vw;
+    box-sizing: border-box;
+}
+
+.searchLabel > .searchBtn {
+    float: right;
+    width: 5.1875vw;
+    height: 5.1875vw;
+    background: url(/static/images/Page/searchBtn.png) no-repeat center center;
+    background-size: 100% 100%;
+    margin-top: 1.325vw;
+    margin-right: 1.78125vw;
+}
+
+.channel {
+    float: right;
+    border-radius: 0.78125vw;
+    border: 1px solid #ffa02f;
+    color: #ffa02f;
+    margin-top: 1vw;
+}
+
+.channel > .cur {
+    background: #ffa02f;
+    color: #fff;
+}
+
+.channel > span {
+    width: 8.96874vw;
+    height: 100%;
+    border-radius: 0.78125vw;
+    float: left;
+    text-align: center;
+}

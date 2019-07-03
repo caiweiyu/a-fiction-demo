@@ -1,0 +1,69 @@
+.expenditureNav {
+    width: 100%;
+    height: 12.5vw;
+    line-height: 12.5vw;
+    background: #fff;
+}
+
+.expenditureNav > span {
+    width: 10.46875vw;
+    height: 100%;
+    float: left;
+    font-size: 4.83125vw;
+    box-sizing: border-box;
+    margin: 0 7.03125vw;
+    color: #969696;
+    text-align: center;
+}
+
+.expenditureNav > .cur {
+    border-bottom: 0.46875vw solid #45a8fa;
+    color: #45a8fa;
+}
+
+.expenditureNav > span[data-type='week'] {
+    margin: 0 20vw;
+}
+
+.expenditureBox {
+    background: #fff;
+    border-top: 1px solid #f6f5f5;
+}
+
+.expenditureList {
+    width: 100%;
+    height: 12.5vw;
+    border-bottom: 1px solid #f6f5f5;
+    padding: 0 3.90625vw;
+}
+
+.expenditureListLeft {
+    float: left;
+    height: 100%;
+    width: 50vw;
+}
+
+.expenditureListLeft > span {
+    display: block;
+    width: 100%;
+}
+
+.expenditureName {
+    font-weight: bold;
+    font-size: 3.865624vw;
+    color: #000;
+    margin-top: 1.1vw;
+}
+
+.expenditureTime {
+    font-size: 1.9328124vw;
+    color: #919191;
+}
+
+.expenditureListRight {
+    font-weight: bold;
+    color: #06f06e;
+    float: right;
+    line-height: 12.5vw;
+    font-size: 3.865624vw;
+}

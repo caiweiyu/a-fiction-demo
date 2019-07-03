@@ -1,0 +1,99 @@
+//init
+$(function () {
+
+    //根据url路径，然后根据路径判断目前的页面
+    setInitInfo();
+    //总获取
+    getBlockType();
+    //所有事件
+    event();
+});
+function setInitInfo() {
+    var pageType = window.document.location.pathname;
+    console.log(pageType);
+    var getBookType;
+    switch (pageType) {
+        case "/app/rank":
+            changeTitle("排行");
+            getBookType = "排行";
+            // getUrlParam(sex)
+            break;
+        case "/app/classification":
+            changeTitle("分类");
+            getBookType = "分类";
+
+            break;
+        case "/app/new":
+            changeTitle("新书");
+            getBookType = "新书";
+
+            break;
+        case "/app/end":
+            changeTitle("全本");
+            getBookType = "全本";
+
+            break;
+    }
+    $(".searchTitle").html(getBookType);
+    getBookData(getBookType);
+}
+//获取分类|状态|属性init数据
+var $html = $('html');
+function getBlockType(){
+    httpApi({
+        url: '/api/book_type',
+        type: 'get',
+        fun: function (res) {
+            console.log(res.data);
+            var list = res.data;
+            $.each(list,function(index,item){
+                console.log(index,item.children);
+                var $dom;
+                var list_children = item.children;
+                if(index == 0){
+                    $(`<div class="cur_one"><span>${item.name}</span></div>`).appendTo($('.channel_man2')); 
+                    $.each(list_children,function(index,item){
+                        if(index == 0){
+                            $(`<div class="cur_line"><span>${item.name}</span></div>`).appendTo($('.cur_1'));
+                        }else{
+                            $(`<div><span>${item.name}</span></div>`).appendTo($('.cur_1'));
+                        }
+                    })
+                }else if(index == 1){
+                    $(`<div><span>${item.name}</span></div>`).appendTo($('.channel_man2'));
+                };
+                // var list_children = item.children;
+                // $html.on('tap','.channel_man2>div',function(){
+                //     var self = $(this).attr('ClassName','cur_one');
+                //     if(self){
+                //         $.each(list_children,function(index,item){
+                //             console.log(item.name);
+                //             if(index == 0){
+                //                 $(`<div class="cur_line"><span>${item.name}</span></div>`).appendTo($('.cur_1'));
+                //             }else if(index == 1){
+                //                $(`<div><span>${item.name}</span></div>`).appendTo($('.cur_1'));
+                //             }                         
+                //         }) 
+                //     }
+                // })                    
+            });
+
+        },
+        params: ''
+    });
+}
+function event(){
+    //分类|状态|属性切换样式
+    $('html').on('tap','.cur_1>div',function(){
+        $(this).addClass('cur_line').siblings().removeClass('cur_line');
+    })
+    //男频女频样式切换
+    $('html').on('tap','.channel_man2>div',function(){
+        $(this).addClass('cur_one').siblings().removeClass('cur_one');
+    })
+}
+//改变title
+function changeTitle(msg) {
+    document.title = msg;
+}
+

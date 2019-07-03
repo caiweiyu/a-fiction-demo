@@ -1,0 +1,335 @@
+var all_book_type_list;
+var first_book_type;
+var secound_book_type;
+var get_book_data_type = {
+    category: 0,
+    secound_type: "",
+    third_type: "",
+    status_type: 0
+};
+var sex = getStorage('local', 'sex_type');
+var page = 1;
+var category_list_cache = {};
+//init
+$(function () {
+    //根据url路径，然后根据路径判断目前的页面
+    //分类 | 排行 | 全本 | 新书
+    setInitInfo();
+    //所有事件
+    event();
+});
+
+function setInitInfo() {
+    var pageType = window.document.location.pathname;
+    var getBookType;
+    var getBookApiUli;
+    switch (pageType) {
+        case "/app/rank":
+            changeTitle("排行榜");
+            getBookType = "排行榜";
+            getBookApiUli = sex === 'man' ? get_book_data_url_rank_man : get_book_data_url_rank_woman;
+            RemainMainnode('.navigatorCont');
+            getBookData(getBookApiUli);
+            break;
+        case "/app/classification":
+            changeTitle("分类");
+            getBookType = "分类";
+            getBookApiUli = sex === 'man' ? get_book_data_url_classification_man : get_book_data_url_classification_man;
+            getBlockType();
+            //首次渲染分类书籍
+            getCategoryBook();
+            setTimeout(function () {
+                $('.blockHeader').remove();
+                RemainMainnode('.footer');
+                overLook();
+            }, 300);
+            break;
+        case "/app/new":
+            changeTitle("新书专区");
+            getBookType = "新书专区";
+            getBookApiUli = sex === 'man' ? get_book_data_url_new_man : get_book_data_url_new_woman;
+            getBookData(getBookApiUli);
+            RemainMainnode('.navigatorCont');
+            setTimeout(function () {
+                RemainMainnode('.bookBlockBox .readingMore');
+                RemainMainnode('.bookBlockBox>.Block:nth-child(2)>.blockHeader');
+                RemainMainnode('.footer');
+                overLook();
+                removeMore();
+            }, 300);    
+            break;
+        case "/app/end":
+            changeTitle("全本专区");
+            getBookType = "全本专区";
+            getBookApiUli = sex === 'man' ? get_book_data_url_end_man : get_book_data_url_end_woman;
+            RemainMainnode('.classifyCont');
+            getBookData(getBookApiUli);
+            setTimeout(function () {
+                RemainMainnode('.bookBlockBox .readingMore');
+                RemainMainnode('.footer');
+                overLook();
+                removeMore();
+            }, 300);
+            break;
+        case "/app/search":
+            GetUrlRelativePath(param = '/search');
+            break;
+    }
+    $(".searchTitle").html(getBookType);
+}
+
+//获取书本类型
+function getBlockType() {
+    httpApi({
+        url: get_book_type_url,
+        type: 'get',
+        fun: function (res) {
+            all_book_type_list = res.data;
+            //插入类名
+            changeSpan();
+            //渲染书本类
+            bookTypeRender();
+        },
+        params: sex === 'man' ? {
+            free_type: 1
+        } : {
+            free_type: 2
+        }
+    });
+}
+
+//根据书本类型获取书本
+function getCategoryBook() {
+    var params = {
+        free_type: sex === 'man' ? 1 : 2,
+        category: get_book_data_type.category,
+        book_status: get_book_data_type.status_type,
+        page
+    };
+
+    //先看看本地有没有这个书本的列表
+    var category_book_list = category_list_cache[buildCatchKey(params)];
+    if (category_book_list) {
+        //有的话就用本地数据渲染
+        categoryBookRender(category_book_list);
+        return;
+    }
+    setLoading();
+    httpApi({
+        url: get_category_book_api,
+        type: 'get',
+        params,
+        fun: function (res) {
+            removeLoading();
+            const {
+                code,
+                data,
+                msg
+            } = res;
+            if (code === 1) {
+                //本地存储此次获取的数据
+                bookContentLocal(params, data);
+                categoryBookRender(data);
+            } else {
+                alert(msg);
+            }
+        }
+    });
+}
+
+//本地存储书本内容
+function bookContentLocal(key, data) {
+    category_list_cache[buildCatchKey(key)] = data;
+}
+
+//书本类型书渲染
+function categoryBookRender(list) {
+    $(".continueReading").html("");
+    if (list.length === 0) {
+        var $dom = $(`<div class="screen_null">筛选结果为空</div>`);
+        $dom.appendTo($(".continueReading"));
+        return;
+    }
+    $.each(list, function (index, item) {
+        var $dom = book_category_details_vertical_list(item);
+        $dom.appendTo($(".continueReading"));
+    });
+}
+
+//缓存key创建
+function buildCatchKey(key) {
+    return $.md5(JSON.stringify(key));
+}
+
+//添加数据加载完显示加载完
+function overLook() {
+    $(`<div class="overLook">都被你看光了~</div>`).appendTo($(".blockCont>.PortraitContent:last-child"));
+}
+
+//书本类型渲染
+function bookTypeRender() {
+    bookStatusTypeRender(all_book_type_list.book_status);
+    get_book_data_type.status_type = all_book_type_list.book_status[0].id;
+    if (all_book_type_list.category) {
+        firstDataTypeRender(all_book_type_list.category);
+        get_book_data_type.category = all_book_type_list.category[0].id;
+        return;
+    }
+    if (all_book_type_list.category[0].children) {
+        secoundDataTypeRender(all_book_type_list.category[0].children);
+        // get_book_data_type.secound_type = all_book_type_list.category[0].children.id;
+        return;
+    };
+    if (all_book_type_list.category[0].children[0].children) {
+        thirdDataTypeRender(all_book_type_list.category[0].children[0].children);
+        // get_book_data_type.third_type = all_book_type_list.category[0].children[0].children[0].id;
+        return;
+    };
+}
+
+//第一层渲染
+function firstDataTypeRender(list) {
+    list.unshift({
+        id: 0,
+        name: "全部"
+    });
+    $.each(list, function (index, item) {
+        var $dom = $(`<div class="${index===0?'cur':''}" data-first="${index}" data-first_id="${item.id}">${item.name}</div>`);
+        $dom.appendTo($(".classifyCont[data-type='0']").find(".classifyCont_content"));
+    });
+}
+
+//第二层渲染
+function secoundDataTypeRender(list) {
+    $(".classifyCont[data-type='1']").find(".classifyCont_content").html("");
+    $.each(list, function (index, item) {
+        var $dom = $(`<div class="${index===0?'cur':''}" data-secound_id="${item.id}" data-secound="${index}">${item.name}</div>`);
+        $dom.appendTo($(".classifyCont[data-type='1']").find(".classifyCont_content"));
+    });
+}
+
+//第三层渲染
+function thirdDataTypeRender(list) {
+    $(".classifyCont[data-type='2']").find(".classifyCont_content").html("");
+    $.each(list, function (index, item) {
+        var $dom = $(`<div class="${index===0?'cur':''}" data-third_id="${item.id}" data-third="${index}">${item.name}</div>`);
+        $dom.appendTo($(".classifyCont[data-type='2']").find(".classifyCont_content"));
+    });
+}
+
+//书本状态渲染
+function bookStatusTypeRender(list) {
+    list.unshift({
+        id: 0,
+        name: "全部"
+    });
+    $(".book_status").find(".classifyCont_content").html("");
+    $.each(list, function (index, item) {
+        var $dom = $(`<div class="${index===0?'cur':''}" data-status_id="${item.id}">${item.name}</div>`);
+        $dom.appendTo($(".book_status").find(".classifyCont_content"));
+    });
+}
+
+//封装方法(去掉多余节点)
+//移除main内容节点
+function RemainMainnode(param) {
+    $(param).remove();
+}
+
+//去除按钮排跟内容移除处理
+function removeMore() {
+    $('.PortraitFooterBtn').remove();
+    $('.ContentListTitlePage').css({
+        'height': '24vw',
+        'white-space': 'wrap !important'
+    });
+}
+
+function event() {
+    $html = $('html');
+    //第一层筛选
+    $html.on("tap", ".classifyCont[data-type='0']>.classifyCont_content>div", function () {
+        $(".classifyCont[data-type='1']").find(".classifyCont_content").html('');
+        get_book_data_type.category = $(this).data('first_id');
+        $(this).addClass('cur').siblings().removeClass('cur');
+        $first = $(this).data("first");
+        first_book_type = $first;
+        if (all_book_type_list.category[$first].children) {
+            secoundDataTypeRender(all_book_type_list.category[$first].children);
+        }
+        getCategoryBook();
+    });
+
+    //第二层筛选
+    $html.on('tap', ".classifyCont[data-type='1']>.classifyCont_content>div", function () {
+        $(".classifyCont[data-type='1']").find(".classifyCont_content").html('');
+        get_book_data_type.secound_type = $(this).data('secound_id');
+        $(this).addClass('cur').siblings().removeClass('cur');
+        $secound = $(this).data("secound");
+        secound_book_type = $secound;
+        thirdDataTypeRender(all_book_type_list.category[$first].children[$secound].children);
+        getCategoryBook();
+    });
+
+    //第三层赛选
+    $html.on('tap', '.cur_2>div', function () {
+        get_book_data_type.third_type = $(this).data('third_id');
+        $(this).addClass('cur').siblings().removeClass('cur');
+        getCategoryBook();
+    });
+
+    //书本状态赛选
+    $html.on('tap', '.book_status>.classifyCont_content>div', function () {
+        $(this).addClass('cur').siblings().removeClass('cur');
+        get_book_data_type.status_type = $(this).data('status_id');
+        getCategoryBook();
+    });
+}
+
+//设置分类头
+function changeSpan() {
+    var book_type_name = ['分类'];
+    $.each(book_type_name, function (index, item) {
+        const $dom = $(`
+            <div class="classifyCont" data-type="${index}">
+                <div class="classifyCont_title">${item}：</div>
+                <div class="classifyCont_content"> </div>
+            </div>`);
+        $dom.appendTo($(".navigatorCont"));
+    });
+    const $status_dom = $(`
+            <div class="book_status" data-type="status">
+                <div class="classifyCont_title">状态：</div>
+                <div class="classifyCont_content"></div>
+            </div>`);
+    $status_dom.appendTo($(".navigatorCont"));
+}
+
+//改变title
+function changeTitle(msg) {
+    document.title = msg;
+}
+
+//分类竖向多内容派排列
+function book_category_details_vertical_list(item) {
+    item.status === "连载中" ? item.status = "连载" : (item.status === "已完结" ? item.status = "完结" : "");
+    const $category_1 = item.category ? "<span>" + item.category + "</span>" : "";
+    const $category_2 = item.sub_category ? "<span>" + item.sub_category + "</span>" : "";
+    const $category_3 = item.status ? "<span>" + item.status + "</span>" : "";
+
+    return $("" +
+        "<div class='PortraitContent'>" +
+        "<div>" +
+        "    <a href='/book/" + item.id + "'>" +
+        "        <img onerror='imgError(" + `"${item.name}"` + ",this)' class='PortraitContentListImg' src='" + item.cover_url + "'/>" +
+        "        <div class='PortraitContentListTitle'>" +
+        "            <div>" + item.name + "</div>" +
+        "            <div>" + item.author.name + "</div>" +
+        "            <textarea class='ContentListTitlePage' readonly='readonly'>" + item.intro + "</textarea>" +
+        "            <div class='PortraitFooterBtn'>" + $category_1 + $category_2 + $category_3 + "</div>" +
+        "        </div>" +
+        "        <a class='Right_position' href='/book/" + item.id + "'><span>立即阅读</span></a>" +
+        "    </a>" +
+        "</div>" +
+        "</div>");
+}

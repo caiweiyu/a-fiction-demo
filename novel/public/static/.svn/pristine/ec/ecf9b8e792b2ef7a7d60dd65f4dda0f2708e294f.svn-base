@@ -1,0 +1,165 @@
+//弹窗参数
+// var params = {
+//     msg: '提示信息,可为字符串html',
+//     type: 'fun || autoClose',
+//     time: '时间',
+//     btn1name: '第一个按钮名字',
+//     btn2name: '第二个按钮名字',
+//     fun1: function () {
+//          第一个按钮方法
+//     },
+//     fun2: function () {
+//          第二个按钮方法
+//     }
+// };
+
+//弹窗示例
+// toast({
+//     msg: '<p style="text-align: center; font-size:3.5vw;">测试信息</p>',
+//     type: 'autoClose',
+//     time: 1000,
+// });
+
+function toast(params) {
+    var $btnBox =
+        "<div class='btnBox'>" +
+        "    <span class='btn1'>" + params.btn1name + "</span>" +
+        "    <span class='btn2'>" + params.btn2name + "</span>" +
+        "</div>";
+
+    //创建弹窗盒子
+
+    var $toastBox = $("" +
+        "<div class='toastBox' data-function_type='buy'>" +
+        "    <div class='toast'>" +
+        "        <div class='toastHeader'>" +
+        "            <img class='closeToastBox' src='/static/images/Page/closeToast.png'>" +
+        "        </div>" +
+        "        <div class='toastContent'>" +
+        "            <div class='toastText'>" + params.msg + "</div>" +
+        ((params.type === 'fun') ? $btnBox : '') +
+        "        </div>" +
+        "    </div>" +
+        "</div>");
+
+    $toastBox.appendTo($("body"));
+
+    //根据类型判断行为
+    switch (params.type) {
+        case 'fun':
+            funEvent(params.fun1, params.fun2);
+            break;
+        case 'autoClose':
+            closeToastBox(params.time);
+            break;
+    }
+    commentEvent();
+}
+
+function closeToastBox(time) {
+    setTimeout(function () {
+        $(".toastBox").remove();
+    }, time);
+}
+
+function funEvent(fun1, fun2) {
+    //按钮一touch事件
+    $("html").on('tap', '.btn1', fun1);
+    //按钮二touch事件
+    $("html").on('tap', '.btn2', fun2);
+
+}
+
+function commentEvent() {
+    //关闭操作
+    $("html").on('tap', '.closeToastBox', function () {
+        $(".toastBox").remove();
+    });
+}
+
+//获取url中的参数
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+    if (r != null) return unescape(r[2]);
+    return null; //返回参数值
+}
+//获取url路径
+function GetUrlRelativePath(param){
+    　　　　var url = document.location.toString();
+    　　　　var arrUrl = url.split("//");
+    　　　　var start = arrUrl[1].indexOf("/");
+    　　　　var relUrl = arrUrl[1].substring(start);
+           window.location = relUrl = param;
+}
+
+//文本盒子方法
+function textToast(msg) {
+    toast({
+        msg: '<p style="text-align: center; font-size:3.5vw;">' + msg + '</p>',
+        type: 'autoClose',
+        time: 1500,
+    });
+}
+
+//获取用余额
+function getUserBalance(callback) {
+    var userBalance;
+    $.ajax({
+        type: 'get',
+        dataType: 'json',
+        url: getUserBalanceApi,
+        success: function (res) {
+            if (res.code === 1) {
+                userBalance = res.data.balance;
+                callback(userBalance);
+            } else {
+                callback(0);
+            }
+        },
+        error: function () {
+            textToast('获取用户余额失败。错误代码：01');
+        }
+    });
+}
+
+//loading
+function setLoading() {
+    try {
+        var $dom = $("<div class='loadingBox'><img src='/static/images/Page/loading.gif' /></div>");
+        $dom.appendTo($("body"));
+    } catch (e) {
+        alert(e);
+    }
+}
+
+function removeLoading() {
+    $(".loadingBox").remove();
+}
+
+
+/** 
+总请求
+需要参数
+{
+    url,
+    type,
+    params,
+    fun,//成功回调
+}
+**/
+function httpApi(data) {
+    const {url, type, params, fun} = data;
+    $.ajax({
+        url,
+        data: params,
+        dataType: "json",
+        type,
+        success: function (res) {
+            fun(res);
+        },
+        error: function (e) {
+            alert('请求失败', e)
+        }
+    })
+}

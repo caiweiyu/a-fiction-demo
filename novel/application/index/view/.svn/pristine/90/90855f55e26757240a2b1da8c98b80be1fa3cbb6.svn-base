@@ -1,0 +1,223 @@
+{extend name="index@Layout/index" /}
+
+{block name="title"}{/block}
+
+{block name="pageStyle"}
+<link rel="stylesheet" href="/static/css/Page/board.css"/>
+<script>
+    var indexUrl = "{:url('app.home')}";
+    var getBookDataUrl_classification_man = "{:url('api/app/classification_man')}";
+    var getBookDataUrl_classification_woman = "{:url('api/app/classification_woman')}";
+    var getBookDataUrl_rank_man = "{:url('api/app/rank_man')}";
+    var getBookDataUrl_rank_woman = "{:url('api/app/rank_woman')}";
+    var getBookDataUrl_end_man = "{:url('api/app/end_man')}";
+    var getBookDataUrl_end_woman = "{:url('api/app/end_woman')}";
+    var getBookDataUrl_new_man = "{:url('api/app/new_man')}";
+    var getBookDataUrl_new_woman = "{:url('api/app/new_woman')}";
+</script>
+<script src="/static/js/page/board.js"></script>
+{/block}
+
+{block name="header"}
+<div class="searchBox">
+    <div class="toIndex">
+        <a href="">
+            <img src="/static/images/Page/toIndex.png">
+            首页
+        </a>
+    </div>
+    <div class="searchTitle">书本详情</div>
+    <span class="searchBtn"><a></a></span>
+</div>
+{/block}
+
+{block name="main"}
+<div class="main">
+    <!--test分类 -->
+    <div class="navigatorCont">
+        <div class="channel_man2">
+            <!-- <div class="cur_one">
+                <span>女频</span>
+            </div>
+            <div>
+                <span>男频</span>
+            </div> -->
+        </div>
+        <div class="classifyCont">
+            <div class="classifyCont_1">
+                <div>
+                    <!-- <span>分类：</span> -->
+                </div>
+                <div class="cur_1">
+                    <!-- <div class="cur_line1"><span>全部</span></div>
+                    <div><span>都市</span></div>
+                    <div><span>现言</span></div>
+                    <div><span>古言</span></div>
+                    <div><span>总裁</span></div>
+                    <div><span>穿越</span></div>
+                    <div><span>玄幻</span></div>
+                    <div><span>灵异</span></div>
+                    <div><span>历史</span></div>
+                    <div><span>科幻</span></div>
+                    <div><span>二次元</span></div>
+                    <div><span>游戏</span></div> -->
+                </div>
+            </div>
+            <div class="classifyCont_2">
+                <div>
+                    <!-- <span>状态：</span> -->
+                </div>
+                <div class="cur_2">
+                    <!-- <div class='cur_line2'><span>全部</span></div>
+                    <div><span>连载</span></div>
+                    <div><span>完结</span></div> -->
+                </div>
+            </div>
+            <div class="classifyCont_3">
+                <!-- <span>属性：</span>
+                <div class='cur_3'>
+                    <div class='cur_line3'><span>全部</span></div>
+                    <div><span>免费</span></div>
+                    <div><span>付费</span></div>
+                    <div><span>VIP</span></div>
+                </div> -->
+            </div>
+            <div class='getTitleImg'>
+                <!-- <div class="imgSrc"></div>
+                <div class="getTitleImg_right">
+                    <p>我的师傅是只猫</p>
+                    <p>作者名</p>
+                    <div>
+                        UItest UItest UItest UItest UItest UItest UItest UItest UItest UItest UItest UItest UItest
+                        UItest UItest
+                    </div>
+                </div>
+                <div class="btn_reader"><span>立即阅读</span></div> -->
+            </div>
+        </div>
+    </div>
+    <!--test全书专区-->
+    <div class="pandect_zone">
+        <div class="close_zone">
+            <!-- <p>本周精选</p>
+            <div>
+                <div>
+                    <div class="imgSrc_t"></div>
+                    <p>
+                        灭世无袖
+                    </p>
+                </div>
+                <div>
+                    <div class="imgSrc_t"></div>
+                    <p>
+                        灭世无袖
+                    </p>
+                </div>
+                <div>
+                    <div class="imgSrc_t"></div>
+                    <p>
+                        灭世无袖
+                    </p>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <!--test  新书专区-->
+        <div class="close_zone">
+                <p class="close_zone_p">|全本精选</p>
+                <div>
+                    <div>
+                        <div class="imgSrc_t"></div>
+                        <p>
+                            灭世无袖
+                        </p>
+                    </div>
+                    <div>
+                        <div class="imgSrc_t"></div>   
+                        <p>
+                            灭世无袖
+                        </p>
+                    </div>
+                    <div>
+                        <div class="imgSrc_t"></div>
+                        <p>
+                            灭世无袖
+                        </p>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <!--test  新书专区-->
+    <div class="close_zone">
+            <p class="close_zone_p">|全本精选</p>
+            <div>
+                <div>
+                    <div class="imgSrc_t"></div>
+                    <p>
+                        灭世无袖
+                    </p>
+                </div>
+                <div>
+                    <div class="imgSrc_t"></div>   
+                    <p>
+                        灭世无袖
+                    </p>
+                </div>
+                <div>
+                    <div class="imgSrc_t"></div>
+                    <p>
+                        灭世无袖
+                    </p>
+                </div>
+            </div>
+    </div>
+    </div>
+    <!--test  新书专区-->
+    <div class="close_zone">
+        <p class="close_zone_p">|全本精选</p>
+        <div>
+            <div>
+                <div class="imgSrc_t"></div>
+                <p>
+                    灭世无袖
+                </p>
+            </div>
+            <div>
+                <div class="imgSrc_t"></div>
+                <p>
+                    灭世无袖
+                </p>
+            </div>
+            <div>
+                <div class="imgSrc_t"></div>
+                <p>
+                    灭世无袖
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="continueReading">
+    </div>
+
+    <div class="bookBlockBox">
+    </div>
+</div>
+{/block}
+
+{block name="footer"}
+<div class="footer">
+    <a data-page="bookShop" href="{:url('bookshelf')}">
+        <div class="img"></div>
+        书架
+    </a>
+    <a data-page="index" href="{:url('app.home')}">
+        <div class="img"></div>
+        首页
+    </a>
+    <a data-page="mine" href="{:url('user.home')}">
+        <div class="img"></div>
+        我的
+    </a>
+</div>
+{/block}
+

@@ -1,0 +1,65 @@
+{extend name="index@Layout/index" /}
+
+{block name="title"}书币充值{/block}
+
+{block name="pageStyle"}
+<link rel="stylesheet" href="/static/css/Page/payment.css"/>
+<script src="/static/js/page/payment.js"></script>
+<script>
+    var paySystem = "";
+    var positionList = [
+        {money: 1, content: "100书币"},
+        {money: 2, content: "200书币"},
+        {money: 3, content: "300书币"},
+        {money: 4, content: "400书币"},
+        {money: 5, content: "500书币"},
+        {money: 6, content: "600书币"}
+    ];
+    var payment_environment_api = "{:url('api.pay_way')}";
+    var get_payment_data_api = "{:url('payment.order')}";
+    var recharge_amount = 0;
+    var $html = $("html");
+</script>
+{/block}
+
+{block name="main"}
+<div class="main">
+    <div class="balanceBox">
+        <span class="balanceText">我的余额</span>
+        <div class="balance">
+            <em>63.1</em>
+            书币
+        </div>
+    </div>
+    <div class="rechargeBox">
+        <div class="rechargePosition">
+        </div>
+        <div class="anyAmount">
+            <input type="text" placeholder="其他金额"/>
+        </div>
+
+    </div>
+    <div class="paymentMethodBox">
+    </div>
+    <div class="paymentBtn">
+        立即充值
+    </div>
+</div>
+{/block}
+
+{block name="footer"}
+<div class="footer">
+    <a data-page="bookShop" href="{:url('bookshelf')}">
+        <div class="img"></div>
+        书架
+    </a>
+    <a data-page="index" href="{:url('app.home')}">
+        <div class="img"></div>
+        首页
+    </a>
+    <a data-page="mine" class="cur" href="{:url('user.home')}">
+        <div class="img"></div>
+        我的
+    </a>
+</div>
+{/block}}

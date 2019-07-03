@@ -1,0 +1,48 @@
+{extend name="index@Layout/index" /}
+
+{block name="title"}书架{/block}
+
+{block name="pageStyle"}
+<link rel="stylesheet" href="/static/css/Page/bookshelf.css"/>
+<script>
+    var bookshelfApiUrl = '{:url("/api/bookshelf")}';
+    var bookshelfData;
+    var $html = $("html");
+</script>
+<script src="/static/js/page/bookshelf.js"></script>
+{/block}
+
+{block name="main"}
+<div class="main">
+    <div class="myBook">
+        <!--<div class="myBookList">-->
+            <!--<img class="myBookImg"/>-->
+            <!--<div class="myBookContent">-->
+                <!--<div class="myBookName"></div>-->
+                <!--<div class="myBookReadingTo"></div>-->
+            <!--</div>-->
+            <!--<div class="myBookDelete">删除</div>-->
+        <!--</div>-->
+    </div>
+    <div class="bookBlockBox">
+    </div>
+</div>
+{/block}
+
+{block name="footer"}
+<div class="footer">
+    <a data-page="bookShop" class="cur" href="{:url('bookshelf')}">
+        <div class="img"></div>
+        书架
+    </a>
+    <a data-page="index" href="{:url('app.home')}">
+        <div class="img"></div>
+        首页
+    </a>
+    <a data-page="mine" href="{:url('user.home')}">
+        <div class="img"></div>
+        我的
+    </a>
+</div>
+{/block}
+

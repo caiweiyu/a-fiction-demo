@@ -1,0 +1,153 @@
+
+.owned {
+    width: 100%;
+    height: 11.25vw;
+    background: #fff;
+    font-size: 4.6015625vw;
+}
+
+.owned > span {
+    float: left;
+    width: 50%;
+    height: 100%;
+    line-height: 11.25vw;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-left: 3.75vw
+}
+
+.coinTip {
+    height: 6.40625vw;
+    width: 100%;
+    text-align: center;
+    font-size: 2.909375vw;
+    line-height: 6.406525vw;
+    color: #666666;
+}
+
+.coinBigBox {
+    width: 100%;
+    height: 41.71875vw;
+    background: #fff;
+}
+
+.allConsume {
+    width: 100%;
+    height: 14.53125vw;
+    line-height: 14.53125vw;
+    text-align: center;
+    font-size: 4.603125vw;
+}
+
+.allConsume > em {
+    color: #e61437;
+}
+
+.coinBtn {
+    width: 100%;
+    height: 11.25vw;
+    padding: 0.78125vw 0;
+}
+
+.coinBtn > span {
+    width: 37.96875vw;
+    height: 9.6875vw;
+    line-height: 9.6875vw;
+    text-align: center;
+    color: #fff;
+    border-radius: 0.78125vw;
+    font-size: 4.6vw;
+    float: left;
+    margin: 0 6vw;
+    margin-top: 3vw;
+}
+
+.recharge {
+    background: #45a8fa;
+}
+
+.recharge > a {
+    color: #fff;
+}
+
+.readingVoucher {
+    background: #28c5cb;
+}
+
+.currentVip {
+    width: 100%;
+    height: 15.9374vw;
+}
+
+.vipProgress {
+    width: 94.375vw;
+    height: 2.8125vw;
+    border-radius: 2.8125vw;
+    background: #d9d8d8;
+    overflow: hidden;
+    margin: 0 auto;
+    margin-top: 4.375vw;
+    line-height: normal;
+}
+
+.vipProgress > img {
+    width: .94375vw;
+    height: 2.8125vw;
+    border-radius: 2.8125vw;
+    vertical-align: baseline;
+}
+
+.vipGear {
+    width: 94.375vw;
+    height: 2.8125vw;
+    margin: 0 auto;
+    margin-top: 2.03125vw;
+    display: block;
+}
+
+.vipRule {
+    margin-top: 3vw;
+    width: 100%;
+    height: auto;
+    background: #fff;
+}
+
+.ruleHeader {
+    width: 100%;
+    height: 7.8125vw;
+    padding: 1.71875vw 0;;
+}
+
+.ruleHeader > span {
+    display: block;
+    margin: 0 auto;
+    width: 18.4375vw;
+    height: 4.375vw;
+    text-align: center;
+    line-height: 4.375vw;
+    color: #fff;
+    background: #858484;
+    border-radius: 0.46875vw;
+
+}
+
+table {
+    color: #7c7c7c;
+    font-size: 2.909375vw;
+}
+
+td {
+    padding-top: 1.5vw;
+}
+
+.tableTitle {
+    display: block;
+    width: 17.1875vw;
+    text-align: center;
+}
+
+.tableCont {
+    width: 82.8125vw;
+    padding-right: 5vw;
+}

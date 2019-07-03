@@ -1,0 +1,97 @@
+{extend name="index@Layout/index" /}
+
+{block name="title"}笔趣在线{/block}
+
+{block name="pageStyle"}
+<link rel="stylesheet" href="/static/css/Page/userVip.css"/>
+<script>
+    var get_vip_data_api = "{:url('api.user_balance')}"
+</script>
+<script src="/static/js/page/userVip.js"></script>
+{/block}
+
+{block name="main"}
+<div class="main">
+    <div class="owned">
+        <span class="ownedBookCoin">目前书币：<em></em></span>
+        <!--<span class="ownedFeelCoin">目前赠币：<em>10</em></span>-->
+    </div>
+    <div class="coinTip">
+        优先扣除赠币，赠币7天过去，总消费每12个自然月清空重新计费
+    </div>
+    <div class="coinBigBox">
+        <!--<div class="allConsume">-->
+        <!--目前消耗：<em>50</em>币-->
+        <!--</div>-->
+        <div class="coinBtn">
+            <span class="recharge"><a href="{:url('payment')}">充值</a></span>
+            <!--<span class="readingVoucher">免费阅读券：<em>0</em>张</span>-->
+        </div>
+        <!--<div class="currentVip">-->
+            <!--<div class="vipProgress"><img src="/static/images/Page/nowProgress.png"/></div>-->
+            <!--<img class="vipGear" src="/static/images/Page/vipGear.png"/>-->
+        <!--</div>-->
+        <div class="vipRule">
+            <div class="ruleHeader">
+                <span>VIP规则</span>
+            </div>
+            <table>
+                <tr>
+                    <td class="tableTitle">普通会员</td>
+                    <td class="tableCont">注册即可<br/>
+                        可以5分/千字的价格订阅VIP章节
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableTitle">VIP1</td>
+                    <td class="tableCont">获得条件：非会员账户一次性充值1元（100书币）即可升级为书站普通会员。<br/>
+                        可以5分/千字的价格订阅VIP章节；<br/>
+                        拥有专属的会员标识；
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableTitle">VIP2</td>
+                    <td class="tableCont">
+                        获得条件：账户在最近12个自然月内消耗累积达到19900书币。<br/>
+                        可以5分/千字的价格订阅VIP章节；<br/>
+                        拥有专属的会员标识
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableTitle">VIP3</td>
+                    <td class="tableCont">
+                        获得条件：账户在最近12个自然月内消耗累积达到120000书币。<br/>
+                        可以4分/千字的价格订阅VIP章节；<br/>
+                        拥有专属的高级会员标识；
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableTitle">VIP4</td>
+                    <td class="tableCont">
+                        获得条件：账户在最近12个自然月内消耗累积达到360000书币。<br/>
+                        可以3分/千字的价格订阅VIP章节；<br/>
+                        拥有专属的高级会员标识；
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="footer"}
+<div class="footer">
+    <a data-page="bookShop" href="">
+        <div class="img" href="{:url('bookshelf')}"></div>
+        书架
+    </a>
+    <a data-page="index" href="{:url('app.home')}">
+        <div class="img"></div>
+        首页
+    </a>
+    <a data-page="mine" class="cur" href="{:url('user.home')}">
+        <div class="img"></div>
+        我的
+    </a>
+</div>
+{/block}}

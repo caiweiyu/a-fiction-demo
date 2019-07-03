@@ -1,0 +1,149 @@
+html {
+    padding-bottom: 14.53125vw;
+}
+
+.searchBox {
+    width: 100%;
+    height: 10.78125vw;
+    background: #fff;
+    padding: 1.625vw 2.96875vw;
+}
+
+.searchBox > h1 {
+    float: left;
+    font-size: 4.5vw;
+    font-weight: bold;
+    height: 100%;
+    margin-right: 21vw;
+    line-height: 8vw;
+}
+
+.searchBtn {
+    float: right;
+    width: 4.6vw;
+    height: 5.1875vw;
+    background: url(/static/images/Page/searchBtn.png) no-repeat center center;
+    background-size: 100% 100%;
+    margin-top: 1.325vw;
+    margin-right: 1.78125vw;
+}
+
+.searchBtn > a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.channel {
+    float: left;
+    border-radius: 5.5vw;
+    border: 1px solid #ffa02f;
+    color: #ffa02f;
+    margin-top: 1vw;
+    height: 5.5vw;
+    line-height: 5.5vw;
+}
+
+.channel > .cur {
+    background: #ffa02f;
+    color: #fff;
+}
+
+.channel > span {
+    width: 8.96874vw;
+    height: 100%;
+    border-radius: 5.5vw;
+    float: left;
+    text-align: center;
+}
+
+.indexBanner {
+    width: 100%;
+    height: 35.9375vw;
+    overflow: hidden;
+}
+
+.indexBannerSlide > a {
+    width: 100%;
+    height: 35.9375vw;
+}
+
+.indexBannerSlide > a > img {
+    width: 100%;
+    height: 35.9375vw;
+}
+
+.continueReading {
+    width: 100%;
+    background: #fff;
+}
+
+.continueReading > a {
+    display: block;
+    height: 13vw;
+}
+
+.continueTitle {
+    width: 21.71875vw;
+    height: 100%;
+    float: left;
+    margin-left: 2.1875vw;
+}
+
+.continueTitle>.time_icon{
+    width: 4.375vw;
+    height: 4.375vw;
+    float: left;
+    margin-left: 1.71875vw;
+    margin-top: 3.9375vw;
+    background: url(/static/images/Page/time.png);
+    background-size: 100% 100%;
+}
+
+.continueTitle > span {
+    float: left;
+    width: 15.625vw;
+    height: 100%;
+    line-height: 12.8124vw;
+    font-size: 3.18125vw;
+    color: #ffa02f;
+    box-sizing: border-box;
+    padding-left: 0.625vw;
+}
+
+.continueReading > a > i {
+    float: left;
+    width: 0.46875vw;
+    height: 4.0625vw;
+    background: #000;
+    margin-top: 4.0625vw;
+}
+
+.continueCont {
+    width: 62.65625vw;
+    height: 100%;
+    float: left;
+    padding-left: 2.34375vw;
+    font-family: '微软雅黑';
+}
+
+.continueName {
+    width: 100%;
+    height: 50%;
+    display: block;
+    color: #000;
+    font-size: 3.6234375vw;
+    line-height: 8.4062vw;
+
+}
+
+.continueChapter {
+    width: 100%;
+    height: 50%;
+    display: block;
+    color: #575757;
+    font-size: 3.221875vw;
+    line-height: 4.4062vw;
+    padding-left: 2vw;
+}
+

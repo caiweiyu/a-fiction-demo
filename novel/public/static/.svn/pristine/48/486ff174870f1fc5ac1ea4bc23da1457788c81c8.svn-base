@@ -1,0 +1,61 @@
+//init
+$(function () {
+    //根据url路径，然后根据路径判断目前的页面
+    setInitInfo();
+    //男频女频样式切换
+    tapAddColor('.channel_man2>div','cur');
+    //分类|状态|属性切换样式
+    tapAddColor('.cur_1>div','cur_line');
+
+});
+function setInitInfo() {
+    var pageType = window.document.location.pathname;
+    console.log(pageType);
+    var getBookType;
+    switch (pageType) {
+        case "/app/rank":
+            changeTitle("排行");
+            getBookType = "排行";
+
+            break;
+        case "/app/classification":
+            changeTitle("分类");
+            getBookType = "分类";
+
+            break;
+        case "/app/new":
+            changeTitle("新书");
+            getBookType = "新书";
+
+            break;
+        case "/app/end":
+            changeTitle("全本");
+            getBookType = "全本";
+
+            break;
+    }
+    $(".searchTitle").html(getBookType);
+    getBookData(getBookType);
+}
+//切换tap添加颜色
+function tapAddColor(elem,origin){
+     $(elem).on('tap',function(){
+        $(this).addClass(origin).siblings().removeClass(origin);
+     })
+}
+var test_mock = {
+    sex_name:1,
+    sex_information:[
+        '全部','都市','现言','古言','总裁','穿越','玄幻','灵异','历史','科幻','二次元','游戏'
+    ]
+    
+}
+//获取分类|状态|属性init数据
+function getInitinformation(){
+    
+}
+//改变title
+function changeTitle(msg) {
+    document.title = msg;
+}
+

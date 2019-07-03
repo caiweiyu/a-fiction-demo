@@ -1,0 +1,108 @@
+{extend name="index@Layout/index" /}
+
+{block name="title"}我的{/block}
+
+{block name="pageStyle"}
+<link rel="stylesheet" href="/static/css/Page/book.css"/>
+<link rel="stylesheet" href="/static/css/Page/userHome.css"/>
+<script>
+    var blockList = [
+        // {type: "vip", icon: "/static/images/Page/vip_icon.png", title: "我的VIP", url: "{:url('user.vip')}"},
+        {type: "kefu", icon: "/static/images/Page/kefu.png", title: "联系客服", url: ""},
+        // {type: "recharge", icon: "/static/images/Page/money.png", title: "充值消费记录", url: "{:url('user.expenditure')}"},
+        // {type: "browse", icon: "/static/images/Page/time.png", title: "历史浏览记录", url: ""},
+        // {type: "message", icon: "/static/images/Page/talk.png", title: "我的消息", url: ""},
+    ];
+    var getUserInfoApi = '{:url("api.user_info")}';
+    var indexUrl = "{:url('app.home')}";
+</script>
+<script src="/static/js/page/userHome.js"></script>
+{/block}
+
+{block name="header"}
+<div class="searchBox">
+        <div class="toIndex">
+            <a href="{:url('app.home')}">
+                <img src="/static/images/Page/toIndex.png">
+                首页
+            </a>
+        </div>
+    </div>
+{/block}
+
+{block name="main"}
+<div class="main">
+    <!--<div class="test">是否报错</div>-->
+    <!--用户信息-->
+    <div class="userInfoBox">
+        <div class="userInfo">
+            <img src="" class="userPortrait"/>
+            <div class="userInfoMid">
+                <div class="username">
+                    <em></em>
+                    <!-- <span class="vipLv">VIP<em></em></span> -->
+                </div>
+                <div class="userId">
+                    ID:<em></em>
+                </div>
+            </div>
+        </div>
+        <!--<div class="signGetCoin">-->
+            <!--<span class="signBtn">签到领取书币</span>-->
+        <!--</div>-->
+    </div>
+    <!--用户物品-->
+
+    <!-- <div class="userCoin">
+        <div class="bookCoin">
+            <span class="coinNum"></span>
+            <span>书币</span>
+        </div>
+        <div class="bookStop">
+            <span class="bookNum"></span>
+            <span>书架</span>
+        </div>
+    </div> -->
+
+    <!--书币任务列表-->
+    <!--<div class="taskBox">-->
+        <!--<div class="taskList">-->
+            <!--<div class="taskListLeft">-->
+                <!--<span class="taskListTitle">微信授权</span>-->
+                <!--<span class="taskListCont">确认微信授权后即可获得</span>-->
+            <!--</div>-->
+            <!--<div class="taskListRight">-->
+                <!--<span class="isFinsh">已完成</span>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="allTask">-->
+            <!--全部书币任务>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--点击块-->
+    <div class="blockBox">
+    </div>
+    <!--随机广告位-->
+    <div class="RandomBD">
+        <a><div></div></a>
+        <div class="closeThat"></div>
+    </div>
+</div>
+{/block}
+
+{block name="footer"}
+<div class="footer">
+    <a data-page="bookShop" href="{:url('bookshelf')}">
+        <div class="img"></div>
+        书架
+    </a>
+    <a data-page="index" href="{:url('app.home')}">
+        <div class="img"></div>
+        首页
+    </a>
+    <a data-page="mine" class="cur" href="{:url('user.home')}">
+        <div class="img"></div>
+        我的
+    </a>
+</div>
+{/block}

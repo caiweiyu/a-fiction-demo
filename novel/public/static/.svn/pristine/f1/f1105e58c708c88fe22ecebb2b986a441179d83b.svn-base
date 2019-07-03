@@ -1,0 +1,297 @@
+// 定义变量
+var numInit = {};
+var manOrWoman = 'man';
+
+//init
+$(function () {
+    //init
+    // 请求首页数据
+    getBookData('man');
+    //渲染继续阅读
+    continueReading();
+    //banner图
+    var mySwiper = new Swiper('.index-swiper-container', {
+        autoplay: 5000,//可选选项，自动滑动
+    });
+    // 方法上线
+    event();
+});
+
+//获取所有图书列表
+function getBookData(getBookDataType) {
+    var getBookDataUrl;
+    switch (getBookDataType) {
+        case "man":
+            getBookDataUrl = getBookDataUrl_man;
+            break;
+        case "woman":
+            getBookDataUrl = getBookDataUrl_woman;
+            break;
+        case "分类":
+            if (manOrWoman === "man") {
+                getBookDataUrl = getBookDataUrl_classification_man;
+            } else {
+                getBookDataUrl = getBookDataUrl_classification_woman;
+            }
+            break;
+        case "排行":
+            if (manOrWoman === "man") {
+                getBookDataUrl = getBookDataUrl_rank_man;
+            } else {
+                getBookDataUrl = getBookDataUrl_rank_woman;
+            }
+            break;
+        case "全本":
+            if (manOrWoman === "man") {
+                getBookDataUrl = getBookDataUrl_end_man;
+            } else {
+                getBookDataUrl = getBookDataUrl_end_woman;
+            }
+            break;
+        case "新书":
+            if (manOrWoman === "man") {
+                getBookDataUrl = getBookDataUrl_new_man;
+            } else {
+                getBookDataUrl = getBookDataUrl_new_woman;
+            }
+            break;
+    }
+
+    $.ajax({
+        type: 'get',
+        dataType: 'json',
+        url: getBookDataUrl,
+        success: function (res) {
+            if (res.code === 1) {
+                bookBlockList = res.data;
+                if (!res.data) {
+                    alert("该板块暂无内容");
+                    return;
+                }
+                //板块渲染
+                blockRender(res.data);
+            } else {
+                textToast(res.msg);
+            }
+        },
+        error: function (e) {
+            textToast("请求失败");
+        }
+    })
+}
+
+//继续阅读
+function continueReading() {
+    if (sessionStorage.getItem('lately')) {
+        var lately = JSON.parse(sessionStorage.getItem('lately'));
+        var $dom = $(`<a href="${lately.bookUrl}">
+            <div class="continueTitle">
+                <img src="/static/images/Page/time.png"/>
+                <span>继续阅读</span>
+            </div>
+            <i></i>
+            <div class="continueCont">
+                <span class="continueName">《${lately.bookName}》</span>
+                <span class="continueChapter">${lately.chapterName}</span>
+            </div>
+        </a>`);
+        $dom.appendTo($(".continueReading"));
+    } else {
+        console.log("没有历史记录");
+    }
+}
+
+//绑定事件
+function event() {
+    //男频女频
+    $(".channel").find(" span").on("tap", function () {
+        var channelType = $(this).data("type");
+        manOrWoman = channelType;
+        $(this).addClass("cur").siblings().removeClass("cur");
+        $(".bookBlockBox").children().filter("div").remove();
+        getBookData(channelType);
+    });
+
+    //板块显示更多
+    $("html").on("tap", ".readingMore", function () {
+        var book_type = $(this).data("book_type");
+        var show_type = $(this).data("show_type");
+
+        $.each(bookBlockList, function (index, item) {
+            if (item.show_type === show_type && item.name === book_type) {
+                numInit[book_type] += 3;
+                if (numInit[book_type] > item.data.length) {
+                    numInit[book_type] = item.data.length + 1
+                }
+                bookListRender(item.data, book_type, show_type);
+            }
+        });
+    });
+
+    $("html").on("tap", ".header>div", function () {
+        const bookType = $(this).data("page");
+        getBookData(bookType);
+    })
+
+}
+
+//模块渲染
+function blockRender(list) {
+
+    $.each(list, function (index, item) {
+        var show_type = item.show_type;
+        var book_type = item.name;
+        switch (show_type) {
+            case "book_banner":
+                book_banner(item.data);
+                break;
+            case "book_cover_vertical_list":
+                blockRandom(item, book_type, show_type);
+                bookListRender(item.data, book_type, show_type);
+                break;
+            case "book_vertical_list":
+                blockRandom(item, book_type, show_type);
+                bookListRender(item.data, book_type, show_type);
+                break;
+            case "book_details_vertical_list":
+                blockRandom(item, book_type, show_type);
+                bookListRender(item.data, book_type, show_type);
+                break;
+            case"navigation":
+                navBlockRandom(item, book_type, show_type);
+                navListRender(item.data, book_type, show_type);
+                break;
+        }
+    });
+}
+
+//banner内容渲染
+function book_banner(list) {
+    $(".index-swiper-container").find(" .swiper-wrapper").html("");
+    list.forEach(function (item) {
+        var $dom = $("" +
+            "<div class='swiper-slide indexBannerSlide'>" +
+            "    <a href='" + item.link + "'>" +
+            "      <img src='" + item.image + "'/>" +
+            "    </a>" +
+            "</div>");
+        $dom.appendTo($(".index-swiper-container").find(" .swiper-wrapper"));
+    });
+}
+
+//容器渲染
+function blockRandom(list, book_type, show_type) {
+    // $(`.Block[data-type='${book_type}']`).remove();
+    var $dom = $("" +
+        "<div class='Block' data-book_type='" + book_type + "' data-show_type='" + show_type + "'>" +
+        "    <div class='blockHeader'>" +
+        "        <span class='blockName'>" + list.name + "</span>" +
+        // "        <span class='readingMore' data-book_type='" + book_type + "' data-show_type='" + show_type + "'>更多》</span>" +
+        "    </div>" +
+        "    <div class='blockCont'>" +
+        "    </div>" +
+        "</div>");
+    $dom.appendTo($(".bookBlockBox"));
+}
+
+//导航容器渲染
+function navBlockRandom(list, book_type, show_type) {
+    var $dom = $("<div class='header' data-book_type='" + book_type + "'  data-show_type='" + show_type + "'></div>");
+    $dom.appendTo($(".bookBlockBox"));
+}
+
+//列表渲染
+function bookListRender(list, book_type, show_type) {
+    $(".Block[data-book_type='" + book_type + "' ][data-show_type='" + show_type + "']").find(".blockCont").html(" ");
+    $.each(list, function (index, item) {
+        if ((index + 1) === numInit[book_type]) {
+            return;
+        }
+        var $dom;
+        switch (show_type) {
+            case "book_cover_vertical_list":
+                $dom = book_cover_vertical_list(item);
+                break;
+            case "book_vertical_list":
+                $dom = book_vertical_list(index,item);
+                break;
+            case "book_details_vertical_list":
+                $dom = book_details_vertical_list(item);
+                break;
+        }
+        $dom.appendTo($(".Block[data-book_type='" + book_type + "'][data-show_type='" + show_type + "']").find(".blockCont"));
+    });
+}
+
+//导航内容渲染
+function navListRender(list, book_type, show_type) {
+    $.each(list, function (index, item) {
+        $dom = navigation(item);
+        $dom.appendTo($(".header[data-book_type='" + book_type + "'][data-show_type='" + show_type + "']"));
+    })
+}
+
+//横版
+function book_cover_vertical_list(item) {
+    return $("" +
+        "<div class='horizontalBlockList'>" +
+        "    <a href='/book/" + item.id + "'>" +
+        "        <img class='horizontalBlockListImg' src='" + item.cover_url + "'/>" +
+        "        <div class='horizontalBlockListName'>" + item.name + "</div>" +
+        "    </a>" +
+        "</div>");
+}
+
+//竖版
+function book_vertical_list(index,item) {
+    var index = index+1;
+    if(index==1){
+        return $("" +
+        "<div class='verticalList'>" +
+        "    <a href='/book/" + item.id + "'>" +
+        "        <span class='numOrder'>" + index + "</span>" +
+        "        <div class='img_src'></div>" +
+        "        <div class='numOrder_one'>" +
+        "           <span class='bookAuthor'>" + item.author_name + "</span>" +
+        "           <span class='bookName1'>" + item.name + "</span>" +
+        "        </div>" +
+        "    </a>" +
+        "</div>");
+    }else{
+        return $("" +
+        "<div class='verticalList'>" +
+        "    <a href='/book/" + item.id + "'>" +
+        "        <span class='numOrder'>" + index + "</span>" +
+        "        <span class='bookName'>" + "【" + item.name + "】" + "</span>" +
+        "        <span class='bookAuthor'>" + item.author_name + "</span>" +
+        "    </a>" +
+        "</div>");
+    }
+}
+//竖向多内容派排列
+function book_details_vertical_list(item) {
+    return $("" +
+        "<div class='PortraitContent'>" +
+        "    <a href='/book/" + item.id + "'>" +
+        "        <img class='PortraitContentListImg' src='" + item.cover_url + "'/>" +
+        "        <div class='PortraitContentListTitle'>" +
+        "            <div>" + item.name + "</div>" +
+        "            <div>" + item.author_name + "</div>" +
+        "            <p>" + item.intro + "</p>" +
+        "            <div class='PortraitFooterBtn'><span>" + item.category + "</span><span>" + item.sub_category + "</span></div>" +
+        "        </div>" +
+        "        <a class='Right_position' href='/book/" + item.id + "'><span>立即阅读</span></a>" +
+        "    </a>" +
+        "</div>");
+}
+
+//导航栏
+function navigation(item) {
+    return $("" +
+        "<div data-page='" + item.text + "'>" +
+        "    <img src='" + item.image + "' />" +
+        "    <span>" + item.text + "</span>" +
+        "</div>");
+}
+
+

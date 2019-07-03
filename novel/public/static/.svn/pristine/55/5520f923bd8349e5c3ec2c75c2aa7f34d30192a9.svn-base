@@ -1,0 +1,662 @@
+var all_book_type_list;
+var first_book_type;
+var secound_book_type;
+
+//init
+$(function () {
+    // 返回首页时带上进来的性别
+    setIndexSex();
+    //根据url路径，然后根据路径判断目前的页面
+    //分类 | 排行 | 全本 | 新书
+    setInitInfo();
+    //所有事件
+    event();
+});
+
+function setInitInfo() {
+    var pageType = window.document.location.pathname;
+    var sex = getUrlParam('sex');
+    var getBookType;
+    var getBookApiUli;
+    switch (pageType) {
+        case "/app/rank":
+            changeTitle("排行榜");
+            getBookType = "排行榜";
+            getBookApiUli = sex === 'man' ? get_book_data_url_rank_man : getBookDataUrl_rank_woman;
+            RemainMainnode('.navigatorCont');
+            getBookData(getBookApiUli);
+            break;
+        case "/app/classification":
+            changeTitle("分类");
+            getBookType = "分类";
+            getBookApiUli = sex === 'man' ? getBookDataUrl_classification_man : getBookDataUrl_classification_man;
+            getBookData(getBookApiUli);
+            getBlockType();
+            setTimeout(function () {
+                $('.blockHeader').remove();
+                RemainMainnode('.footer');
+                overLook();
+                removeMore();
+            }, 300);
+            break;
+        case "/app/new":
+            changeTitle("新书专区");
+            getBookType = "新书专区";
+            getBookApiUli = sex === 'man' ? get_book_data_url_new_man : getBookDataUrl_new_woman;
+            getBookData(getBookApiUli);
+            RemainMainnode('.navigatorCont');
+            setTimeout(function () {
+                RemainMainnode('.bookBlockBox .readingMore');
+                RemainMainnode('.bookBlockBox>.Block:nth-child(2)>.blockHeader');
+                RemainMainnode('.footer');
+                overLook();
+                removeMore();
+            }, 300);
+            break;
+        case "/app/end":
+            changeTitle("全本专区");
+            getBookType = "全本专区";
+            getBookApiUli = sex === 'man' ? get_book_data_url_end_man : getBookDataUrl_end_woman;
+            RemainMainnode('.classifyCont');
+            getBookData(getBookApiUli);
+            setTimeout(function () {
+                RemainMainnode('.bookBlockBox .readingMore');
+                RemainMainnode('.footer');
+                overLook();
+                removeMore();
+            }, 300);
+            break;
+        case "/app/search":
+            GetUrlRelativePath(param = '/search');
+            break;
+    }
+    $(".searchTitle").html(getBookType);
+}
+
+//获取分类|状态|属性init数据
+var $html = $('html');
+
+function getBlockType() {
+
+    httpApi({
+        url: '/api/book_type',
+        type: 'get',
+        fun: function (res) {
+            all_book_type_list = res.data;
+            changeSpan();
+            getUrlParam("sex") === 'man' ? getSexType(num = 0) : getSexType(1);
+        },
+        params: ''
+    });
+    // httpApi({
+    //     url: '/api/book_type',
+    //     type: 'get',
+    //     fun: function (res) {
+    //         all_book_type_list = res.data;
+    //         changeSpan();
+    //         getUrlParam("sex") === 'man' ? getSexType(num = 0) : getSexType(1);
+    //     },
+    //     params: ''
+    // });
+
+    const book_type = [{
+        "id": 1,
+        "name": "男生",
+        "children": [{
+            "id": 20001,
+            "name": "玄幻",
+            "children": [{
+                "id": 20002,
+                "name": "连载"
+            }, {
+                "id": 20003,
+                "name": "完结"
+            }]
+        }, {
+            "id": 20005,
+            "name": "奇幻",
+            "children": [{
+                "id": 20006,
+                "name": "连载"
+            }, {
+                "id": 20007,
+                "name": "完结"
+            }]
+        }, {
+            "id": 20010,
+            "name": "武侠",
+            "children": [{
+                "id": 20011,
+                "name": "连载"
+            }, {
+                "id": 20012,
+                "name": "完结"
+            }]
+        }, {
+            "id": 20014,
+            "name": "仙侠",
+            "children": [{
+                "id": 20015,
+                "name": "连载"
+            }, {
+                "id": 20016,
+                "name": "完结"
+            }]
+        }, {
+            "id": 20019,
+            "name": "都市",
+            "children": [{
+                "id": 20020,
+                "name": "连载"
+            }, {
+                "id": 20022,
+                "name": "完结"
+            }]
+        }, {
+            "id": 20028,
+            "name": "历史",
+            "children": [{
+                "id": 20029,
+                "name": "连载"
+            }, {
+                "id": 20030,
+                "name": "完结"
+            }]
+        }, {
+            "id": 20032,
+            "name": "军事",
+            "children": [{
+                "id": 20033,
+                "name": "连载"
+            }, {
+                "id": 20034,
+                "name": "完结"
+            }]
+        }, {
+            "id": 20037,
+            "name": "灵异",
+            "children": [{
+                "id": 20038,
+                "name": "连载"
+            }, {
+                "id": 20039,
+                "name": "完结"
+            }]
+        }, {
+            "id": 20042,
+            "name": "科幻",
+            "children": [{
+                "id": 20043,
+                "name": "连载"
+            }, {
+                "id": 20044,
+                "name": "完结"
+            }]
+        }, {
+            "id": 20050,
+            "name": "游戏",
+            "children": [{
+                "id": 20051,
+                "name": "连载"
+            }, {
+                "id": 20052,
+                "name": "完结"
+            }]
+        }, {
+            "id": 20054,
+            "name": "体育",
+            "children": [{
+                "id": 20055,
+                "name": "连载"
+            }, {
+                "id": 20056,
+                "name": "完结"
+            }]
+        }, {
+            "id": 20059,
+            "name": "二次元",
+            "children": [{
+                "id": 20060,
+                "name": "连载"
+            }, {
+                "id": 20061,
+                "name": "完结"
+            }]
+        }, {
+            "id": 20065,
+            "name": "现实",
+            "children": [{
+                "id": 20021,
+                "name": "连载"
+            }, {
+                "id": 20071,
+                "name": "完结"
+            }]
+        }, {
+            "id": 20076,
+            "name": "短篇",
+            "children": [{
+                "id": 20075,
+                "name": "连载"
+            }, {
+                "id": 20077,
+                "name": "完结"
+            }]
+        }]
+    }, {
+        "id": 2,
+        "name": "女生",
+        "children": [{
+            "id": 30001,
+            "name": "玄幻言情",
+            "children": [{
+                "id": 30002,
+                "name": "连载"
+            }, {
+                "id": 30003,
+                "name": "完结"
+            }]
+        }, {
+            "id": 30008,
+            "name": "仙侠奇缘",
+            "children": [{
+                "id": 30009,
+                "name": "连载"
+            }, {
+                "id": 30010,
+                "name": "完结"
+            }]
+        }, {
+            "id": 30013,
+            "name": "古代言情",
+            "children": [{
+                "id": 30014,
+                "name": "连载"
+            }, {
+                "id": 30015,
+                "name": "完结"
+            }]
+        }, {
+            "id": 30020,
+            "name": "现代言情",
+            "children": [{
+                "id": 30021,
+                "name": "连载"
+            }, {
+                "id": 30022,
+                "name": "完结"
+            }]
+        }, {
+            "id": 30031,
+            "name": "浪漫青春",
+            "children": [{
+                "id": 30032,
+                "name": "连载"
+            }, {
+                "id": 30033,
+                "name": "完结"
+            }]
+        }, {
+            "id": 30036,
+            "name": "悬疑灵异",
+            "children": [{
+                "id": 30037,
+                "name": "连载"
+            }, {
+                "id": 30038,
+                "name": "完结"
+            }]
+        }, {
+            "id": 30042,
+            "name": "科幻空间",
+            "children": [{
+                "id": 30043,
+                "name": "连载"
+            }, {
+                "id": 30044,
+                "name": "完结"
+            }]
+        }, {
+            "id": 30050,
+            "name": "游戏竞技",
+            "children": [{
+                "id": 30051,
+                "name": "连载"
+            }, {
+                "id": 30052,
+                "name": "完结"
+            }]
+        }, {
+            "id": 30055,
+            "name": "N次元",
+            "children": [{
+                "id": 30100,
+                "name": "连载"
+            }, {
+                "id": 30101,
+                "name": "完结"
+            }]
+        }]
+    }, {
+        "id": 3,
+        "name": "其他",
+        "children": [{
+            "id": 13100,
+            "name": "小说",
+            "children": [{
+                "id": 13101,
+                "name": "连载"
+            }, {
+                "id": 13102,
+                "name": "完结"
+            }]
+        }, {
+            "id": 13200,
+            "name": "经济",
+            "children": [{
+                "id": 13216,
+                "name": "经济通俗读物"
+            }]
+        }, {
+            "id": 13300,
+            "name": "管理",
+            "children": [{
+                "id": 13301,
+                "name": "连载"
+            }, {
+                "id": 13302,
+                "name": "完结"
+            }]
+        }, {
+            "id": 13400,
+            "name": "成功励志",
+            "children": [{
+                "id": 13401,
+                "name": "连载"
+            }, {
+                "id": 13402,
+                "name": "完结"
+            }]
+        }, {
+            "id": 13500,
+            "name": "亲子家教",
+            "children": [{
+                "id": 13503,
+                "name": "连载"
+            }, {
+                "id": 13505,
+                "name": "完结"
+            }]
+        }, {
+            "id": 13600,
+            "name": "时尚美妆",
+            "children": [{
+                "id": 13601,
+                "name": "连载"
+            }, {
+                "id": 13606,
+                "name": "完结"
+            }]
+        }, {
+            "id": 13700,
+            "name": "两性关系",
+            "children": [{
+                "id": 13701,
+                "name": "连载"
+            }, {
+                "id": 13702,
+                "name": "完结"
+            }]
+        }, {
+            "id": 13800,
+            "name": "保健养生",
+            "children": [{
+                "id": 13801,
+                "name": "连载"
+            }, {
+                "id": 13808,
+                "name": "完结"
+            }]
+        }, {
+            "id": 13900,
+            "name": "旅游地图",
+            "children": [{
+                "id": 13906,
+                "name": "连载"
+            }, {
+                "id": 13908,
+                "name": "完结"
+            }]
+        }, {
+            "id": 14000,
+            "name": "心理学",
+            "children": [{
+                "id": 14001,
+                "name": "连载"
+            }, {
+                "id": 14007,
+                "name": "完结"
+            }]
+        }, {
+            "id": 14100,
+            "name": "文学",
+            "children": [{
+                "id": 14101,
+                "name": "连载"
+            }, {
+                "id": 14102,
+                "name": "完结"
+            }]
+        }, {
+            "id": 14200,
+            "name": "社会科学",
+            "children": [{
+                "id": 14201,
+                "name": "连载"
+            }, {
+                "id": 14202,
+                "name": "完结"
+            }]
+        }, {
+            "id": 14300,
+            "name": "青春文学",
+            "children": [{
+                "id": 14301,
+                "name": "连载"
+            }, {
+                "id": 14302,
+                "name": "完结"
+            }]
+        }, {
+            "id": 14400,
+            "name": "历史",
+            "children": [{
+                "id": 14408,
+                "name": "历史普及读物"
+            }]
+        }, {
+            "id": 14500,
+            "name": "传记",
+            "children": [{
+                "id": 14504,
+                "name": "连载"
+            }, {
+                "id": 14505,
+                "name": "完结"
+            }]
+        }, {
+            "id": 14600,
+            "name": "军事",
+            "children": [{
+                "id": 14606,
+                "name": "连载"
+            }, {
+                "id": 14611,
+                "name": "完结"
+            }]
+        }, {
+            "id": 14900,
+            "name": "政治",
+            "children": [{
+                "id": 14901,
+                "name": "连载"
+            }, {
+                "id": 14912,
+                "name": "完结"
+            }]
+        }, {
+            "id": 15500,
+            "name": "文化",
+            "children": [{
+                "id": 15501,
+                "name": "连载"
+            }, {
+                "id": 15502,
+                "name": "完结"
+            }]
+        }, {
+            "id": 15700,
+            "name": "投资理财",
+            "children": [{
+                "id": 15711,
+                "name": "连载"
+            }, {
+                "id": 15711,
+                "name": "完结"
+            }]
+        }, {
+            "id": 15800,
+            "name": "童书",
+            "children": [{
+                "id": 15801,
+                "name": "连载"
+            }, {
+                "id": 15802,
+                "name": "完结"
+            }]
+        }, {
+            "id": 16300,
+            "name": "科普读物",
+            "children": [{
+                "id": 16301,
+                "name": "连载"
+            }, {
+                "id": 16302,
+                "name": "完结"
+            }]
+        }, {
+            "id": 17400,
+            "name": "短篇",
+            "children": [{
+                "id": 17401,
+                "name": "连载"
+            }, {
+                "id": 17402,
+                "name": "完结"
+            }]
+        }, {
+            "id": 19100,
+            "name": "公版免费书",
+            "children": [{
+                "id": 19101,
+                "name": "连载"
+            }, {
+                "id": 19102,
+                "name": "完结"
+            }]
+        }]
+    }];
+    all_book_type_list = book_type;
+    changeSpan();
+    getUrlParam("sex") === 'man' ? getSexType(num = 0) : getSexType(1);
+>>>>>>> .r1653
+}
+
+//添加数据加载完显示加载完
+function overLook() {
+    $(`<div class="overLook">都被你看光了~</div>`).appendTo($(".blockCont>.PortraitContent:last-child"));
+}
+
+function getSexType(num) {
+    first_book_type = num;
+    firstDataTypeRender(all_book_type_list);
+    secoundDataTypeRender(all_book_type_list[num].children);
+    thirdDataTypeRender(all_book_type_list[num].children[num].children)
+}
+
+//第一层渲染
+function firstDataTypeRender(list) {
+    $.each(list, function (index, item) {
+        var $dom = $(`<div data-first="${index}" class=${index === first_book_type ? "cur_one" : ""}><span>${item.name}</span></div>`);
+        $dom.appendTo($(".channel_man2"));
+    });
+}
+
+//第二层渲染
+function secoundDataTypeRender(list) {
+    $(".cur_1").html("");
+    $.each(list, function (index, item) {
+        var $dom = $(`<div data-secound="${index}" class=${index === 0 ? "cur_line1" : ""}><span>${item.name}</span></div>`);
+        $dom.appendTo($(".cur_1"));
+    });
+}
+
+//第三层渲染
+function thirdDataTypeRender(list) {
+    $(".cur_2").html("");
+    $.each(list, function (index, item) {
+        var $dom = $(`<div data-third="${index}" class=${index === 0 ? "cur_line2" : ""}><span>${item.name}</span></div>`);
+        $dom.appendTo($(".cur_2"));
+    });
+}
+//封装方法(去掉多余节点)
+//移除main内容节点
+function RemainMainnode(param) {
+    $(param).remove();
+}
+
+//去除按钮排跟内容移除处理
+function removeMore() {
+    $('.PortraitFooterBtn').remove();
+    $('.ContentListTitlePage').css({
+        'height': '24vw',
+        'white-space': 'wrap !important'
+    })
+}
+
+function event() {
+    $html = $('html');
+    //第一层筛选
+    $html.on('tap', '.channel_man2>div', function () {
+        $('.cur_1').html('');
+        $(this).addClass('cur_one').siblings().removeClass('cur_one');
+        $first = $(this).data("first");
+        first_book_type = $first;
+        secoundDataTypeRender(all_book_type_list[first_book_type].children);
+    });
+
+    //第二层筛选
+    $html.on('tap', '.cur_1>div', function () {
+        $('.cur_2').html('');
+        $(this).addClass('cur_line1').siblings().removeClass('cur_line1');
+        $secound = $(this).data("secound");
+        secound_book_type = $secound;
+        thirdDataTypeRender(all_book_type_list[first_book_type].children[secound_book_type].children);
+    });
+
+    //第三层赛选
+    $html.on('tap', '.cur_2>div', function () {
+        $(this).addClass('cur_line2').siblings().removeClass('cur_line2');
+    });
+}
+
+
+function changeSpan() {
+    $(`<span>分类：</span>`).appendTo($('.classifyCont_1>div:first-child'));
+    $(`<span>状态：</span>`).appendTo($('.classifyCont_2>div:first-child'));
+}
+
+//改变title
+function changeTitle(msg) {
+    document.title = msg;
+}

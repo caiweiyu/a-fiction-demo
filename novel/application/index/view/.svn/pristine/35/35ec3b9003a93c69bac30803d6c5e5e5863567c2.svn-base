@@ -1,0 +1,53 @@
+{extend name="index@Layout/index" /}
+
+{block name="title"}首页{/block}
+
+{block name="pageStyle"}
+<link rel="stylesheet" href="/static/css/Page/appIndex.css" />
+<script>
+    //小说板块类型
+    //1：普通横版
+    //2: 普通排行版
+    var bookBlockList = [];
+    var getBookDataUrl_man = "{:url('api/app/man')}";
+    var getBookDataUrl_woman = "{:url('api/app/woman')}";
+</script>
+<script src="/static/js/page/appIndex.js"></script>
+
+{/block}
+
+{block name="main"}
+<div class="main">
+    <div class="indexBanner">
+        <div class="index-swiper-container">
+            <div class="swiper-wrapper"></div>
+        </div>
+    </div>
+    <div class="continueReading">
+    </div>
+
+    <div class="bookBlockBox">
+    </div>
+    <div class="copyright_info">
+        <p>本站所有小说为转载作品，所有章节均由网友上传，转载至本站只是为了宣传本书让更多读者欣赏。</p>
+        <p>Conpyright © 2019 笔趣在线 All Rights Reserved</p>
+    </div>
+</div>
+{/block}
+
+{block name="footer"}
+<div class="footer">
+    <a data-page="bookShop" href="{:url('bookshelf')}">
+        <div class="img"></div>
+        书架
+    </a>
+    <a data-page="index" class="cur" href="{:url('app.home')}">
+        <div class="img"></div>
+        首页
+    </a>
+    <a data-page="mine" href="{:url('user.home')}">
+        <div class="img"></div>
+        我的
+    </a>
+</div>
+{/block}}

@@ -1,0 +1,111 @@
+{extend name="index@Layout/index" /}
+
+{block name="title"}书架{/block}
+
+{block name="pageStyle"}
+<link rel="stylesheet" href="/static/css/Page/book.css" />
+<link rel="stylesheet" href="/static/css/Page/bookshelf.css" />
+<script>
+    var index_url = "{:url('app.home')}";
+    var bookshelf_api_url = '{:url("/api/bookshelf")}';
+    var bookshelf_data;
+    var $html = $("html");
+</script>
+<!-- <script src="/static/js/page/bookContent.js"></script> -->
+<script src="/static/js/page/bookshelf.js"></script>
+{/block}
+{block name="header"}
+<div class="searchBox">
+    <div class="toIndex">
+        <a href="/">
+            <img src="/static/images/Page/toIndex.png">
+            首页
+        </a>
+    </div>
+    <div class="searchTitle">我的书架</div>
+    <div class="rightMore">
+        <span class="searchBtn"><a href='/search'></a></span>
+        <span class="lookMoreMeun"></span>
+    </div>
+</div>
+<!--菜单下拉展开-->
+<div class="setting_bottom_box">
+    <div class="settingMenuBox" style="display: none;">
+        <a href="javascript:void(0)" data-img='index_'>
+            <div class="index_imgmark"></div>
+            <span>首页</span>
+        </a>
+        <a href="javascript:void(0)" data-img='fl_'>
+            <div class="fl_imgmark"></div>
+            <span>分类</span>
+        </a>
+        <a href="javascript:void(0)" data-img='ph_'>
+            <div class="ph_imgmark"></div>
+            <span>排行</span>
+        </a>
+        <a href="javascript:void(0)" data-img='allbook_'>
+            <div class="allbook_imgmark"></div>
+            <span>全本</span>
+        </a>
+        <a href="javascript:void(0)" data-img='newbook_'>
+            <div class="newbook_imgmark"></div>
+            <span>新书</span>
+        </a>
+        <a href="javascript:void(0)" data-img='me_'>
+            <div class="me_imgmark"></div>
+            <span>我的</span>
+        </a>
+    </div>
+    <div class="myshefbook_box" style="display: none;">
+        <div class="toMySelfBook">
+            我的书架
+        </div>
+    </div>
+</div>
+<!--我的书架|最近阅读-->
+<div class="bookRack">
+    <div>
+        <span class="bookRackCur1 bookRackCur">我的书架</span>
+    </div>
+    <div>
+        <span class="Recently_Read">最近阅读</span>
+    </div>
+</div>
+<div class="manageBox">
+    <span>管理</span>
+</div>
+{/block}
+{block name="main"}
+<div class="main" style="padding-top:0vw;">
+    <!--我的书架数据-->
+    <div class="myBook">
+        <!--<div class="myBookList">-->
+        <!--<img class="myBookImg"/>-->
+        <!--<div class="myBookContent">-->
+        <!--<div class="myBookName"></div>-->
+        <!--<div class="myBookReadingTo"></div>-->
+        <!--</div>-->
+        <!--<div class="myBookDelete">删除</div>-->
+        <!--</div>-->
+    </div>
+    <div class="bookBlockBox">
+    </div>
+</div>
+{/block}
+
+{block name="footer"}
+<div class="footer">
+    <a data-page="bookShop" class="cur" href="{:url('bookshelf')}">
+        <div class="img"></div>
+        书架
+    </a>
+    <a data-page="index" href="/">
+        <div class="img"></div>
+        首页
+    </a>
+    <a data-page="mine" href="{:url('user.home')}">
+        <div class="img"></div>
+        我的
+    </a>
+</div>
+{/block}

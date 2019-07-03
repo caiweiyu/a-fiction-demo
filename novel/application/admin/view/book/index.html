@@ -1,0 +1,255 @@
+{extend name="Layout/index" /}
+
+{block name="title"}小说管理{/block}
+
+{block name="main"}
+<style>
+    .layui-table-view .layui-table-body .layui-table[lay-size=lg] .layui-table-cell {
+        height: 133px;
+    }
+</style>
+<div class="admin-main">
+    <fieldset class="layui-elem-field">
+        <legend>小说列表</legend>
+        <div class="layui-field-box layui-form">
+            <table id="book" lay-filter="book_table"></table>
+        </div>
+    </fieldset>
+</div>
+{/block}
+
+{block name="footer"}
+<!--顶部工具栏-->
+<script type="text/html" id="top_toolbar">
+    <form class="layui-form layui-form-pane" lay-filter="top_toolbar">
+        <div class="layui-inline">
+            <label class="layui-form-label">书名/作者</label>
+            <div class="layui-input-block">
+                <input type="text" name="word" placeholder="请输入书名、作者" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <button class="layui-btn" lay-submit lay-filter="search">查询</button>
+        </div>
+    </form>
+</script>
+
+<!--单元格右侧操作-->
+<script type="text/html" id="unit_toolbar">
+    <a class="layui-btn layui-btn-sm" lay-event="read">查看</a>
+    <!--<a class="layui-btn layui-btn-sm" lay-event="edit">编辑</a>-->
+
+    {{# if (d.area === 0) { }}
+    <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="addToActiveArea">添加到运营列表</a>
+    {{# } else { }}
+    <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="delFromActiveArea">移除出运营列表</a>
+    {{# } }}
+
+    <a class="layui-btn layui-btn-warm layui-btn-sm" lay-event="cache">手动缓存章节</a>
+</script>
+
+<script>
+    layui.use(['table', 'form'], function(){
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+
+        table.render({
+            elem: '#book'
+            ,skin: 'line' //行边框风格
+            ,size: 'lg'
+            ,cols: [[ //表头
+                {type: 'numbers', title: '序号', width: '5%'}
+                ,{field: 'id', title: 'ID', hide: true}
+                ,{field: 'name', title: '书名', width: '20%'}
+                ,{field: 'cover', title: '封面', templet: function (data){
+                        return '<img src="/book/cover/' + data.channel + '/' + data.id + '.jpg" title="' + data.name + '" lay-event="show_cover" onerror="javascript:this.src = \'/static/images/no_cover.jpg\';">';
+                    }, width: '10%'}
+                ,{field: 'author_name', title: '作者', width: '10%'}
+                ,{field: 'status', title: '状态', width: '10%'}
+                ,{field: 'all_type', title: '频道', templet: function (data){
+                        return data.free_type + '-' + data.category_name;
+                    }, width: '10%'}
+                // ,{field: 'book_create_time', title: '创建时间', width: '10%'}
+                ,{field: 'book_update_time', title: '最新章节更新时间', width: '15%'}
+                ,{field: 'operate', title: '操作', toolbar: '#unit_toolbar', fixed: 'right'}
+            ]]
+            ,url: "{:url('book.getList')}" //数据接口
+            ,parseData: function (res){
+                return {
+                    "code": res.code === 1 ? 0 : -1, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.data.total, //解析数据长度
+                    "data": res.data.data //解析数据列表
+                };
+            }
+            ,request: {
+                pageName: 'pageIndex',
+                limitName: 'pageSize'
+            }
+            ,toolbar: '#top_toolbar'
+            ,defaultToolbar: []
+            ,height: 'full-100'
+            ,page: true //开启分页
+            ,limit: 20
+            ,limits: [10, 20, 30, 50]
+        });
+
+        table.on('tool(book_table)', function(obj){
+            var $this = $(this);
+            var event = obj.event;
+            var row = obj.data;
+
+            switch (event) {
+                case 'show_cover':
+                    // 单元格封面放大
+                    layer.open({
+                        type: 2,
+                        title: row.name,
+                        content: $this.attr('src'),
+                        area: ['180px', '285px'],
+                        shadeClose: true,
+                        id: 'book_cover'
+                    });
+                    break;
+                case 'read':
+                    // 单元格右侧查看
+                    layer.open({
+                        type: 2,
+                        title: row.name,
+                        content: 'read/id/' + row.id,
+                        area: ['1000px', '500px'],
+                        shadeClose: true,
+                        id: 'book_content',
+                        maxmin: true
+                    });
+                    break;
+                case 'cache':
+                    // 单元格右侧缓存章节
+                    layer.confirm('确定缓存章节？', {
+                        btn: ['确定', '按错了']
+                    }, function (index, res){
+                        $.ajax({
+                            url: "{:url('chapter.cache')}",
+                            data: "book_id=" + row.id,
+                            type: "post",
+                            dataType: 'json',
+                            beforeSend: function (){
+                                layer.load(1);
+                            },
+                            complete: function (){
+                                layer.closeAll('loading');
+                            },
+                            success: function (res){
+                                if (res.code === 1){
+                                    layer.msg(res.msg, {icon: 1, time: 2000});
+                                } else {
+                                    layer.msg(res.msg, {icon: 2});
+                                }
+                            },
+                            error: function (xhr){
+                                layer.msg("请求缓存失败", {icon: 2});
+                                console.log(xhr);
+                            }
+                        })
+                    });
+                    break;
+                case 'addToActiveArea':
+                    // 添加图书到运营列表
+                    layer.confirm('确定添加到运营列表？', {
+                        btn: ['确定', '按错了']
+                    }, function (index, res){
+                        $.ajax({
+                            url: "{:url('book.addToActiveArea')}",
+                            data: "book_id=" + row.id,
+                            type: "post",
+                            dataType: 'json',
+                            beforeSend: function (){
+                                layer.load(1);
+                            },
+                            complete: function (){
+                                layer.closeAll('loading');
+                            },
+                            success: function (res){
+                                if (res.code === 1){
+                                    // 更新参数
+                                    obj.update({
+                                        area: 1
+                                    });
+
+                                    // 修改按钮为移除
+                                    $this.attr('lay-event', 'delFromActiveArea')
+                                        .text('移除出运营列表')
+                                        .removeClass('layui-btn-normal')
+                                        .addClass('layui-btn-danger');
+
+                                    layer.msg(res.msg, {icon: 1, time: 2000});
+                                } else {
+                                    layer.msg(res.msg, {icon: 2});
+                                }
+                            },
+                            error: function (xhr){
+                                layer.msg("请求失败", {icon: 2});
+                                console.log(xhr);
+                            }
+                        })
+                    });
+                    break;
+                case 'delFromActiveArea':
+                    // 添加图书到运营列表
+                    layer.confirm('确定从运营列表移除？', {
+                        btn: ['确定', '按错了']
+                    }, function (index, res){
+                        $.ajax({
+                            url: "{:url('book.delFromActiveArea')}",
+                            data: "book_id=" + row.id,
+                            type: "post",
+                            dataType: 'json',
+                            beforeSend: function (){
+                                layer.load(1);
+                            },
+                            complete: function (){
+                                layer.closeAll('loading');
+                            },
+                            success: function (res){
+                                if (res.code === 1){
+                                    // 更新参数
+                                    obj.update({
+                                        area: 0
+                                    });
+
+                                    // 修改按钮为添加
+                                    $this.attr('lay-event', 'addToActiveArea')
+                                        .text('添加到运营列表')
+                                        .removeClass('layui-btn-danger')
+                                        .addClass('layui-btn-normal');
+
+                                    layer.msg(res.msg, {icon: 1, time: 2000});
+                                } else {
+                                    layer.msg(res.msg, {icon: 2});
+                                }
+                            },
+                            error: function (xhr){
+                                layer.msg("请求失败", {icon: 2});
+                                console.log(xhr);
+                            }
+                        })
+                    });
+                    break;
+            }
+        });
+
+        form.on('submit(search)', function (data){
+            var form_data = data.field;
+            table.reload('book', {
+                where: form_data
+            });
+            form.val('top_toolbar', {
+                word: form_data.word
+            });
+            return false;
+        });
+    });
+</script>
+{include file="Widget/result" /}
+{/block}

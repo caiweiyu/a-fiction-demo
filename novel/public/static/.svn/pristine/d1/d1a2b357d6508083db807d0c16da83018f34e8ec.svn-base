@@ -1,0 +1,82 @@
+//init
+$(function () {
+    getBookContentData();
+    //猜你喜欢
+    getRecommendedBooks();
+
+    event();
+});
+
+//获取图书信息
+function getBookContentData() {
+    $.ajax({
+        type: 'get',
+        dataType: 'json',
+        url: getBookContUrl,
+        success: function (res) {
+            if (res.code === 1) {
+                bookContent = res.data;
+                bookContentRender(res.data);
+            } else {
+                textToast(res.msg);
+            }
+        },
+        error: function (e) {
+            textToast("获取图书信息失败，错误代码：01");
+        }
+    })
+}
+
+// 图书信息渲染
+function bookContentRender(data) {
+    var {id, cover_url, intro, author, name, tags, new_chapter, book_update_time, status} = data;
+    $(".bookImg").attr("src", cover_url);
+    $.each(tags, function (index, item) {
+        var $tages = $(`<span>${item.name}</span>`);
+        $tages.appendTo($(".bookTips").find("em"));
+    });
+    $(".bookName").html(name);
+    $(".bookAuthor").find("em").html(author.name);
+    $(".introContent").html(intro);
+    $(".bookUpdate").html(`<a href="/book/content.html?book_id=${id}"><em>目录</em><div>最近更新"${new_chapter.name}"</div><span>${book_update_time}</span></a>`);
+}
+
+//事件
+function event() {
+    //加入书架
+    $html.on('tap', '.joinInBookshelf', function () {
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            url: pushInBookshelfApi,
+            data: {book_id: bookId},
+            success: function (res) {
+                if (res.code === 1) {
+                    textToast("加入书架成功");
+                } else {
+                    textToast(res.msg);
+                }
+            },
+            error: function (err) {
+                textToast('加入书架失败，错误代码：01');
+            }
+        })
+    });
+
+    //阅读
+    $html.on('tap', '.readingBook', function () {
+        toBookContentPage();
+    })
+}
+
+function toBookContentPage() {
+    location.href = `${readingUrl}?book_id=${bookId}`;
+}
+
+function getRecommendedBooks() {
+    getBookData(getBookShelfAllBookDataApiUrl);
+    setTimeout(function(){
+        $(".readingMore").html("换一批")
+    },400);
+}
+

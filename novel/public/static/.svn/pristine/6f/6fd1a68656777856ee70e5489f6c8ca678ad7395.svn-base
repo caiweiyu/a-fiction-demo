@@ -1,0 +1,96 @@
+//init
+$(function () {
+
+    //根据url路径，然后根据路径判断目前的页面
+    setInitInfo();
+    //总获取
+    getBlockType();
+    //所有事件
+    event();
+});
+function setInitInfo() {
+    var pageType = window.document.location.pathname;
+    console.log(pageType);
+    var getBookType;
+    switch (pageType) {
+        case "/app/rank":
+            changeTitle("排行");
+            getBookType = "排行";
+            // getUrlParam(sex)
+            break;
+        case "/app/classification":
+            changeTitle("分类");
+            getBookType = "分类";
+
+            break;
+        case "/app/new":
+            changeTitle("新书");
+            getBookType = "新书";
+
+            break;
+        case "/app/end":
+            changeTitle("全本");
+            getBookType = "全本";
+
+            break;
+    }
+    $(".searchTitle").html(getBookType);
+    getBookData(getBookType);
+}
+//获取分类|状态|属性init数据
+var $html = $('html');
+function getBlockType(){
+    httpApi({
+        url: '/api/book_type',
+        type: 'get',
+        fun: function (res) {
+            console.log(res.data);
+            var list = res.data;
+            $.each(list,function(index,item){
+                console.log(index,item,item.children);
+                var $dom;
+                if(index == 0){
+                    var $dom = $(`<div class="cur_one">
+                          <span>${item.name}</span>
+                     </div>`);
+                     $dom.appendTo($('.channel_man2'));
+                }else if(index == 1){
+                    var $dom = $(`<div>
+                        <span>${item.name}</span>
+                     </div>`);
+                     $dom.appendTo($('.channel_man2'));
+                }             
+            });
+
+        },
+        params: ''
+    });
+}
+function event(){
+    function tapAddColor(elem,origin){
+        $('html').on('tap',elem,function(){
+            $(this).addClass(origin).siblings().removeClass(origin);
+        })
+    }
+    //分类|状态|属性切换样式
+    tapAddColor('.cur_1>div', 'cur_line');
+    //男频女频样式切换
+    tapAddColor('.channel_man2>div', 'cur_one');
+    //监听切换数据/男频 or 女频
+    // function switchSex(eventType){
+    //     switch(getType){
+    //         case '1':
+    //             console.log(1);
+    //             break;
+    //         case '2':
+    //             console.log(2);
+    //             break;
+    //     }
+    // }
+    // switchSex(eventType)
+}
+//改变title
+function changeTitle(msg) {
+    document.title = msg;
+}
+

@@ -1,0 +1,14 @@
+{extend name="index@Layout/index" /}
+
+{block name="title"}登录{/block}
+
+{block name="pageStyle"}
+<link rel="stylesheet" href="/static/css/Page/login.css"/>
+
+{/block}
+{block name="header"}{/block}
+{block name="main"}
+<div class="vx_login"><a href="{:url('wx_login')}" onclick="javascript:this.href += '?target=' + encodeURI(document.referrer);">微信登录</a></div>
+{/block}
+
+{block name="footer"}{/block}

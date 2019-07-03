@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport"/>
+    <!--调试阶段，不缓存页面 start-->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <!--调试阶段，不缓存页面 end-->
+    <title>{block name="title"}首页{/block}</title>
+    <script>
+        var system = "";
+        if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) { //判断iPhone|iPad|iPod|iOS
+            //alert(navigator.userAgent);
+            system = 2;
+        } else if (/(Android)/i.test(navigator.userAgent)) {  //判断Android
+            //alert(navigator.userAgent);
+            system = 2;
+        } else { //pc
+            system = 1;
+        }
+
+        var ua = window.navigator.userAgent.toLowerCase();
+        //是否为微信环境
+        var is_wx = ua.indexOf('micromessenger') !== -1;
+        if (is_wx) {
+            system = 3;
+        }
+        var getUserBalanceApi = "{:url('api.user_balance')}";
+
+    </script>
+    <script src="/static/js/jieweixin.js"></script>
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/tap.js"></script>
+    <script src="/static/js/swriper/swiper-3.4.2.jquery.min.js"></script>
+    <script src="/static/js/page/allApi.js"></script>
+    <script type="text/javascript" src="/static/js/page/comment.js"></script>
+    <script type="text/javascript" src="/static/js/page/block.js"></script>
+    <link rel="stylesheet" href="/static/js/swriper/swiper-3.4.2.min.css"/>
+    <link rel="stylesheet" href="/static/css/Page/reset.css"/>
+    <link rel="stylesheet" href="/static/css/Page/block.css"/>
+    <link rel="stylesheet" href="/static/css/Page/index.css"/>
+    <link rel="stylesheet" href="/static/css/Page/comment.css" media="all">
+
+    {block name="pageStyle"}
+
+    {/block}
+</head>
+<body>
+{block name="header"}
+<div class="searchBox">
+    <h1>笔趣在线</h1>
+    <div class="channel">
+        <span data-type="man" class="cur">男频</span>
+        <span data-type="woman">女频</span>
+    </div>
+    <span class="searchBtn"><a href="/search"></a></span>
+</div>
+{/block}
+{block name="main"}
+
+{/block}
+{block name="footer"}
+<div class="footer">
+    <a data-page="bookShop" href="{:url('bookshelf')}">
+        <div class="img"></div>
+        书架
+    </a>
+    <a data-page="index" href="{:url('app.home')}">
+        <div class="img"></div>
+        首页
+    </a>
+    <a data-page="mine" href="{:url('user.home')}">
+        <div class="img"></div>
+        我的
+    </a>
+</div>
+{/block}
+</body>
+</html>

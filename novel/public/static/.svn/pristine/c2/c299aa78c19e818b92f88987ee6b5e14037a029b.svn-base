@@ -1,0 +1,436 @@
+body {
+    padding-bottom: 14.53125vw;
+}
+
+.myBook {
+    width: 100%;
+    height: auto;
+    background: #fff;
+    padding: 5vw 0;
+}
+
+.myBookList {
+    width: 100%;
+    height: 38.75vw;
+    padding: 2.34375vw;
+    position: relative;
+    overflow: hidden;
+}
+
+.myBookList>a {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.myBookImg {
+    height: 31.71875vw;
+    width: 24vw;
+    box-shadow: 0px 2px #ddd;
+    box-sizing: border-box;
+}
+
+.myBookImgtest {
+    background: url(/static/images/Page/book/book01.png);
+    background-size: 100% 100%;
+    height: 31vw;
+    width: 26.09375vw;
+    box-shadow: 0px 2px #ddd;
+}
+
+.myBookContent {
+    width: 50.78125vw;
+    height: 34.21875vw;
+    float: left;
+    padding: 0 2.34375vw;
+}
+
+.myBookName {
+    width: 100%;
+    font-size: 3.8656249999999996vw;
+    color: #000;
+    font-weight: bold;
+}
+
+.myBookReadingTo {
+    font-weight: bold;
+}
+
+.myBookReadingTo,
+.myBookNewBook,
+.myBookNumNow {
+    width: 100%;
+    font-size: 3.3218750000000003vw;
+    color: #7f7e7e;
+    margin-top: .6vw;
+}
+
+.itemRead {
+    position: absolute;
+    right: 7.03125vw;
+    top: 40%;
+}
+
+.itemRead>div {
+    width: 17.96875vw;
+    height: 5.78125vw;
+    line-height: 5.08125vw;
+    text-align: center;
+    border: .35vw solid #333;
+    border-radius: .5vw;
+    /* background: #333; */
+    color: #333;
+}
+
+.deleteMybookItem {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    font-size: 3.18125vw;
+    border-radius: 0.35125vw;
+    background: #4dacfb;
+    color: #fff;
+    border: .35vw solid #4dacfb;
+    width: 8.96875vw;
+    right: 7.03125vw;
+    top: 20%;
+}
+
+.recomMend {
+    position: absolute;
+    right: -3vw;
+    top: -1vw;
+    width: 10.943689110435825vw;
+    height: 5.5vw;
+    background: #58aefc;
+    color: #fff;
+    font-size: 1vw;
+    transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+}
+
+.recomMend:after {
+    right: -2.5vw;
+    top: 2vw;
+    content: "推荐";
+    width: 16.943689vw;
+    height: 5.5vw;
+    font-size: 3.35vw;
+    transform: rotate(-6deg);
+    position: absolute;
+    text-align: center;
+    background: #58aefc;
+}
+
+.myBookDelete {
+    width: 10.15625vw;
+    height: 7.65625vw;
+    position: absolute;
+    top: 5vw;
+    right: 7vw;
+    line-height: 7.65625vw;
+    color: #fff;
+    background: #333;
+    text-align: center;
+    font-size: 3.18125vw;
+    border-radius: 0.78125vw;
+
+}
+
+/*热门模块*/
+.Block {
+    width: 100%;
+    min-height: 48.90625vw;
+    background: #fff;
+    margin-top: 1.875vw;
+    overflow: hidden;
+
+}
+
+.blockHeader {
+    width: 100%;
+    height: 7.1875vw;
+    padding: 0 5.625vw;
+}
+
+.blockName {
+    height: 100%;
+    float: left;
+    font-size: 4.26875vw;
+    line-height: 7.1875vw;
+    color: #000;
+    font-weight: bold;
+}
+
+.readingMore {
+    height: 100%;
+    float: right;
+    line-height: 7.1875vw;
+    font-size: 2.8984375vw;
+    color: #a2a2a1;
+}
+
+.blockCont {
+    width: 100%;
+    min-height: 40.46875vw;
+    padding: 1.5625vw 2.421875vw 0 2.421875vw;
+}
+
+.horizontalBlockList {
+    width: 25.3125vw;
+    min-height: 40.46875vw;
+    margin: 0 3.203125vw;
+    float: left;
+}
+
+.horizontalBlockList>a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.horizontalBlockList>a>.horizontalBlockListImg {
+    width: 100%;
+    height: 31.71875vw;
+}
+
+.horizontalBlockList>a>.horizontalBlockListName {
+    width: 100%;
+    height: 6.09375vw;
+    line-height: 6.09375vw;
+    font-size: 3.16875vw;
+    text-align: center;
+    color: #646464;
+}
+
+.verticalList {
+    width: 90.9375vw;
+    height: 13.125vw;
+    margin: 0 auto;
+    border-bottom: 1px solid #dcdcdb;
+    line-height: 13.125vw;
+}
+
+.verticalList>span {
+    float: left;
+    height: 100%;
+}
+
+.bookName {
+    font-size: 4.0265625vw;
+    color: #333333;
+    margin-left: 7.03125vw;
+}
+
+.bookAuthor {
+    font-size: 3.096875vw;
+    color: #7b7b7b;
+    margin-left: 10vw;
+}
+
+/*书架样式*/
+.bookRack {
+    width: 100%;
+    min-height: 9.375vw;
+    line-height: 9.375vw;
+    display: flex;
+    justify-content: center;
+    background: #fff;
+    margin-top:10.78125vw;
+}
+
+.bookRack>div {
+    width: 50%;
+    text-align: center;
+    font-size: 4.0265625vw;
+    font-weight: bold;
+}
+
+.bookRack>div:nth-child(2) {
+    border-left: .35vw solid #f6f5f5;
+}
+.bookRack span {
+    width: 100%;
+    display: inline-block;
+    opacity: .5;
+}
+
+.bookRackCur {
+    color: #414141;
+    border-bottom: .40vw solid #414141;
+    opacity: 1 !important;
+}
+
+.manageBox {
+    min-height: 8.25vw;
+    background: #f6f5f5;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.manageBox>span {
+    padding: .5vw;
+    background: #333;
+    color: #fff;
+    font-size: 3.3328124999999997vw;
+    margin-right: 7vw;
+    height: 6vw;
+    line-height: 6vw;
+    border-radius: .45vw;
+    width: 9vw;
+    text-align: center;
+    margin-top: 1vw;
+}
+/*我的书架返回*/
+.searchBox{
+    width: 100%;
+    height: 10.78125vw;
+    background: #333333;
+    padding: 1.625vw 2.96875vw;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3;
+}
+.setting_bottom_box{
+    position: fixed;
+    width: 100vw;
+    background: #fff;
+    z-index:100;
+}
+.settingMenuBox{
+    position: relative;
+    top:0;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 1024px;
+    width: 100vw;
+    background: #fff;
+    box-sizing: border-box;
+    display:flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding-bottom:5vw;
+}
+.settingMenuBox>a{
+    height: 100%;
+    width: 25vw;
+    display: inline-block;
+    margin-top: 5vw;
+}
+.settingMenuBox>a>div{
+    width:6.8vw;
+    height:6.8vw;
+    margin:0 auto;
+}
+.settingMenuBox>a>span{
+    display: block;
+    margin:2vw auto 0;
+    text-align: center;
+    color:#000;
+}
+.myshefbook_box{
+    text-align: center;
+    border-top: .3vw solid #999;
+    margin: 0 auto;
+    width: 80vw;
+}
+.toMySelfBook{
+    display: inline-block;
+    border-radius: 5vw;
+    border: .3vw solid #000;
+    width: 40.15625vw;
+    height: 10vw;
+    line-height: 10vw;
+    margin-top: 4vw;
+    background: #000;
+    color: #fff;
+}
+.fl_imgmark{
+    background: url(/static/images/Page/fl_.png) no-repeat center center;
+    background-size: 100% 100%;
+    border-radius: 50%;
+}
+.ph_imgmark{
+    background: url(/static/images/Page/ph_.png) no-repeat center center;
+    background-size: 100% 100%;
+    border-radius: 50%;
+}
+.search_imgmark{
+    background: url(/static/images/Page/search_.png) no-repeat center center;
+    background-size: 100% 100%;
+    border-radius: 50%;
+}
+.allbook_imgmark{
+    background: url(/static/images/Page/allbook_.png) no-repeat center center;
+    background-size: 100% 100%;
+    border-radius: 50%;
+}
+.newbook_imgmark{
+    background: url(/static/images/Page/newbook_.png) no-repeat center center;
+    background-size: 100% 100%;
+    border-radius: 50%;
+}
+.index_imgmark{
+    background: url(/static/images/Page/index_.png) no-repeat center center;
+    background-size: 100% 100%;
+    border-radius: 50%;
+}
+.me_imgmark{
+    background: url(/static/images/Page/me_.png) no-repeat center center;
+    background-size: 100% 100%;
+    border-radius: 50%;
+}
+.toIndex {
+    float: left;
+    height: 100%;
+    line-height: 7.4375vw;
+    font-size: 3.5vw;
+}
+.toIndex>a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+}
+.searchTitle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 3.5vw;
+}
+.rightMore {
+    float: right;
+    display: flex;
+    justify-content: start;
+    width: 13vw;
+}
+.searchBtn {
+    width: 5.1875vw;
+    height: 5.1875vw;
+    background: url(/static/images/Page/bookSearch.png) no-repeat center center;
+    background-size: 100% 100%;
+    margin-top: 1.325vw;
+    margin-right: 1.78125vw;
+}
+.searchBtn>a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.lookMoreMeun {
+    display: inline-block;
+    width: 5.1875vw;
+    height: 5.1875vw;
+    background: url(/static/images/Page/anyMore.png) no-repeat center center;
+    background-size: 100% 100%;
+    margin-top: 1.225vw;
+    margin-right: 1vw;
+    z-index: 1000;
+}
